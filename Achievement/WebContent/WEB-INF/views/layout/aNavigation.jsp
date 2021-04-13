@@ -3,11 +3,11 @@
 <script type="text/javascript">
 $( document ).ready( function() {
 	
-	$( '#member' ).click( function() {
-		$('#member').css({"background":"#EC9A29"})
-		$('#member').nextAll().css({"background":"#FFFFFF"})
+	$( '#user' ).click( function() {
+		$('#user').css({"background":"#EC9A29"})
+		$('#user').nextAll().css({"background":"#FFFFFF"})
 		
-	})//end member
+	})//end user
 	
 	
 	$( '#board' ).click( function() {
@@ -49,7 +49,7 @@ $( document ).ready( function() {
 <nav>
 <div>
 	<ul class="ndropdown">
-		<li id="member"><a href="#">회원</a></li>
+		<li id="user"><a href="/admin/user/list">회원</a></li>
 		<li id="board"><a href="#">게시판</a></li>
 		<li id="notice"><a href="#">공지사항</a></li>
 		<li id="challenge"><a href="#">챌린지</a></li>
