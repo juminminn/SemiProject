@@ -18,12 +18,15 @@ public class Users {
 	private String grade;
 	private int postNum;
 	private String address;
+	private String phone;
 	@Override
 	public String toString() {
 		return "Users [userNo=" + userNo + ", userId=" + userId + ", userPw=" + userPw + ", name=" + name
 				+ ", userEmail=" + userEmail + ", userChallenge=" + userChallenge + ", userNick=" + userNick
 				+ ", gender=" + gender + ", birth=" + birth + ", signupDate=" + signupDate + ", account=" + account
-				+ ", bank=" + bank + ", grade=" + grade + ", postNum=" + postNum + ", address=" + address + "]";
+				+ ", bank=" + bank + ", grade=" + grade + ", postNum=" + postNum + ", address=" + address
+				+ ", phone=" + phone + "]";
+		
 	}
 	public int getUserNo() {
 		return userNo;
@@ -114,5 +117,11 @@ public class Users {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

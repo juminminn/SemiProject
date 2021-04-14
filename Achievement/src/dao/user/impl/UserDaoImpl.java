@@ -56,6 +56,7 @@ public class UserDaoImpl implements UserDao{
 				users.setGrade(rs.getString("u_grade"));
 				users.setPostNum(rs.getInt("u_post"));
 				users.setAddress(rs.getString("u_address"));
+				users.setPhone(rs.getString("u_phone"));
 				
 				list.add(users);
 			}

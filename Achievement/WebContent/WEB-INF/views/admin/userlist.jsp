@@ -26,7 +26,7 @@
 </div>
 <div class="form-group">
 	<label for="search" >
-	<input type="text" id="search" name="search" value="" class="textbox"/>
+	<input type="text" id="search" name="search" value="" class="select textbox"/>
 	</label>
 </div>
 <div class="form-group">
@@ -81,15 +81,14 @@ select{
  width : 8em;
  padding: 0.7em 0.3em;
  border-radius: 5px;
- border:1px solid #0009
+ border:1px solid #0009;
 }
 .textbox{
  width : 30em;
  line-height: 20px;
  padding: 0.6em 0.8em;
  border-radius: 5px;
- border:1px solid #0009
- 
+ border:1px solid #0009;
 }
 .btn{
  width : 8em;
@@ -98,11 +97,14 @@ select{
  border:1px solid #0009;
  background : #E3564F;
  color:#fff;
+ box-shadow: 0 5px 8px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+ 
 }
 table{
 	width: 100%;
 	border-top : 1px solid #ccc;
 	border-collapse: collapse;
+ 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 table th{
 	background : #DAD2D8;
@@ -133,7 +135,7 @@ margin:0 auto;
 position:relative;
 list-style:none;
 float:left;
-width:7%;
+width:5%;
 margin: 0 auto;
 }
 

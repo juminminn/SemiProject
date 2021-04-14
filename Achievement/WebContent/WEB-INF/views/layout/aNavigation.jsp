@@ -4,6 +4,7 @@
 $( document ).ready( function() {
 	
 	$( '#user' ).click( function() {
+		
 		$('#user').css({"background":"#EC9A29"})
 		$('#user').nextAll().css({"background":"#FFFFFF"})
 		

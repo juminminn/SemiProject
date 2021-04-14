@@ -30,7 +30,7 @@ public class AdminLoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//전달파라미터 얻기 - 로그인 정보
-		Member mem = memberService.getLoginMember(req,"M");
+		Member mem = memberService.getLoginMember(req);
 		String[] check = req.getParameterValues("idRemember");
 		boolean login = memberService.login(mem);
 		
