@@ -1,21 +1,24 @@
 package dto;
 
 public class Member {
-	private String uno; //번호
+	private int uno; //사용자 번호
 	private String uid; //아이디
 	private String upassword; //비밀번호
-	private String ugrade; // 등급
+	private String ugrade; // 등급 
 	
 	@Override
 	public String toString() {
 		return "Member [uno=" + uno + ", uid=" + uid + ", upassword=" + upassword + ", ugrade=" + ugrade + "]";
 	}
-	public String getUno() {
+	
+	public int getUno() {
 		return uno;
 	}
-	public void setUno(String uno) {
+
+	public void setUno(int uno) {
 		this.uno = uno;
 	}
+
 	public String getUid() {
 		return uid;
 	}

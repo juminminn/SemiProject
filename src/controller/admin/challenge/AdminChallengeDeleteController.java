@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.Challenge;
 import service.admin.challenge.face.AdminChallengeService;
 import service.admin.challenge.impl.AdminChallengeServiceImpl;
 

@@ -251,6 +251,7 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 		//전달 데이터 파싱
 		List<FileItem> items = null;
 		try {
+		
 			items = upload.parseRequest(req);
 		} catch (FileUploadException e) {
 			e.printStackTrace();

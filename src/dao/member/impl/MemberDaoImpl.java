@@ -78,6 +78,7 @@ public class MemberDaoImpl implements MemberDao {
 				result.setUid( rs.getString("u_id") );
 				result.setUpassword( rs.getString("u_password") );
 				result.setUgrade(rs.getString("u_grade"));
+				result.setUno(rs.getInt("u_no"));
 			}
 			
 		} catch (SQLException e) {

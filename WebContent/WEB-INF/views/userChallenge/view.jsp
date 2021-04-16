@@ -71,7 +71,7 @@ talbe, th, td{
 		<%}else{ %>
 			<img src="/upload/<%=challenge.getChStoredName() %>" width="400" height="250"/>
 		<%} %>
-		</td><td rowspan="7"><i class="far fa-thumbs-up fa-10x"></i><br>참가하기</td></tr>
+		</td><td rowspan="7"> <a href="/user/challenge/attend"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td></tr>
 		<tr><td>챌린지 번호</td><td><%=challenge.getChNo() %></td></tr>
 		<tr><td>제목</td><td><%=challenge.getChTitle() %></td></tr>
 		<tr><td>카테고리</td><td><%=result.get("category") %></td></tr>

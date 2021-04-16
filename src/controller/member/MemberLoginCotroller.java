@@ -45,6 +45,8 @@ public class MemberLoginCotroller extends HttpServlet {
 			session.setAttribute("login", login);
 			session.setAttribute("u_id", mem.getUid());
 			session.setAttribute("u_grade", mem.getUgrade());
+			session.setAttribute("u_no", mem.getUno());
+			
 			//아이디 기억하기가 체크 되었을때
 			if(check!=null) {
 					Cookie idCookie = new Cookie("ID", mem.getUid());
