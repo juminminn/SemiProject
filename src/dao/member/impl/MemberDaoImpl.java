@@ -91,6 +91,59 @@ public class MemberDaoImpl implements MemberDao {
 		
 		//최종 결과 반환
 		return result;
+		
+	}
+	@Override
+	public Member selectInfoAll(Connection conn, Member mem) {
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT * FROM users";
+		sql += " WHERE 1=1";
+		sql += "	AND u_no = ?";
+
+		//조회결과를 저장할 객체
+		Member result = null;
+
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+
+			ps.setInt(1, mem.getUno());
+
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+
+			//조회 결과 처리
+			if(rs.next()) {
+				result = new Member();
+				result.setUno(rs.getInt("u_no"));
+				result.setUid( rs.getString("u_id") );
+				result.setUgrade(rs.getString("u_grade"));
+			    result.setUsername(rs.getString("u_name"));
+			    result.setEmail(rs.getString("u_email"));
+			    result.setChallenge("u_challenge");
+			    result.setNick("u_nick");
+			    result.setGender("u_gender");
+			    result.setBirth(rs.getDate("u_birth"));
+			    result.setSingup(rs.getDate("u_signup"));
+			    result.setAccount(rs.getString("u_account"));
+			    result.setBank(rs.getString("u_bank"));
+			    result.setPhone(rs.getString("u_phone"));
+			    result.setAddress(rs.getString("u_address"));
+			    result.setPost(rs.getInt("u_post"));
+			    result.setAddress(rs.getString("u_address"));
+			    result.setCaution(rs.getInt("u_caution"));
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		//최종 결과 반환
+		return result;
 	}
 
 }

@@ -34,4 +34,14 @@ public class MemberServiceImpl implements MemberService{
 		//조회된  정보
 		return memberDao.selectMemberByUserid(JDBCTemplate.getConnection(), mem);
 	}
+	
+	@Override
+	public Member infoAll(HttpServletRequest req) {
+		//모든 조회 정보
+		Member mem = new Member();	
+		String param=String.valueOf(req.getSession().getAttribute("u_no"));
+		mem.setUno(Integer.parseInt(param));
+		
+		return memberDao.selectInfoAll(JDBCTemplate.getConnection(), mem );
+	}
 }

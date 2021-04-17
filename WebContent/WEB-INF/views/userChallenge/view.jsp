@@ -16,7 +16,6 @@
 
 <script type="text/javascript">
 $( document ).ready( function() {
-	//background
 	$('#challenge').css({"background":"#EC9A29"})
 	//CSS 조정
 	$('nav').css({"margin":"40px auto"})
@@ -71,7 +70,7 @@ talbe, th, td{
 		<%}else{ %>
 			<img src="/upload/<%=challenge.getChStoredName() %>" width="400" height="250"/>
 		<%} %>
-		</td><td rowspan="7"> <a href="/user/challenge/attend"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td></tr>
+		</td><td rowspan="7"> <a href="/user/challenge/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td></tr>
 		<tr><td>챌린지 번호</td><td><%=challenge.getChNo() %></td></tr>
 		<tr><td>제목</td><td><%=challenge.getChTitle() %></td></tr>
 		<tr><td>카테고리</td><td><%=result.get("category") %></td></tr>
