@@ -3,8 +3,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/header.jsp" %>
-<%@ include file="/WEB-INF/views/layout/navigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
 <%
 List<String> cycle = (List<String>)request.getAttribute("cycle");
 List<String> category = (List<String>)request.getAttribute("category");
@@ -12,15 +12,6 @@ String name = (String)request.getAttribute("name");
 Challenge updateChallenge = (Challenge)request.getAttribute("updateChallenge"); //update 객체
 Map<String, String> result= (Map<String, String>)request.getAttribute("result");
 %>
-
-
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
 <script type="text/javascript"
 src ="/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">

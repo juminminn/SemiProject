@@ -44,7 +44,7 @@ public class UserChallengeWriteController extends HttpServlet {
 
 
 
-		req.getRequestDispatcher("/WEB-INF/views/adminChallenge/write.jsp")
+		req.getRequestDispatcher("/WEB-INF/views/userChallenge/write.jsp")
 		.forward(req, resp);
 	
 	}

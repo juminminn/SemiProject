@@ -26,6 +26,7 @@ import common.JDBCTemplate;
 import dao.user.face.UserChallengeDao;
 import dao.user.impl.UserChallengeDaoImpl;
 import dto.Challenge;
+import dto.Participation;
 import service.user.challenge.face.UserChallengeService;
 import util.FileRemove;
 import util.Paging;
@@ -65,7 +66,32 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 		return param;
 	}
 	
+	@Override
+	public Participation getParticipation(HttpServletRequest req) {
+		//챌린지 번호와 유저 번호 추출		
+		Participation participation = null;
+		String chNo = req.getParameter("chNo");
+		String uNo =  String.valueOf(req.getSession().getAttribute("u_no"));
+		
+		if(chNo!=null && !"".equals(chNo)) {
+			//chNo 전달파라미터 추출
+			//uNo session에서 추출
+			participation=new Participation();
+			participation.setChNo( Integer.parseInt(chNo) );
+			participation.setuNo(Integer.parseInt(uNo));
+		}
+		return participation;
+	}
 	
+	@Override
+	public boolean isParticipant(Participation participation) {
+		
+		if(userChallengeDao.selectParticipation(JDBCTemplate.getConnection(), participation)>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	@Override
 	public Paging getPaging(HttpServletRequest req) {
 		//전달파라미터 curPage 파싱
@@ -164,7 +190,6 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 		//chNo 전달파라미터 검증 - null, ""
 		String param = req.getParameter("chNo");
 		if(param!=null && !"".equals(param)) {
-			
 			//chNo 전달파라미터 추출
 			chNo.setChNo( Integer.parseInt(param) );
 		}

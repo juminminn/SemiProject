@@ -53,7 +53,8 @@ function requestPayment() {
 	        $("input[name='merchant_uid']").val(rsp.merchant_uid);
 	        $("input[name='paid_amount']").val(rsp.paid_amount);
 	        $("input[name='apply_num']").val(rsp.apply_num);
-	        
+	        $("input[name='chNo']").val(<%=challenge.getChNo()%>)
+	        $("input[name='pay_name']").val(rsp.name)
 	        $("form").submit();
 	        
 	        
@@ -72,7 +73,9 @@ function requestPayment() {
 
 </script>
 
-<form style="display: none" action="/user/challenge/pay/complete" method="post">
+<form style="display: none" action="/participant/pay/complete" method="post">
+<input type="text" name="chNo" value=<%=challenge.getChNo() %>/>
+<input type="text" name="pay_name"/>
 <input type="text" name="imp_uid" />
 <input type="text" name="merchant_uid" />
 <input type="text" name="paid_amount" />

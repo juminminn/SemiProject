@@ -49,18 +49,18 @@ public class MemberLoginCotroller extends HttpServlet {
 			
 			//아이디 기억하기가 체크 되었을때
 			if(check!=null) {
-					Cookie idCookie = new Cookie("ID", mem.getUid());
-					idCookie.setMaxAge(90*24*60*60); //90일동안 보관
-					
-					Cookie checkCookie = new Cookie("CHECK", "check");
-					checkCookie.setMaxAge(90*24*60*60); //90일동안 보관
-					
-					Cookie gradeCookie = new Cookie("GRADE", mem.getUgrade());
-					gradeCookie.setMaxAge(90*24*60*60); //90일동안 보관
-					
-					resp.addCookie(idCookie);
-					resp.addCookie(checkCookie);
-					resp.addCookie(gradeCookie);
+				Cookie idCookie = new Cookie("ID", mem.getUid());
+				idCookie.setMaxAge(90*24*60*60); //90일동안 보관
+
+				Cookie checkCookie = new Cookie("CHECK", "check");
+				checkCookie.setMaxAge(90*24*60*60); //90일동안 보관
+
+				Cookie gradeCookie = new Cookie("GRADE", mem.getUgrade());
+				gradeCookie.setMaxAge(90*24*60*60); //90일동안 보관
+
+				resp.addCookie(idCookie);
+				resp.addCookie(checkCookie);
+				resp.addCookie(gradeCookie);
 					
 			}else {
 				Cookie[] cookies = req.getCookies();

@@ -1,4 +1,4 @@
-package controller.user.challenge;
+package controller.participant;
 
 import java.io.IOException;
 
@@ -18,8 +18,8 @@ import service.user.challenge.impl.UserChallengeServiceImpl;
 /**
  * Servlet implementation class UserChallengeAttendController
  */
-@WebServlet("/user/challenge/attend")
-public class UserChallengeAttendController extends HttpServlet {
+@WebServlet("/participant/attend")
+public class ParticipantAttendController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private MemberService memberService = new MemberServiceImpl();
@@ -34,16 +34,9 @@ public class UserChallengeAttendController extends HttpServlet {
 		
 		
 		
+		
 		req.setAttribute("member", member);
 		req.setAttribute("challenge", challenge);
-		
-		
-		
-		System.out.println(member);
-		System.out.println(challenge);
-		
-		
-		
 		
 		req.getRequestDispatcher("/WEB-INF/views/payment/payment.jsp")
 			.forward(req, resp);

@@ -24,6 +24,11 @@ public class AdminChallengeViewController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//로그인이 되어있지 않으면 리다이렉트
+		if(req.getSession().getAttribute("login")==null) {
+			resp.sendRedirect("/");
+			return;
+		}
 		
 		//전달파라미터 얻기 - boardno
 		Challenge challenge = challengeService.getChallengeno(req);

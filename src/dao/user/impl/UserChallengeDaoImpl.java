@@ -13,6 +13,7 @@ import java.util.Map;
 import common.JDBCTemplate;
 import dao.user.face.UserChallengeDao;
 import dto.Challenge;
+import dto.Participation;
 import util.Paging;
 
 public class UserChallengeDaoImpl implements UserChallengeDao {
@@ -253,7 +254,7 @@ public class UserChallengeDaoImpl implements UserChallengeDao {
 		String sql = "";
 		sql += "SELECT count(*) cnt FROM challenge";
 		
-		//총 게시글 수
+		//총 챌린지 수
 		int cnt = 0;
 		
 		try {
@@ -698,6 +699,36 @@ public class UserChallengeDaoImpl implements UserChallengeDao {
 		
 		return caNo;
 	}
+	@Override
+	public int selectParticipation(Connection conn, Participation participation) {
+		String sql="";
+		sql += "SELECT count(*) cnt";
+		sql += " FROM participation";
+		sql += " where ch_no=? AND u_no=?";
+		
+		//참여중 여부
+		int cnt = 0;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, participation.getChNo());
+			ps.setInt(2, participation.getuNo());
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		return cnt;
+	}
+	
 	@Override
 	public int insert(Connection conn, Challenge challenge) {
 		//다음 챌린지 삽입 쿼리

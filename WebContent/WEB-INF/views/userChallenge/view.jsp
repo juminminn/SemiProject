@@ -5,34 +5,11 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <% Challenge challenge= (Challenge)request.getAttribute("challenge"); %>
 <% Map<String, String> result= (Map<String, String>)request.getAttribute("result"); %>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<%@ include file="/WEB-INF/views/layout/header.jsp" %>
-<%@ include file="/WEB-INF/views/layout/navigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
 
 <script type="text/javascript">
-$( document ).ready( function() {
-	$('#challenge').css({"background":"#EC9A29"})
-	//CSS 조정
-	$('nav').css({"margin":"40px auto"})
-	
-	//header 조정
-	$('header div').eq(1).css({"padding":"30px 20px"})
-	$('header div').eq(2).css({"padding":"30px 20px"})
-	
-	//navigation 조정
-	$('#nav_menu').addClass('fa-3x')
-	$('.ndropdown').children().children().children().children().css({"width":"120px"})
-	$('.ndropdown').children().css({"padding":"0 40px"})
-	//목록버튼 동작
-	$("#btnList").click(function() {
-		$(location).attr("href", "/user/challenge/list");
-	});
-	
+$(document).ready(function() {
 	//수정버튼 동작
 	$("#btnUpdate").click(function() {
 		$(location).attr("href", "/user/challenge/update?chNo=<%=challenge.getChNo() %>");
@@ -44,8 +21,12 @@ $( document ).ready( function() {
 		if( confirm("챌린지를 삭제하시겠습니까?") ) {
 			$(location).attr("href", "/user/challenge/delete?chNo=<%=challenge.getChNo() %>");
 		}
-		
 	});
+	$("#btnList").click(function(){
+		console.log("click");
+		$(location).attr("href","/user/challenge/list");
+		
+	})
 })
 
 </script>
@@ -59,7 +40,6 @@ talbe, th, td{
 	font-size: 20px;
 }
 
-
 </style>
 <div class="container">
 	<table class="table table-responsive text-center">
@@ -70,14 +50,34 @@ talbe, th, td{
 		<%}else{ %>
 			<img src="/upload/<%=challenge.getChStoredName() %>" width="400" height="250"/>
 		<%} %>
-		</td><td rowspan="7"> <a href="/user/challenge/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td></tr>
+		</td><td rowspan="7"> 
+		<%if(request.getSession().getAttribute("participation")!=null){ %>
+			<%if((Boolean)request.getSession().getAttribute("participation")){ %>
+				<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 참가중입니다</td>
+			<%}else{ %>
+				<a href="/participant/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td>
+			<%} %>
+		<%}else{ %>
+			<a href="/participant/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td>
+		<%} %>
+		</tr>
 		<tr><td>챌린지 번호</td><td><%=challenge.getChNo() %></td></tr>
 		<tr><td>제목</td><td><%=challenge.getChTitle() %></td></tr>
 		<tr><td>카테고리</td><td><%=result.get("category") %></td></tr>
 		<tr><td>내용</td><td><%=challenge.getChContent() %></td></tr>
 		<tr><td rowspan="5"><i class="far fa-id-card fa-10x"></i><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
 		<tr><td>개설자</td><td><%=result.get("name") %></td></tr>
-		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td><td rowspan="8"><i class="fas fa-file-upload fa-10x"></i><br>인증하기</td></tr>
+		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td><td rowspan="8">
+		<%if(request.getSession().getAttribute("participation")!=null){ %>
+			<%if((Boolean)request.getSession().getAttribute("participation")){ %>
+				<a href="/participant/certification/list?chNo=<%=challenge.getChNo()%>" style="color:#A8201A"><i class="fas fa-file-upload fa-10x"></i></a><br>인증하기</td>
+			<%}else{ %>
+				<a><i class="fas fa-file-upload fa-10x"></i></a><br>참여해주세요!!</td>
+			<%} %>
+		<%}else{ %>
+			<a><i class="far fa-thumbs-up fa-10x"></i></a><br>참여해주세요!!</td>
+		<%} %>
+		</tr>
 		<tr><td >시작날짜</td><td><%=challenge.getChStartDate() %></td></tr>
 		<tr><td >마감날짜</td><td><%=challenge.getChEndDate() %></td></tr>
 		<tr><td rowspan="5"><i class="fas fa-money-bill-wave fa-10x"></i><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>

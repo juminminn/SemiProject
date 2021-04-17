@@ -20,6 +20,13 @@ public class UserChallengeDeleteController extends HttpServlet {
 	private UserChallengeService userChallengeService = new UserChallengeServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		//로그인이 되어있지 않으면 리다이렉트
+		if(req.getSession().getAttribute("login")==null) {
+			resp.sendRedirect("/");
+			return;
+		}
+		
 		userChallengeService.delete(req);
 		resp.sendRedirect("/user/challenge/list");
 	}

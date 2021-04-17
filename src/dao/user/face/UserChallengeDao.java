@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import common.JDBCTemplate;
 import dto.Challenge;
+import dto.Participation;
 import util.Paging;
 
 public interface UserChallengeDao {
@@ -156,6 +156,14 @@ public interface UserChallengeDao {
 	 * @return 카테고리 번호
 	 */
 	public int selectCaNo(Connection conn, String category);
+	
+	/**
+	 *ch_no 와 u_no을 통하여 해당 챌린지 참여 여부 확인 
+	 * 
+	 * @param participation - 조회정보가 담겨져 있는 객체
+	 * @return - 1를 반환되면 참여중 아니면 0을 반환
+	 */
+	public int selectParticipation(Connection conn, Participation participation);
 	
 	/**
 	 *새로운 challenge을 table의 저장

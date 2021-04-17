@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import dto.Challenge;
+import dto.Participation;
 import util.Paging;
 
 public interface UserChallengeService {
@@ -74,15 +75,6 @@ public interface UserChallengeService {
 	
 	
 	/**
-	 * 페이징 객체 생성
-	 * 
-	 * 요청파라미터 curPage를 구한다
-	 * challenge 테이블과 curPage 값을 이용하여 Paging객체를 생성한다
-	 * 
-	 * @param req - curPage정보를 담고 있는 요청정보 객체
-	 * @return 페이징 계산이 완료된 Paging 객체
-	 */
-	/**
 	 * title 검색 설정
 	 * 
 	 * 요청파라미터 title을 구한다
@@ -91,6 +83,25 @@ public interface UserChallengeService {
 	 * @param req - title정보를 담고 있는 요청정보 객체
 	 */
 	public String getTitle(HttpServletRequest req);
+	
+	
+	/**
+	 * 현재 챌린지 번호와 session의 있는 참가자 번호를 가진 참가자 DTO 생성
+	 * 
+	 * @param 참가자 객체 전달
+	 */
+	public Participation getParticipation(HttpServletRequest req);
+	
+	/**
+	 * 현재 참가자가 챌린지에 참가하고 있는지 확인 
+	 * 
+	 * 
+	 * @param 
+	 */
+	public boolean isParticipant(Participation participation);
+	
+	
+	
 	
 	
 	/**

@@ -25,6 +25,12 @@ public class AdminChallengeUpdateController extends HttpServlet {
 	private AdminChallengeService adminChallengeService = new AdminChallengeServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		//로그인이 되어있지 않으면 리다이렉트
+		if(req.getSession().getAttribute("login")==null) {
+			resp.sendRedirect("/");
+			return;
+		}
 		//Challenge 가 포함된 객체
 		Challenge challenge=adminChallengeService.getChallengeno(req);
 		//상세보기 결과 조회
