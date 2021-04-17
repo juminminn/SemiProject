@@ -3,8 +3,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/aHeader.jsp" %>
-<%@ include file="/WEB-INF/views/layout/aNavigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 <%
 List<String> cycle = (List<String>)request.getAttribute("cycle");
 List<String> category = (List<String>)request.getAttribute("category");
@@ -89,7 +89,7 @@ function setImageFromFile(input, expression) {
 
 <div class="container">
 
-<h3>챌린지 등록</h3>
+<h3>챌린지 수정</h3>
 <hr>
 
 <div>

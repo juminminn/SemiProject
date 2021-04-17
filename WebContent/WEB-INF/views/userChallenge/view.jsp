@@ -5,30 +5,13 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <% Challenge challenge= (Challenge)request.getAttribute("challenge"); %>
 <% Map<String, String> result= (Map<String, String>)request.getAttribute("result"); %>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<%@ include file="/WEB-INF/views/layout/header.jsp" %>
-<%@ include file="/WEB-INF/views/layout/navigation.jsp" %>
+
+<%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
 
 <script type="text/javascript">
 $( document ).ready( function() {
-	//background
-	$('#challenge').css({"background":"#EC9A29"})
-	//CSS 조정
-	$('nav').css({"margin":"40px auto"})
 	
-	//header 조정
-	$('header div').eq(1).css({"padding":"30px 20px"})
-	$('header div').eq(2).css({"padding":"30px 20px"})
-	
-	//navigation 조정
-	$('#nav_menu').addClass('fa-3x')
-	$('.ndropdown').children().children().children().children().css({"width":"120px"})
-	$('.ndropdown').children().css({"padding":"0 40px"})
 	//목록버튼 동작
 	$("#btnList").click(function() {
 		$(location).attr("href", "/user/challenge/list");
