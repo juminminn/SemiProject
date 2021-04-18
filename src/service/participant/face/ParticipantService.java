@@ -62,6 +62,13 @@ public interface ParticipantService {
 	 */
 	public int getParticipationno(HttpServletRequest req);
 	
+	/***
+	 * 인증 번호 추출
+	 * 
+	 * @param req - 인증 번호
+	 * @return 인증 번호 
+	 */
+	public Certification getCertificationno(HttpServletRequest req);
 	/**
 	 * 참가자 삽입 
 	 * 참가자 삽입하기
@@ -99,7 +106,33 @@ public interface ParticipantService {
 	 * @param 인증 정보를 가지고 있는 객체
 	 */
 	
-	public void certicicationWrite(HttpServletRequest req);
+	public void certificationWrite(HttpServletRequest req);
+
+	/**
+	 * 인증 내역 조회 
+	 * 
+	 * @param 조회된 인증 정보를 가지고 있는 객체
+	 */
+	public Certification certificationView(Certification certification);
+	
+	/**
+	 * 인증 내역 수정 
+	 * 
+	 * @param 수정할 인증 정보를 가지고 있는 객체
+	 */
+
+	public void certificationUpdate(HttpServletRequest req);
+
+	/**
+	 * 인증 내역 삭제 
+	 * 
+	 * @param 삭제할 인증 정보를 가지고 있는 객체
+	 */
+
+	public void certificationDelete(HttpServletRequest req);
+
+
+	
 
 
 

@@ -55,6 +55,16 @@ public interface ParticipantDao {
 
 	public int selectPaymNo(Connection conn);
 	
+	/***
+	 * 저장된 파일 이름 가져오기
+	 * 
+	 * @param connection - DB연결 객체
+	 * @param certification 저장 파일 일므 추출
+	 * @return 저장파일 이름 리턴
+	 */
+	
+	public Certification selectByStoredName(Connection conn, Certification certification);
+
 	/**
 	 * 참가자 저장
 	 * @param DB에 저장할 객체
@@ -97,6 +107,34 @@ public interface ParticipantDao {
 	 */
 	public int certificationInsert(Connection conn, Certification certification);
 
+	
+	/**
+	 * 인증글 조회
+	 * @param DB에 조회할 객체
+	 * @return 조회 객체
+	 * 
+	 */
+	
+	public Certification selectCertification(Connection conn, Certification certification);
+	
+	/**
+	 * 인증글 수정
+	 * @param DB에 수정할 객체
+	 * @return 1 이상은 성공
+	 * 
+	 */
+	public int certificationUpdate(Connection conn, Certification certification);
+	
+	/**
+	 * 인증글 삭제
+	 * @param DB에 삭제할 객체
+	 * @return 1 이상은 성공
+	 * 
+	 */
+	public int certificationDelete(Connection conn, Certification certification);
+	
+	
+	
 	
 
 	

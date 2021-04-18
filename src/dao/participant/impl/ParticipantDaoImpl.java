@@ -175,7 +175,7 @@ public class ParticipantDaoImpl implements ParticipantDao {
 	}
 	@Override
 	public int certificationInsert(Connection conn, Certification certification) {
-		//결제내역 삽입 쿼리
+		//인증내역 삽입 쿼리
 
 		String sql = "";
 		sql += "insert into certification(";
@@ -203,6 +203,36 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		}
 
 		return res;
+	}
+	@Override
+	public Certification selectByStoredName(Connection conn, Certification certification) {
+		String sql="";
+		sql += "select ce_stored_name";
+		sql += " from certification";
+		sql += " where ce_no =?";
+		
+		Certification result = null;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, certification.getCeNo());
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				result = new Certification();
+				result.setCeStoredName(rs.getString("ce_stored_name"));			
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		
+		return result;
 	}
 	
 	@Override
@@ -365,5 +395,89 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		//최종 결과 반환
 
 		return certificationList;
+	}
+	@Override
+	public Certification selectCertification(Connection conn, Certification certification) {
+		//인증 조회하기
+		String sql = "";
+		sql += "SELECT * FROM certification";
+		sql += " WHERE ce_no=?";
+
+		Certification result = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, certification.getCeNo());
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				result = new Certification();
+				result.setCeNo(rs.getInt("ce_no"));
+				result.setCeIsSuccess(rs.getString("ce_is_success"));
+				result.setPaNo(rs.getInt("pa_no"));
+				result.setCeCreateDate(rs.getDate("ce_create_date"));
+				result.setCeUpdateDate(rs.getDate("ce_update_date"));
+				result.setCeOriginName(rs.getString("ce_origin_name"));
+				result.setCeStoredName(rs.getString("ce_stored_name"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		return result;
+	}
+	@Override
+	public int certificationUpdate(Connection conn, Certification certification) {
+		String sql="";
+		sql+="UPDATE certification SET";
+		sql+=" ce_origin_name=?,";
+		sql+=" ce_stored_name=?,";
+		sql+=" ce_update_date=sysdate";
+		sql+=" WHERE ce_no=?";
+		
+		int res = -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, certification.getCeOriginName());
+			ps.setString(2, certification.getCeStoredName());
+			ps.setInt(3, certification.getCeNo());
+			res = ps.executeUpdate();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	@Override
+	public int certificationDelete(Connection conn, Certification certification) {
+		//인증 삭제
+		String sql="";
+		sql+="DELETE FROM certification";
+		sql+=" WHERE ce_no=?";
+		
+		int res = -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, certification.getCeNo());
+			res = ps.executeUpdate();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+		
 	}
 }

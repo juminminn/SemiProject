@@ -508,7 +508,6 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 			//파일업로드를 사용하고 있을 경우
 			//디스트기반 아이템 팩토리
 			DiskFileItemFactory factory = new DiskFileItemFactory();
-
 			//메모리 처리 사이즈 지정
 			factory.setSizeThreshold( 1  * 1024 ); //1KB
 			
@@ -634,18 +633,21 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 		if(challenge.getChOriginName()==null || "".equals(challenge.getChOriginName())) {
 			challenge.setChOriginName(originName); //기존에 있던 값을 반영
 			challenge.setChStoredName(storedName); //기존에 있던 갓ㅂ을 반영
+		}
+		
+		//챌린지 번호와 storardName을 가져온다
+		Challenge removeChallenge=userChallengeDao.selectByStoredName(JDBCTemplate.getConnection(), challenge);
+
+		String path=req.getServletContext().getRealPath("upload");
+		//파일 삭제 로직
+		File file = new File(path+"/"+removeChallenge.getChStoredName());
+		fileRemove.setFile(file);
+
+		boolean remove = fileRemove.fileRemove(); //파일 삭제
+		if(remove) {
+			System.out.println("파일 삭제 성공");
 		}else {
-			String path=req.getServletContext().getRealPath("upload");
-			//파일 삭제 로직
-			File file = new File(path+"/"+storedName);
-			fileRemove.setFile(file);
-			
-			boolean remove = fileRemove.fileRemove(); //파일 삭제
-			if(remove) {
-				System.out.println("파일 삭제 성공");
-			}else {
-				System.out.println("파일 삭제 실패");
-			}
+			System.out.println("파일 삭제 실패");
 		}
 		
 		Connection conn = JDBCTemplate.getConnection();
@@ -662,7 +664,6 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 		int caNo = userChallengeDao.selectCaNo(conn, chCategory);
 		challenge.setCaNo(caNo);
 		
-		System.out.println(challenge);
 		//챌린지 정보가 있을 경우
 		if(challenge != null) {
 			//게시글 삽입

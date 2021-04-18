@@ -96,6 +96,7 @@ function startDate() {
 
 <div class="wrap">
 	<%for(int i=0; i<list.size(); i++){ %>
+		
 		<div class="imgarr"><a href="/participant/certification/view?ceNo=<%=list.get(i).getCeNo()%>">
 		
 		<%if(list.get(i).getCeStoredName().contains("저장")){ %>
