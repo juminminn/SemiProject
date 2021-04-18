@@ -3,6 +3,7 @@ package service.member.face;
 import javax.servlet.http.HttpServletRequest;
 
 import dto.Member;
+import dto.Users;
 
 public interface MemberService {
 	/**
@@ -12,7 +13,7 @@ public interface MemberService {
 	 *  @return Member - 로그인 정보
 	 * 
 	 */
-	public Member getLoginMember(HttpServletRequest req);
+	public Users getLoginMember(HttpServletRequest req);
 	
 	/**
 	 * 로그인 처리
@@ -22,7 +23,7 @@ public interface MemberService {
 	 * @return Member - 조회된 회원 정보
 	 **/
 	
-	public boolean login(Member mem);
+	public boolean login(Users mem);
 	
 	/**
 	 * 유저 정보 가져오기
@@ -31,7 +32,9 @@ public interface MemberService {
 	 *  @return member - 조회된 회원 정보
 	 * 
 	 */
-	public Member info(Member mem);
+	public Users info(Users mem);
+	
+	
 	
 	
 	

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dto.Users;
 import service.user.face.UserService;
@@ -20,14 +21,17 @@ public class AdminUserListController extends HttpServlet {
 	private UserService userService = new UserServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		System.out.println("/user/list - [GET]");
+		HttpSession session = req.getSession();
+		if(session.getAttribute("login") == null || !session.getAttribute("u_grade").equals("M")) {
+			resp.sendRedirect("/");
+		}else {
 		
 		//회원 검색하기, 요청한 회원목록 반환		
 		List<Users> user = userService.searchUser(req);
 		
-		
+		//회원리스트 저장하여 view로 전송
 		req.setAttribute("userlist", user);
-		
 		req.getRequestDispatcher("/WEB-INF/views/admin/userlist.jsp").forward(req, resp);
+		}
 	}
 }

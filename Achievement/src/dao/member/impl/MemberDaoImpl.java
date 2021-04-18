@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import common.JDBCTemplate;
 import dao.member.face.MemberDao;
 import dto.Member;
+import dto.Users;
 
 public class MemberDaoImpl implements MemberDao {
 
@@ -15,7 +16,7 @@ public class MemberDaoImpl implements MemberDao {
 	private ResultSet rs = null; //SQL조회 결과 객체
 	
 	@Override
-	public int selectCntMemberByUseridUserpw(Connection conn, Member member) {
+	public int selectCntMemberByUseridUserpw(Connection conn, Users member) {
 		
 		//SQL 작성
 		String sql = "";
@@ -30,8 +31,8 @@ public class MemberDaoImpl implements MemberDao {
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
 			
-			ps.setString(1, member.getUid());
-			ps.setString(2, member.getUpassword());
+			ps.setString(1, member.getUserId());
+			ps.setString(2, member.getUserPw());
 			
 			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
 			
@@ -53,7 +54,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Member selectMemberByUserid(Connection conn, Member member) {
+	public Users selectMemberByUserid(Connection conn, Users member) {
 		
 		//SQL 작성
 		String sql = "";
@@ -62,22 +63,22 @@ public class MemberDaoImpl implements MemberDao {
 		sql += "	AND u_id = ?";
 		
 		//조회결과를 저장할 객체
-		Member result = null;
+		Users result = null;
 		
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
 			
-			ps.setString(1, member.getUid());
+			ps.setString(1, member.getUserId());
 			
 			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
 			
 			//조회 결과 처리
 			while(rs.next()) {
-				result = new Member();
+				result = new Users();
 				
-				result.setUid( rs.getString("u_id") );
-				result.setUpassword( rs.getString("u_password") );
-				result.setUgrade(rs.getString("u_grade"));
+				result.setUserId( rs.getString("u_id") );
+				result.setUserPw( rs.getString("u_password") );
+				result.setGrade(rs.getString("u_grade"));
 			}
 			
 		} catch (SQLException e) {
