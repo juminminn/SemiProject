@@ -59,5 +59,53 @@ public class UserServiceImpl implements UserService{
 		
 		return userlist;
 	}
-
+	@Override
+	public Users getUserno(HttpServletRequest req) {
+		String no = req.getParameter("userno");
+		int userno = 0;
+		//파라미터 값이 존재할 경우 파싱
+		if(no!=null && !no.equals("")) {
+			userno = Integer.parseInt(no);
+		}
+		
+		//정보를 담을 객체 생성
+		Users user = new Users();
+		user.setUserNo(userno);
+		
+		return user;
+	}
+	@Override
+	public Users getUserInfo(Users users) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Users user = userDao.getUserInfo(conn, users);
+		
+		return user;
+	}
+	@Override
+	public Users selectUser(HttpServletRequest req) {
+		String param = req.getParameter("userno");
+		
+		int userno = 0;
+		if(param!=null && !param.equals("")) {
+			userno = Integer.parseInt(param);
+		}
+		
+		Users users = new Users();
+		users.setUserNo(userno);
+		return users;
+	}
+	@Override
+	public int deleteUser(Users users) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = userDao.deleteUser(conn, users);
+		
+		if(result >= 1) {
+			JDBCTemplate.commit(conn);
+			return 1;
+		}else {
+			JDBCTemplate.rollback(conn);
+			return 0;
+		}
+	}
 }

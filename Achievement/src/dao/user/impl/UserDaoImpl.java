@@ -43,20 +43,13 @@ public class UserDaoImpl implements UserDao{
 				users = new Users();
 				users.setUserNo(rs.getInt("u_no"));
 				users.setUserId(rs.getString("u_id"));
-				users.setUserPw(rs.getString("u_password"));
 				users.setName(rs.getString("u_name"));
 				users.setUserEmail(rs.getString("u_email"));
-				users.setUserChallenge(rs.getString("u_challenge"));
 				users.setUserNick(rs.getString("u_nick"));
 				users.setGender(rs.getString("u_gender"));
 				users.setBirth(rs.getDate("u_birth"));
 				users.setSignupDate(rs.getDate("u_signup"));
-				users.setAccount(rs.getString("u_account"));
-				users.setBank(rs.getString("u_bank"));
 				users.setGrade(rs.getString("u_grade"));
-				users.setPostNum(rs.getInt("u_post"));
-				users.setAddress(rs.getString("u_address"));
-				users.setPhone(rs.getString("u_phone"));
 				
 				list.add(users);
 			}
@@ -66,8 +59,6 @@ public class UserDaoImpl implements UserDao{
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
-		
-		
 		return list;
 	}
 	@Override
@@ -94,7 +85,65 @@ public class UserDaoImpl implements UserDao{
 			JDBCTemplate.close(ps);
 			
 		}
-		
 		return cntAll;
+	}
+	@Override
+	public Users getUserInfo(Connection conn, Users users) {
+		String sql = "";
+		sql += "SELECT * FROM users";
+		sql += "	where u_no = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, users.getUserNo());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				users = new Users();
+				users.setUserNo(rs.getInt("u_no"));
+				users.setUserId(rs.getString("u_id"));
+				users.setUserPw(rs.getString("u_password"));
+				users.setName(rs.getString("u_name"));
+				users.setUserEmail(rs.getString("u_email"));
+				users.setUserChallenge(rs.getString("u_challenge"));
+				users.setUserNick(rs.getString("u_nick"));
+				users.setGender(rs.getString("u_gender"));
+				users.setBirth(rs.getDate("u_birth"));
+				users.setSignupDate(rs.getDate("u_signup"));
+				users.setAccount(rs.getString("u_account"));
+				users.setBank(rs.getString("u_bank"));
+				users.setGrade(rs.getString("u_grade"));
+				users.setPostNum(rs.getInt("u_post"));
+				users.setAddress(rs.getString("u_address"));
+				users.setPhone(rs.getString("u_phone"));
+				users.setCaution(rs.getInt("u_caution"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return users;
+	}
+	@Override
+	public int deleteUser(Connection conn, Users users) {
+		String sql ="";
+		sql += "DELETE users WHERE u_no = ?";
+		int userno = users.getUserNo();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno);
+			ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+		}if(userno == 0){
+			return 0; //삭제될 값이 없는 경우 0반환
+		}else {
+			return 1; //삭제 성공시 1반환
+		}
 	}
 }

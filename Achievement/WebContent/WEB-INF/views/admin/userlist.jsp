@@ -5,9 +5,14 @@
 <% List<Users> list = (List)request.getAttribute("userlist"); %>
 <%@ include file="/WEB-INF/views/layout/aHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/aNavigation.jsp" %>
-<script type="text/javascript">
 
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#user').css({"background":"#EC9A29"})
+	$('#user').nextAll().css({"background":"#FFFFFF"})
+})
 </script>
+
 <body>
 <div class="content">
 <fieldset class="search">
@@ -26,7 +31,7 @@
 </div>
 <div class="form-group">
 	<label for="search" >
-	<input type="text" id="search" name="search" value="" class="select textbox"/>
+	<input type="text" id="search" name="search" class="select textbox"/>
 	</label>
 </div>
 <div class="form-group">
@@ -51,7 +56,7 @@
 	<td><%=list.get(i).getUserNo() %></td>
 	<td><%=list.get(i).getGrade()%></td>	
 	<td><%=list.get(i).getName() %></td>
-	<td><a href="#"><%=list.get(i).getUserId() %></a></td>
+	<td><a class="view" href="/admin/user/view?userno=<%=list.get(i).getUserNo() %>" ><%=list.get(i).getUserId() %></a></td>
 	<td><%=list.get(i).getUserNick() %></td>
 	<td><%=list.get(i).getGender() %></td>
 	<td><%=list.get(i).getBirth() %></td>
@@ -121,28 +126,39 @@ tr:hover td{
 	color:black;
 }
 
-a{
-text-decoration: none;
-text-align:center;
-color: red;
+.view{
+	text-decoration: none;
+	text-align:center;
+	color: red;
 }
+
 
 .text-center{
-width: 900px;
-margin:0 auto;
+	width: 900px;
+	margin:0 auto;
 }
-.pagination li{
-position:relative;
-list-style:none;
-float:left;
-width:5%;
-margin: 0 auto;
+.pagination{
+	text-align : center;
+	box-sizing: border-box;
+	padding : 20px;
+}
+.pagination button{
+	all : unset;
+	margin : 0;
+	cursor: pointer;
+	padding : 2px 10px 2px 10px;
+	color : #666666;
+}
+.pagination .disabled{
+	display: none;
+}
+.pagination .active{
+	border : 1px solid #EC9A29;
+	border-radius : 100%;
 }
 
 </style>
-<%@ include file="/WEB-INF/views/layout/paging.jsp" %>
-<style type="text/css">
-</style>
+<%@ include file="/WEB-INF/views/admin/userPaging.jsp" %>
 <br>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
 

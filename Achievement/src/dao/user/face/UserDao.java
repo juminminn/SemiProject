@@ -29,6 +29,24 @@ public interface UserDao {
 	 * @return - 조회한 회원데이터 갯수 
 	 */
 	int selectCntAll(Connection conn, String grade, String fieldVal, String search);
+	/**
+	 * DB에 접속하여 회원 상세정보 가져오기
+	 * 
+	 * 
+	 * @param conn DB접속
+	 * @param users 회원테이블 유저번호별 상세정보
+	 * @return
+	 */
+	Users getUserInfo(Connection conn, Users users);
+	/**
+	 * 회원번호를 요청받아 회원정보 삭제
+	 * 
+	 * 
+	 * @param conn - DB접속
+	 * @param users - 회원번호가 담긴 Users 객체
+	 * @return 삭제 성공시 1 반환, 실패시 0 반환
+	 */
+	int deleteUser(Connection conn, Users users);
 	
 	
 }

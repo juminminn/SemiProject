@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dto.Member;
+import dto.Users;
 import service.member.face.MemberService;
 import service.member.impl.MemberServiceImpl;
 
@@ -32,7 +33,7 @@ public class MemberLoginCotroller extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			
 		//전달파라미터 얻기 - 로그인 정보
-		Member mem = memberService.getLoginMember(req);
+		Users mem = memberService.getLoginMember(req);
 		String[] check = req.getParameterValues("idRemember");
 		boolean login = memberService.login(mem);
 		if(login) {
@@ -44,17 +45,17 @@ public class MemberLoginCotroller extends HttpServlet {
 			//세션 정보 저장하기
 			HttpSession session = req.getSession();		
 			session.setAttribute("login", login);
-			session.setAttribute("u_id", mem.getUid());
-			session.setAttribute("u_grade", mem.getUgrade());
+			session.setAttribute("u_id", mem.getUserId());
+			session.setAttribute("u_grade", mem.getGrade());
 			//아이디 기억하기가 체크 되었을때
 			if(check!=null) {
-					Cookie idCookie = new Cookie("ID", mem.getUid());
+					Cookie idCookie = new Cookie("ID", mem.getUserId());
 					idCookie.setMaxAge(90*24*60*60); //90일동안 보관
 					
 					Cookie checkCookie = new Cookie("CHECK", "check");
 					checkCookie.setMaxAge(90*24*60*60); //90일동안 보관
 					
-					Cookie gradeCookie = new Cookie("GRADE", mem.getUgrade());
+					Cookie gradeCookie = new Cookie("GRADE", mem.getGrade());
 					gradeCookie.setMaxAge(90*24*60*60); //90일동안 보관
 					
 					resp.addCookie(idCookie);
@@ -69,7 +70,7 @@ public class MemberLoginCotroller extends HttpServlet {
 				}
 			}
 			
-			if("M".equals(mem.getUgrade())) { //관리자일경우
+			if("M".equals(mem.getGrade())) { //관리자일경우
 				resp.sendRedirect("/admin");
 				return;
 			}

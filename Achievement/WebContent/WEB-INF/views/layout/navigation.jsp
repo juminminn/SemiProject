@@ -26,7 +26,7 @@
 		<li>
 			<a href="#">신규챌린지</a>
 			<ul>
-				<li><a href="#">입력1</a></li>
+				<li><a href="#"></a></li>
 				<li><a href="#">입력2</a></li>
 				<li><a href="#">입력3</a></li>
 			</ul>
