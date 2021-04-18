@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import dto.Certification;
+import dto.Challenge;
+import dto.Member;
 import dto.Participation;
 import dto.Payment;
 import util.Paging;
@@ -89,8 +91,14 @@ public interface ParticipantService {
 	 * @param 페이징 정보를 가지고 있는 객체
 	 */
 
-	public Paging getPaging(HttpServletRequest req);
+	public Paging getCertificaitonPaging(HttpServletRequest req);
 	
+	/**
+	 * 참가자 페이징 가져오기
+	 * 
+	 * @param 페이징 정보를 가지고 있는 객체
+	 */
+	public Paging getParticipantPaging(HttpServletRequest req);
 	/**
 	 * 인증 전체 조회
 	 * 	페이징 처리 추가
@@ -98,7 +106,7 @@ public interface ParticipantService {
 	 * @param paging - 페이징 정보 객체
 	 * @return List<Certification> - 자신의 인증 조회 결과 리스트
 	 */
-	public List<Certification> getList(Paging paging);
+	public List<Certification> getList(Paging paging,int paNo);
 
 	/**
 	 * 인증 내역 삽입 
@@ -131,9 +139,14 @@ public interface ParticipantService {
 
 	public void certificationDelete(HttpServletRequest req);
 
-
+	/***
+	 * 
+	 * @param paging -참가자 조회
+	 * @return 참가자 목록
+	 */
+	public List<Member> getParticipantList(Paging paging, int chNo);
 	
 
-
+	
 
 }

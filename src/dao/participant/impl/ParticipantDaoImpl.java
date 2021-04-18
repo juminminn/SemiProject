@@ -11,6 +11,7 @@ import common.JDBCTemplate;
 import dao.participant.face.ParticipantDao;
 import dto.Certification;
 import dto.Challenge;
+import dto.Member;
 import dto.Participation;
 import dto.Payment;
 import util.Paging;
@@ -345,7 +346,36 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		return cnt;
 	}
 	@Override
-	public List<Certification> selectAll(Connection conn, Paging paging) {
+	public int selectCntAll(Connection conn, Challenge challenge) {
+		//참가한 챌린지중에 동일한 챌린지를 구한다
+		String sql = "";
+		sql += "SELECT count(*) cnt FROM participation";
+		sql += " WHERE ch_no=?";
+		
+		//총 인증글 수
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1,challenge.getChNo());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return cnt;
+	}
+	
+	@Override
+	public List<Certification> selectAllCertification(Connection conn, Paging paging, int paNo) { //수정 요망
 		//SQL 작성
 		String sql = "";
 		sql += "SELECT * FROM (";
@@ -354,6 +384,7 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		sql += " 			ce_no, pa_no, ce_origin_name, ce_stored_name";
 		sql += " 			,ce_create_date, ce_is_success";
 		sql += " 		FROM certification";
+		sql += "		WHERE pa_no=?";
 		sql += " 		ORDER BY ce_no DESC";
 		sql += "	) C";
 		sql += " ) certification";
@@ -364,9 +395,10 @@ public class ParticipantDaoImpl implements ParticipantDao {
 
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
-
-			ps.setInt(1, paging.getStartNo());
-			ps.setInt(2, paging.getEndNo());
+			
+			ps.setInt(1, paNo);
+			ps.setInt(2, paging.getStartNo());
+			ps.setInt(3, paging.getEndNo());
 
 			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
 
@@ -396,6 +428,60 @@ public class ParticipantDaoImpl implements ParticipantDao {
 
 		return certificationList;
 	}
+	@Override
+	public List<Member> selectAllPartification(Connection conn, Paging paging, int chNo) {
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT * FROM (";
+		sql += " 	SELECT rownum rnum, PU.* FROM (";
+		sql += " 		SELECT";
+		sql += " 			U.u_no, U.u_nick, U.u_name, U.u_id";
+		sql += " 		from participation P";
+		sql += " 		inner join users U";
+		sql += " 		on U.u_no = p.u_no";
+		sql += " 		where ch_no = ?";
+		sql += " 		ORDER BY pa_no DESC";
+		sql += "	) PU";
+		sql += " ) users";
+		sql += " WHERE rnum BETWEEN ? AND ?";
+
+		//결과 저장할 List
+		List<Member> memberList = new ArrayList<>();
+
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, chNo);
+			ps.setInt(2, paging.getStartNo());
+			ps.setInt(3, paging.getEndNo());
+
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+
+			//조회 결과 처리
+			while(rs.next()) {
+				Member mem = new Member();
+				//결과값 한 행 처리
+				mem.setUno(rs.getInt("u_no"));
+				mem.setNick(rs.getString("u_nick"));
+				mem.setUsername(rs.getString("u_name"));
+				mem.setUid(rs.getString("u_id"));
+				
+				//리스트에 결과값 저장
+				memberList.add(mem);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		//최종 결과 반환
+
+		return memberList;
+	}
+	
 	@Override
 	public Certification selectCertification(Connection conn, Certification certification) {
 		//인증 조회하기

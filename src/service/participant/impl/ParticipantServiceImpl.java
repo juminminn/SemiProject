@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,6 +24,7 @@ import dao.participant.face.ParticipantDao;
 import dao.participant.impl.ParticipantDaoImpl;
 import dto.Certification;
 import dto.Challenge;
+import dto.Member;
 import dto.Participation;
 import dto.Payment;
 import service.participant.face.ParticipantService;
@@ -100,7 +100,14 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public int getChallengeno(HttpServletRequest req) {
 		
-		return Integer.parseInt(req.getParameter("chNo"));
+		int chNo = 0;
+		if(req.getParameter("chNo")!=null) {
+			chNo = Integer.parseInt(req.getParameter("chNo"));
+		}else if(req.getSession().getAttribute("chNo")!=null) {
+			chNo = (Integer)req.getSession().getAttribute("chNo");
+		}
+		
+		return chNo;
 	}
 	@Override
 	public Certification getCertificationno(HttpServletRequest req) {
@@ -117,7 +124,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 	
 	@Override
-	public Paging getPaging(HttpServletRequest req) {
+	public Paging getCertificaitonPaging(HttpServletRequest req) {
 		//전달파라미터 curPage 파싱
 		String param = req.getParameter("curPage");
 		
@@ -143,13 +150,44 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return paging;
 	}
 	@Override
+	public Paging getParticipantPaging(HttpServletRequest req) {
+		//전달파라미터 curPage 파싱
+		String param = req.getParameter("curPage");
+		Challenge challenge = null;
+		
+		int curPage = 0;
+		if(param != null && !"".equals(param)) {
+			curPage = Integer.parseInt(param);
+		}
+		
+		if(req.getSession().getAttribute("chNo") !=null) {
+			challenge = new Challenge();
+			int chNo=(Integer)req.getSession().getAttribute("chNo");
+			challenge.setChNo(chNo);
+		}
+		
+
+		//participation 테이블의 참가자 수를 조회한다
+		int totalCount = participantDao.selectCntAll(JDBCTemplate.getConnection(),challenge);
+		//Paging객체 생성
+		Paging paging = new Paging(totalCount, curPage);
+
+		return paging;
+	}
+	
+	@Override
 	public Certification certificationView(Certification certification) {
 		
 		return participantDao.selectCertification(JDBCTemplate.getConnection(), certification);
 	}
 	@Override
-	public List<Certification> getList(Paging paging) {
-		return participantDao.selectAll(JDBCTemplate.getConnection(), paging);
+	public List<Certification> getList(Paging paging,int paNo) {
+		return participantDao.selectAllCertification(JDBCTemplate.getConnection(), paging,paNo);
+	}
+	
+	@Override
+	public List<Member> getParticipantList(Paging paging, int chNo) {
+		return  participantDao.selectAllPartification(JDBCTemplate.getConnection(), paging, chNo);
 	}
 	
 	@Override

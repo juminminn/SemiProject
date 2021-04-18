@@ -26,7 +26,7 @@ public class ParticipantCertificationListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Paging paging =null;
-		paging = participantService.getPaging(req);
+		paging = participantService.getCertificaitonPaging(req);
 		List<Certification> certificationList = null;
 		//챌린지 번호 얻어오기
 		int chNo = participantService.getChallengeno(req);
@@ -34,7 +34,8 @@ public class ParticipantCertificationListController extends HttpServlet {
 		int paNo = participantService.getParticipationno(req);
 		//참여중인 챌린지 제목 얻어오기
 		String title = participantService.getTitle(req);
-		certificationList = participantService.getList(paging);
+		
+		certificationList = participantService.getList(paging,paNo);
 		
 		//세션 객체 사용
 		HttpSession session = req.getSession();		

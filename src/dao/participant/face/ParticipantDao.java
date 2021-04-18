@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 
 import dto.Certification;
+import dto.Challenge;
+import dto.Member;
 import dto.Participation;
 import dto.Payment;
 import util.Paging;
@@ -91,14 +93,34 @@ public interface ParticipantDao {
 	public int selectCntAll(Connection conn, Participation participation);
 	
 	/**
+	 *  전체 개수 구하기
+	 *  참가한 챌린지의 인원 전체 구하기
+	 * 
+	 * @return 전체 개수 구하기
+	 */
+	
+	public int selectCntAll(Connection conn, Challenge challenge);
+	
+	
+	/***
+	 * 참가자 리스트 조회하기
+	 * 
+	 * @param conn - DB 연결 객체
+	 * @param paging - 페이징 처리
+	 * @param challenge - 참가자 리스트에 같은 ch_no을 찾기 위해
+	 * @return
+	 */
+	public List<Member> selectAllPartification(Connection conn, Paging paging, int chNo);
+	
+	
+	/**
 	 * 자신의 인증 리스트 구하기
 	 * 
 	 * @param conn - DB연결 객체
 	 * @param paging - 페이징 처리
 	 * @return certification 자신의 인증 리스트 반환
 	 */
-	
-	public List<Certification> selectAll(Connection conn, Paging paging);
+	public List<Certification> selectAllCertification(Connection conn, Paging paging, int paNo);
 	/**
 	 * 인증글 저장
 	 * @param DB에 저장할 객체

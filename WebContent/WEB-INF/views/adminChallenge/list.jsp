@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<%@ include file="/WEB-INF/views/layout/aHeader.jsp" %>
-<%@ include file="/WEB-INF/views/layout/aNavigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 <style type="text/css">
 .tableHeader{
 	/* header정의 코드 */
@@ -28,12 +28,10 @@
 </style>
 <script type="text/javascript">
 $( document ).ready( function() {
-	//background
 	$('#challenge').css({"background":"#EC9A29"})
-	//CSS 조정
-	$('nav').css({"margin":"40px auto"})
 	
 })
+
 </script>
 
 <div class="container">

@@ -51,6 +51,8 @@ public class UserChallengeViewController extends HttpServlet {
 			session.setAttribute("participation", false);
 		}
 		
+		session.setAttribute("chNo", challenge.getChNo()); //chNo저장
+		
 		//MODEL값 전달
 		req.setAttribute("challenge", challenge);
 		req.setAttribute("result", result);

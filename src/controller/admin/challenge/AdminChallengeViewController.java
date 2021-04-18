@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dto.Challenge;
 import service.admin.challenge.face.AdminChallengeService;
@@ -31,6 +32,7 @@ public class AdminChallengeViewController extends HttpServlet {
 		}
 		
 		//전달파라미터 얻기 - boardno
+		HttpSession session = req.getSession();
 		Challenge challenge = challengeService.getChallengeno(req);
 
 		//상세보기 결과 조회
@@ -43,7 +45,7 @@ public class AdminChallengeViewController extends HttpServlet {
 		req.setAttribute("challenge", challenge);
 		req.setAttribute("result", result);
 		
-		
+		session.setAttribute("chNo", challenge.getChNo()); //chNo저장
 		
 		
 		req.getRequestDispatcher("/WEB-INF/views/adminChallenge/view.jsp").forward(req, resp);

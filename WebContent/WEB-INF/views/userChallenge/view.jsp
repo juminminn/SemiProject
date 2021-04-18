@@ -43,7 +43,7 @@ talbe, th, td{
 </style>
 <div class="container">
 	<table class="table table-responsive text-center">
-		<tr><td rowspan="5"><i class="fas fa-user-friends fa-10x"></i><br>참가자</td><td colspan="2">
+		<tr><td rowspan="5"><a href="/participant/list"><i class="fas fa-user-friends fa-10x"></i></a><br>참가자</td><td colspan="2">
 		<%--더미 데이터와 구분하기 위하여 --%>
 		<%if(challenge.getChStoredName().contains("저장")){ %> 
 			<img src="/resources/img/challenge.png" width="400" height="250"/>
@@ -65,7 +65,7 @@ talbe, th, td{
 		<tr><td>제목</td><td><%=challenge.getChTitle() %></td></tr>
 		<tr><td>카테고리</td><td><%=result.get("category") %></td></tr>
 		<tr><td>내용</td><td><%=challenge.getChContent() %></td></tr>
-		<tr><td rowspan="5"><i class="far fa-id-card fa-10x"></i><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
+		<tr><td rowspan="5"><a href="/founder/certification/list"><i class="far fa-id-card fa-10x"></i></a><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
 		<tr><td>개설자</td><td><%=result.get("name") %></td></tr>
 		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td><td rowspan="8">
 		<%if(request.getSession().getAttribute("participation")!=null){ %>

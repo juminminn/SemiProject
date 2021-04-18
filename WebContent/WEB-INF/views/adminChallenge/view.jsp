@@ -11,14 +11,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<%@ include file="/WEB-INF/views/layout/aHeader.jsp" %>
-<%@ include file="/WEB-INF/views/layout/aNavigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 <script type="text/javascript">
 $( document ).ready( function() {
 	//background
 	$('#challenge').css({"background":"#EC9A29"})
-	//CSS 조정
-	$('nav').css({"margin":"40px auto"})
+	
 	
 	//목록버튼 동작
 	$("#btnList").click(function() {
@@ -55,7 +54,7 @@ talbe, th, td{
 </style>
 <div class="container">
 	<table class="table table-responsive text-center">
-		<tr><td rowspan="5"><i class="fas fa-user-friends fa-10x"></i><br>참가자</td><td colspan="2">
+		<tr><td rowspan="5"><a href="/participant/list"><i class="fas fa-user-friends fa-10x"></i></a><br>참가자</td><td colspan="2">
 		<%--더미 데이터와 구분하기 위하여 --%>
 		<%if(challenge.getChStoredName().contains("저장")){ %> 
 			<img src="/resources/img/challenge.png" width="400" height="250"/>
