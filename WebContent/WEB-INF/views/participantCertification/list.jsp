@@ -89,7 +89,7 @@ $(document).ready(function () {
     	});
     });
     $("#btnComplaint").click(function(){
-    	console.log("check")
+    	
     })
     
 }); 
