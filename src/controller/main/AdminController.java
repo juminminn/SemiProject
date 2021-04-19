@@ -23,7 +23,9 @@ public class AdminController extends HttpServlet {
 			return;
 		}
 		
-		req.getRequestDispatcher("/WEB-INF/views/admin.jsp")
-			.forward(req, resp);
+		/*
+		 * req.getRequestDispatcher("/WEB-INF/views/admin.jsp") .forward(req, resp);
+		 */
+		resp.sendRedirect("/admin/user/list");//회원 메인페이지에서 리스트 조회
 	}
 }
