@@ -26,6 +26,7 @@ import dao.participant.face.ParticipantDao;
 import dao.participant.impl.ParticipantDaoImpl;
 import dto.Certification;
 import dto.Challenge;
+import dto.Complaint;
 import dto.Member;
 import dto.Participation;
 import dto.Payment;
@@ -48,7 +49,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		participation.setPaNo(paNo);
 		participation.setuNo(uNo);
 		participation.setPaIsSuccess("W");
-		participation.setPaReview("없음");
+		participation.setPaReview("후기없음");
 		
 		return participation;
 	}
@@ -70,6 +71,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		return payment;
 	}
+	
 	//추출해낼 paNo
 	@Override
 	public int getParticipationno(HttpServletRequest req) {
@@ -78,6 +80,23 @@ public class ParticipantServiceImpl implements ParticipantService {
 		int uNo = (Integer)req.getSession().getAttribute("u_no");
 		int paNo = participantDao.selectByPaNo(JDBCTemplate.getConnection(), chNo, uNo);
 		return paNo;
+	}
+	@Override
+	public Complaint getComplaint(HttpServletRequest req) {
+		Complaint complaint = null;
+		if(req.getParameter("complaintReason")!=null &&!"".equals(req.getParameter("complaintReason"))) {
+			//다음 신고 번호
+			int comNo = participantDao.selectComNo(JDBCTemplate.getConnection());
+			complaint = new Complaint();
+			complaint.setComNo(comNo);
+			int chNo = (Integer)req.getSession().getAttribute("chNo");
+			int uNo = (Integer)req.getSession().getAttribute("u_no");
+			complaint.setChNo(chNo);
+			complaint.setuNo(uNo);
+			complaint.setComContent(req.getParameter("complaintReason"));
+		}
+		
+		return complaint;
 	}
 	
 	//챌린지 타이틀 반환
@@ -100,6 +119,11 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public String getChway(int chNo) {
 		String chWay = participantDao.selectByChWay(JDBCTemplate.getConnection(), chNo);
 		return chWay;
+	}
+	@Override
+	public String getReview(int paNo) {
+		String review = participantDao.selectByReview(JDBCTemplate.getConnection(), paNo);
+		return review;
 	}
 	
 	
@@ -672,6 +696,45 @@ public class ParticipantServiceImpl implements ParticipantService {
 			} else {
 				JDBCTemplate.rollback(JDBCTemplate.getConnection());
 			}
+		}
+		
+	}
+	
+	//신고 내역 저장
+	@Override
+	public void insertComplaint(Complaint complaint) {
+		if( participantDao.complaintInsert(JDBCTemplate.getConnection(), complaint) > 0 ) {
+			JDBCTemplate.commit(JDBCTemplate.getConnection());
+		} else {
+			JDBCTemplate.rollback(JDBCTemplate.getConnection());
+		}
+		
+	}
+	
+	//리뷰 추출
+	@Override
+	public Participation getReview(HttpServletRequest req) {
+		//session에서 값을 가져온다
+		Participation participation =null;
+		String review = req.getParameter("paReview");
+		if(review !=null && !"".equals(review)) {
+			participation = new Participation();
+			int chNo = (Integer)req.getSession().getAttribute("chNo");
+			int uNo = (Integer)req.getSession().getAttribute("u_no");
+			int paNo = participantDao.selectByPaNo(JDBCTemplate.getConnection(), chNo, uNo);
+			participation.setPaNo(paNo);
+			participation.setPaReview(review);
+			
+		}
+		
+		return participation;
+	}
+	@Override
+	public void insertReview(Participation participation) {
+		if( participantDao.reviewInsert(JDBCTemplate.getConnection(), participation) > 0 ) {
+			JDBCTemplate.commit(JDBCTemplate.getConnection());
+		} else {
+			JDBCTemplate.rollback(JDBCTemplate.getConnection());
 		}
 		
 	}

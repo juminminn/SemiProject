@@ -91,7 +91,10 @@ $(document).ready(function () {
     $("#btnComplaint").click(function(){
     	$(location).attr("href", "/participant/complaint/write");
     })
-    
+   	$("#btnReview").click(function(){
+   	 	$(location).attr("href", "/participant/review/write");  		
+   	})
+   
 }); 
 
 function startDate() { 

@@ -51,6 +51,9 @@ public class ParticipantCertificationListController extends HttpServlet {
 		//좋아요 등록 여부와 신고 등록 여부를 가져온다
 		Map<String, Boolean> whethers = participantService.getWhethers(req); 
 		
+		System.out.println(whethers.get("paLike"));
+		System.out.println(whethers.get("paComplaint"));
+		
 		//조회결과 MODEL값 전달
 		req.setAttribute("certificationList", certificationList);
 		req.setAttribute("whethers", whethers);

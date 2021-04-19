@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import dto.Certification;
 import dto.Challenge;
+import dto.Complaint;
 import dto.Member;
 import dto.Participation;
 import dto.Payment;
@@ -180,6 +181,45 @@ public interface ParticipantService {
 	 * @param participation - 좋아요 정보
 	 */
 	public void updatePaLike(Participation participation);
+	
+	/***
+	 * 신고 내역 가져온다
+	 * 
+	 * @return 신고 내역 
+	 */
+	public Complaint getComplaint(HttpServletRequest req);
+	/***
+	 * 신고 내역 저장
+	 * 
+	 * @param complaint - 신고 정보가 들어있다
+	 */
+
+	public void insertComplaint(Complaint complaint);
+	
+	/***
+	 * DB에 저장된 후기 불러오기
+	 * 
+	 * 
+	 * @param paNo - 참가한 챌린지
+	 * @return review - 불러오기
+	 */
+
+	public String getReview(int paNo);
+
+	/***
+	 * 요청 객체에서 review 추출
+	 * 
+	 * @param req - 요청 객체에 review 추출
+	 * @return participation - review 수정할 객체 반환
+	 */
+	public Participation getReview(HttpServletRequest req);
+
+	/**
+	 * 리뷰 등록/수정
+	 * 
+	 * @param participation - 리뷰 정보와 paNo의 정보를 가지고 있음 
+	 */
+	public void insertReview(Participation participation);
 
 
 	

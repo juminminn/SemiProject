@@ -37,24 +37,8 @@ $(document).ready(function() {
 	$("#btnCancel").click(function() {
 		history.go(-1);
 	});
-	//이미지 미리보기
-	$('#file').change(function(){
-	    setImageFromFile(this, '#preview');
-	});
 	
 });
-
-//미리 보기
-function setImageFromFile(input, expression) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $(expression).attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 </script>
 <style type="text/css">
 #complaintReason {

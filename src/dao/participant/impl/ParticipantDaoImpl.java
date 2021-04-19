@@ -11,6 +11,7 @@ import common.JDBCTemplate;
 import dao.participant.face.ParticipantDao;
 import dto.Certification;
 import dto.Challenge;
+import dto.Complaint;
 import dto.Member;
 import dto.Participation;
 import dto.Payment;
@@ -582,7 +583,7 @@ public class ParticipantDaoImpl implements ParticipantDao {
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				//좋아요 여부
+				//신고 여부
 				int cnt = rs.getInt(1);
 				if(cnt >0) {
 					paComplaint = true;
@@ -686,5 +687,109 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		}
 		return res;
 	}
-	
+	//다음 신고 번호 가져오기
+	@Override
+	public int selectComNo(Connection conn) {
+		String sql="";
+		sql += "select complaint_seq.nextval";
+		sql += " from dual";
+		
+		int comNo = 0;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				comNo=rs.getInt(1);			
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		return comNo;
+	}
+	@Override
+	public int complaintInsert(Connection conn, Complaint complaint) {
+		String sql = "";
+		sql += "insert into complaint(";
+		sql += " com_no,";
+		sql += " u_no,";
+		sql += " ch_no,";
+		sql += " com_content)";
+		sql += "  VALUES(?,?,?,?)";
+		int res = 0;
+
+		try {
+
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, complaint.getComNo());
+			ps.setInt(2, complaint.getuNo());
+			ps.setInt(3, complaint.getChNo());
+			ps.setString(4, complaint.getComContent());
+			res = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+
+		return res;
+	}
+	@Override
+	public String selectByReview(Connection conn, int paNo) {
+		String sql="";
+		sql += "select pa_review";
+		sql += " from participation";
+		sql += " where pa_no =?";
+		
+		String review = null;
+		
+		try {
+
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paNo);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				review = rs.getString("pa_review");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return review;
+	}
+	@Override
+	public int reviewInsert(Connection conn, Participation participation) {
+		//리뷰 저장 및 수정
+		String sql = "";
+		sql += "UPDATE participation SET";
+		sql += " pa_review=?";
+		sql += " WHERE pa_no = ?";
+		int res = 0;
+		try {
+
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, participation.getPaReview());
+			ps.setInt(2, participation.getPaNo());
+			res = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+
+		return res;
+	}
 }
