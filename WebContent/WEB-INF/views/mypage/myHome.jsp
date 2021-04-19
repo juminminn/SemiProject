@@ -89,8 +89,19 @@ $(document).ready(function(){
   font-size: 18px;
 }
 
+#mPointInput{ /* 인풋창 내부  */
+  width: 80%;
+  padding: 4px 7px;
+  margin: 2px 0;
+  display: inline-block;
+  border: 2px solid #EC9A29;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-#goToChall {
+
+
+#goToChall{
   border: none;
   outline: 0;
   display: inline-block;
@@ -103,7 +114,21 @@ $(document).ready(function(){
   font-size: 15px;
 }
 
-#goToChall:hover{
+#usePoint{
+  border: none;
+  outline: 0;
+  padding: 5px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 20%;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+
+#goToChall:hover, #usePoint:hover{
   opacity: 0.7;
 }
 
@@ -153,14 +178,26 @@ li a:hover:not(.active) {
 	<div id="categoryDiv">
 		<!--마이페이지 프로필  -->
 		<div class="profileCard">
+		 
 		  <% if(mypageInfo.getmStoredname() != null) {%>
 			<img src="/upload/<%=mypageInfo.getmStoredname() %>" id="profileImg" >
 			<% } else {%>
 			<img src="/resources/logoRed" style="width:200px;" >
 			<% } %>
-		  <h2><%=memberInfo.getNick() %></h2>
-		  <span>Total Reword: <%=refundsTotal %> &#8361;</span>
-		   <p><button id="goToChall">Go to Challenge</button></p>
+		 
+		 <h2><%=memberInfo.getNick() %></h2>
+		 
+		 <span>Total Reword: <%=refundsTotal %> &#8361;</span>
+		
+		<!-- 포인트 사용을 위한 폼 영역  --> 
+		 <form action="#" method="post">		 	
+		 	<div style="text-align: center; margin-top: 10px;">포인트 <button id="usePoint">사용</button></div>
+			 <input type="text" placeholder="point" id="mPointInput"/>	 
+		 </form>
+ 		 <!-----------------------------  --> 
+ 		  
+ 		  <p><button id="goToChall">Go to Challenge</button></p>
+			
 		</div>
 			
 		<!--마이페이지 카테고리  -->
