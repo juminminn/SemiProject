@@ -31,17 +31,27 @@
 		<li>
 			<a href="#">신규챌린지</a>
 			<ul>
-				<li><a href="#">입력1</a></li>
-				<li><a href="#">입력2</a></li>
-				<li><a href="#">입력3</a></li>
+				<li><a href="/user/challenge/new?category=1">운동</a></li>
+				<li><a href="/user/challenge/new?category=2">자기관리</a></li>
+				<li><a href="/user/challenge/new?category=3">생활습관</a></li>
+				<li><a href="/user/challenge/new?category=4">취미</a></li>
+				<li><a href="/user/challenge/new?category=5">공부</a></li>
+				<li><a href="/user/challenge/new?category=6">독서</a></li>
+				<li><a href="/user/challenge/new?category=7">외국어</a></li>
+				<li><a href="/user/challenge/new?category=8">재테크</a></li>
 			</ul>
 		</li>
 		<li>
 			<a href="#">인기챌린지</a>
 			<ul>
-				<li><a href="#">입력1</a></li>
-				<li><a href="#">입력2</a></li>
-				<li><a href="#">입력3</a></li>
+				<li><a href="/user/challenge/popular?category=1">운동</a></li>
+				<li><a href="/user/challenge/popular?category=2">자기관리</a></li>
+				<li><a href="/user/challenge/popular?category=3">생활습관</a></li>
+				<li><a href="/user/challenge/popular?category=4">취미</a></li>
+				<li><a href="/user/challenge/popular?category=5">공부</a></li>
+				<li><a href="/user/challenge/popular?category=6">독서</a></li>
+				<li><a href="/user/challenge/popular?category=7">외국어</a></li>
+				<li><a href="/user/challenge/popular?category=8">재테크</a></li>
 			</ul>
 		</li>
 	</ul>
