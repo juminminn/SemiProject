@@ -26,14 +26,14 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Post SelectPost(HttpServletRequest req) {
 		Post post = new Post();
-		post.setPno(Integer.parseInt(req.getParameter("pno")));
+		post.setP_no(Integer.parseInt(req.getParameter("pno")));
 		return postDao.Select(post);
 	}
 
 	@Override
 	public void DeletePost(HttpServletRequest req) {
 		Post post = new Post();
-		post.setPno(Integer.parseInt(req.getParameter("pno")));
+		post.setP_no(Integer.parseInt(req.getParameter("pno")));
 		postDao.Delete(post);
 		
 	}
@@ -42,10 +42,10 @@ public class PostServiceImpl implements PostService {
 	public void InsertPost(HttpServletRequest req) {
 		// TODO Auto-generated method stub
 		Post post = new Post();
-		post.setP_Title(req.getParameter("title"));
-		post.setP_Content(req.getParameter("content"));
+		post.setP_title(req.getParameter("title"));
+		post.setP_content(req.getParameter("content"));
 		post.setU_id(req.getSession().getAttribute("u_id").toString());
-		post.setBno(3);
+		post.setB_no(3);
 		postDao.Insert(post);
 		
 	}
@@ -54,9 +54,9 @@ public class PostServiceImpl implements PostService {
 	public void UpdatePost(HttpServletRequest req) {
 		// TODO Auto-generated method stub
 		Post post = new Post();
-		post.setP_Title(req.getParameter("title"));
-		post.setP_Content(req.getParameter("content"));
-		post.setPno(Integer.parseInt(req.getParameter("pno")));
+		post.setP_title(req.getParameter("title"));
+		post.setP_content(req.getParameter("content"));
+		post.setP_no(Integer.parseInt(req.getParameter("pno")));
 		
 		postDao.Update(post);
 	}
@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void UpdateViews(HttpServletRequest req) {
 		Post post = new Post();
-		post.setPno(Integer.parseInt(req.getParameter("pno")));
+		post.setP_no(Integer.parseInt(req.getParameter("pno")));
 		postDao.UpdateViews(post);
 	}
 
@@ -162,14 +162,14 @@ public class PostServiceImpl implements PostService {
 				String key = item.getFieldName();
 				if("p_title".equals(key)) {
 					try {
-						post.setP_Title(item.getString("UTF-8"));
+						post.setP_title(item.getString("UTF-8"));
 					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if("p_content".equals(key)) {
 					try {
-						post.setP_Content(item.getString("UTF-8"));
+						post.setP_content(item.getString("UTF-8"));
 					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -208,7 +208,7 @@ public class PostServiceImpl implements PostService {
 		}//while(iter.next())끝
 		
 		post.setU_id(req.getSession().getAttribute("u_id").toString());
-		post.setBno(3);
+		post.setB_no(3);
 		postDao.Insert(post);
 		
 	}

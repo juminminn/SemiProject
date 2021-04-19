@@ -21,7 +21,7 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public void Update(Post post) {
 		String sql = "";
-		sql += "UPDATE post set p_title='" + post.getP_Title() + "', p_content='" + post.getP_Content() + "' where p_no=" + post.getPno();
+		sql += "UPDATE post set p_title='" + post.getP_title() + "', p_content='" + post.getP_content() + "' where p_no=" + post.getP_no();
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -39,21 +39,21 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public Post Select(Post post) {
-		String sql = "select * from post, users where post.u_no=users.u_no and P_NO = " + post.getPno();
+		String sql = "select * from post, users where post.u_no=users.u_no and P_NO = " + post.getP_no();
 		Post p = new Post();
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				p.setBno(rs.getInt("b_no"));
-				p.setP_Content(rs.getString("p_content"));
-				p.setP_Create_date(rs.getDate("p_create_date"));
-				p.setP_Title(rs.getString("p_title"));
-				p.setP_Update_date(rs.getDate("P_Update_date"));
+				p.setB_no(rs.getInt("b_no"));
+				p.setP_content(rs.getString("p_content"));
+				p.setP_create_date(rs.getDate("p_create_date"));
+				p.setP_title(rs.getString("p_title"));
+				p.setP_update_date(rs.getDate("P_Update_date"));
 				p.setP_views(rs.getInt("P_views"));
-				p.setPno(rs.getInt("p_no"));
-				p.setUno(rs.getInt("u_no"));
+				p.setP_no(rs.getInt("p_no"));
+				p.setU_no(rs.getInt("u_no"));
 				p.setU_nick(rs.getString("U_nick"));
 				p.setU_id(rs.getString("u_id"));
 				p.setP_origin_name(rs.getString("p_origin_name"));
@@ -75,7 +75,7 @@ public class PostDaoImpl implements PostDao {
 	public void Insert(Post post) {
 		String sql ="";
 		sql += "insert into post(p_no, u_no, b_no, p_title, p_content, p_views, p_origin_name, p_stored_name) values(post_seq.nextval, (select u_no from users where u_id='" + post.getU_id() + "'),"
-				+ post.getBno() + ", '" + post.getP_Title() + "', '" + post.getP_Content() + "', 0, '" + post.getP_origin_name() + "', '" + post.getP_stored_name() + "')";
+				+ post.getB_no() + ", '" + post.getP_title() + "', '" + post.getP_content() + "', 0, '" + post.getP_origin_name() + "', '" + post.getP_stored_name() + "')";
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -94,7 +94,7 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public void Delete(Post post) {
 		String sql ="";
-		sql += "DELETE POST where P_no=" + post.getPno();
+		sql += "DELETE POST where P_no=" + post.getP_no();
 		
 		try {
 			ps=conn.prepareStatement(sql);
@@ -113,7 +113,7 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public void UpdateViews(Post post) {
-		String sql = "update post set p_views=p_views+1 where p_no = " + post.getPno();
+		String sql = "update post set p_views=p_views+1 where p_no = " + post.getP_no();
 		
 		try {
 			ps = conn.prepareStatement(sql);

@@ -15,7 +15,7 @@ $(document).ready(function(){
 	$.ajax({
 		url : "/comment",
 		type : "GET",
-		data : {pno : <%=post.getPno() %>},
+		data : {pno : <%=post.getP_no() %>},
 		dataType : "html",
 		success : function(result){
 			$("#comment").html(result);
@@ -29,12 +29,12 @@ $(document).ready(function(){
 			$.ajax({
 				url : "/comment/insert",
 				type : "POST",
-				data : {content : $("#c_content").val(), pno: <%=post.getPno()%>},
+				data : {content : $("#c_content").val(), pno: <%=post.getP_no()%>},
 				success : function(){
 					$.ajax({
 						url : "/comment",
 						type : "GET",
-						data : {pno : <%=post.getPno() %>},
+						data : {pno : <%=post.getP_no() %>},
 						dataType : "html",
 						success : function(result){
 							$("#comment").html(result);
@@ -59,7 +59,7 @@ $(document).ready(function(){
 			$.ajax({
 				url:"/board/delete",
 				type:"POST",
-				data:{pno:<%=post.getPno()%>},
+				data:{pno:<%=post.getP_no()%>},
 				success:function(){
 					location.replace("/board/3");	
 				}
@@ -80,10 +80,10 @@ $(document).ready(function(){
 	<div class="content">
 		<table class="table table-bordered" style="margin:0 auto; width:100%; text-align:left;" border="1" >
 			<tr>
-				<td class="info">글번호</td><td><%=post.getPno() %></td>
+				<td class="info">글번호</td><td><%=post.getP_no() %></td>
 			</tr>
 			<tr>
-				<td class="info">제목</td><td><%=post.getP_Title() %></td>
+				<td class="info">제목</td><td><%=post.getP_title() %></td>
 			</tr>
 			<tr>
 				<td class="info">작성자</td><td><%=post.getU_nick() %></td>
@@ -92,9 +92,9 @@ $(document).ready(function(){
 				<td class="info">조회수</td><td><%=post.getP_views() %></td>
 			</tr>
 			<tr>
-				<td class="info">작성일</td><td><%=post.getP_Create_date() %></td>
+				<td class="info">작성일</td><td><%=post.getP_create_date() %></td>
 			</tr>
-			<tr><td colspan="2"><%=post.getP_Content() %></td></tr>
+			<tr><td colspan="2"><%=post.getP_content() %></td></tr>
 		</table>
 		
 		<div>
@@ -112,7 +112,7 @@ $(document).ready(function(){
 		<%if(session.getAttribute("u_id") != null){ %>
  		<%if(session.getAttribute("u_id").equals(post.getU_id())){ %> 
 		<a id="boardDelete" style="cursor:pointer">삭제</a>
-		<a href="/board/update?pno=<%=post.getPno()%>">수정</a>
+		<a href="/board/update?pno=<%=post.getP_no()%>">수정</a>
 		<%} 
  		}%>
 	</div>

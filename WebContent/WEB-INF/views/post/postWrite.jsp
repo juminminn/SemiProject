@@ -26,7 +26,7 @@
 					<td><%if(post == null){ %>
 						<input style="width:90%;" type="text" id="title" name="p_title" placeholder="제목"/>
 						<%}else{ %>
-						<input style="width:90%;" type="text" id="title" name="p_title" value="<%=post.getP_Title()%>"/>
+						<input style="width:90%;" type="text" id="title" name="p_title" value="<%=post.getP_title()%>"/>
 						<%} %>
 					</td>
 				</tr>
@@ -34,7 +34,7 @@
 				<tr><td colspan="2"><%if(post == null){ %>
 						<textarea style="width:100%; height:100%;" id="content" name="p_content"></textarea>
 						<%}else { %>
-						<textarea style="width:100%; height:100%;" id="content" name="p_content"><%=post.getP_Content() %></textarea>
+						<textarea style="width:100%; height:100%;" id="content" name="p_content"><%=post.getP_content() %></textarea>
 						<%} %>
 					</td>
 				</tr>
@@ -92,9 +92,9 @@ $(document).ready(function(){
 			$.ajax({
 				url : "/board/update",
 				type : "POST",
-				data : {title : $("#title").val(), content : $("#content").val(), pno: <%=post.getPno()%>},
+				data : {title : $("#title").val(), content : $("#content").val(), pno: <%=post.getP_no()%>},
 				success : function(){
-					location.href="/board/view?pno=<%=post.getPno()%>";
+					location.href="/board/view?pno=<%=post.getP_no()%>";
 				}
 			});
 		<%}%>

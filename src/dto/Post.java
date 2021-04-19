@@ -11,11 +11,18 @@ public class Post {
 	private Date p_create_date;
 	private Date p_update_date;
 	private int p_views;
+	private String U_nick;
+	private String u_id;
+	private String p_origin_name;
+	private String p_stored_name;
+
+	
 	@Override
 	public String toString() {
 		return "Post [p_no=" + p_no + ", u_no=" + u_no + ", b_no=" + b_no + ", p_title=" + p_title + ", p_content="
 				+ p_content + ", p_create_date=" + p_create_date + ", p_update_date=" + p_update_date + ", p_views="
-				+ p_views + "]";
+				+ p_views + ", U_nick=" + U_nick + ", u_id=" + u_id + ", p_origin_name=" + p_origin_name
+				+ ", p_stored_name=" + p_stored_name + "]";
 	}
 	public int getP_no() {
 		return p_no;
@@ -65,5 +72,30 @@ public class Post {
 	public void setP_views(int p_views) {
 		this.p_views = p_views;
 	}
+	public String getU_nick() {
+		return U_nick;
+	}
+	public void setU_nick(String u_nick) {
+		U_nick = u_nick;
+	}
+	public String getU_id() {
+		return u_id;
+	}
+	public void setU_id(String u_id) {
+		this.u_id = u_id;
+	}
+	public String getP_origin_name() {
+		return p_origin_name;
+	}
+	public void setP_origin_name(String p_origin_name) {
+		this.p_origin_name = p_origin_name;
+	}
+	public String getP_stored_name() {
+		return p_stored_name;
+	}
+	public void setP_stored_name(String p_stored_name) {
+		this.p_stored_name = p_stored_name;
+	}
+	
 }	
 	
