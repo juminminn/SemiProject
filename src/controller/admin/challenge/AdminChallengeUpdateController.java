@@ -27,7 +27,7 @@ public class AdminChallengeUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//로그인이 되어있지 않으면 리다이렉트
-		if(req.getSession().getAttribute("login")==null) {
+		if(req.getSession().getAttribute("login")==null || !"M".equals(req.getSession().getAttribute("u_grade"))) {
 			resp.sendRedirect("/");
 			return;
 		}
