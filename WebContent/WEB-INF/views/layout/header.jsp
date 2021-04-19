@@ -33,7 +33,7 @@
 			<%}else if((boolean)session.getAttribute("login") && "U".equals((String)session.getAttribute("u_grade"))) {%>
 				<ul>
 					<li><a href="/member/logout">로그아웃</a></li>
-					<li><a href="#">마이페이지</a></li>
+					<li><a href="/mypage/home">마이페이지</a></li>
 				</ul>
 			<%} %>
 		</li>
