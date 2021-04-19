@@ -33,7 +33,6 @@ public class AdminChallengeListController extends HttpServlet {
 		
 		//요청파라미터를 전달하여 Paging객체 생성하기
 		if(title==null) { //title 값이 없을경우
-			System.out.println("cheeck");
 			paging = adminChallengeService.getPaging(req);
 			challengeList = adminChallengeService.getList(paging);
 			session.removeAttribute("ch_admin_title");
