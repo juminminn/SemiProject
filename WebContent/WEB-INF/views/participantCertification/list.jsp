@@ -89,7 +89,7 @@ $(document).ready(function () {
     	});
     });
     $("#btnComplaint").click(function(){
-    	
+    	$(location).attr("href", "/participant/complaint/write");
     })
     
 }); 

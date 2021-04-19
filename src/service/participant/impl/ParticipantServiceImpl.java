@@ -73,6 +73,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	//추출해낼 paNo
 	@Override
 	public int getParticipationno(HttpServletRequest req) {
+		//session에서 값을 가져온다
 		int chNo = (Integer)req.getSession().getAttribute("chNo");
 		int uNo = (Integer)req.getSession().getAttribute("u_no");
 		int paNo = participantDao.selectByPaNo(JDBCTemplate.getConnection(), chNo, uNo);
