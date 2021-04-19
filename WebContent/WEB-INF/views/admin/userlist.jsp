@@ -8,9 +8,11 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+
 	$('#member').css({"background":"#EC9A29"})
 	$('#member').nextAll().css({"background":"#FFFFFF"})
 })
+
 </script>
 
 <body>

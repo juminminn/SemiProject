@@ -22,10 +22,11 @@ public class AdminController extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
-		
+
 		/*
 		 * req.getRequestDispatcher("/WEB-INF/views/admin.jsp") .forward(req, resp);
 		 */
-		resp.sendRedirect("/admin/user/list");//회원 메인페이지에서 리스트 조회
+		// 관리자 메인에서 회원리스트 보여주기
+		resp.sendRedirect("/admin/user/list");
 	}
 }
