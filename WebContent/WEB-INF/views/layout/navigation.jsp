@@ -23,9 +23,9 @@
 		<li>
 			<a href="#">게시판</a>
 			<ul>
-				<li><a href="#">입력1</a></li>
-				<li><a href="#">입력2</a></li>
-				<li><a href="#">입력3</a></li>
+				<li><a href="/board/3">입력1</a></li>
+				<li><a href="/board/3">입력2</a></li>
+				<li><a href="/board/3">입력3</a></li>
 			</ul>
 		</li>
 		<li>
