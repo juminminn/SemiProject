@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.left{
+	float:left;
+}
+.right{
+	float:right;
+}
+.imgarr{
+	float:left;
+	width:185px;
+	margin: 5px;
+	text-align:center;
+}
+.imgarr > a{
+	/* 글자색상 */
+	color: #8C8C8C;
+	/* 글자 꾸밈선 없애기(underline) */
+	text-decoration: none;
+	/* 글자 스타일 지정 */
+	margin: 0 5px;
+}
+.textarr{
+	font-size: 20px;
+	width:400px;
+	margin: 5px;
+	text-align:center;
+}
+.textarr > a{
+	/* 글자색상 */
+	color: #8C8C8C;
+	/* 글자 꾸밈선 없애기(underline) */
+	text-decoration: none;
+	/* 글자 스타일 지정 */
+}
+.textarr > a:hover{
+	/* 글자색상 */
+	color: #A8201A;
+}
