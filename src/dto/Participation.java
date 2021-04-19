@@ -12,6 +12,8 @@ public class Participation {
 	private String paReview; //후기
 	private String paLike; //좋아요 등록 여부
 	
+	
+	
 	@Override
 	public String toString() {
 		return "Participation [paNo=" + paNo + ", chNo=" + chNo + ", uNo=" + uNo + ", paCreateDate=" + paCreateDate
@@ -58,7 +60,8 @@ public class Participation {
 	}
 	public void setPaLike(String paLike) {
 		this.paLike = paLike;
-	} 
+	}
+	
 	
 	
 

@@ -112,4 +112,94 @@ public class FounderDaoImpl implements FounderDao {
 		
 		return result;
 	}
+	@Override
+	public Map<String, Integer> selectByUno(Connection conn, int chNo) {
+		String sql="";
+		sql+="select U.u_no from users U";
+		sql+=" inner join challenge C";
+		sql+=" on C.u_no = U.u_no";
+		sql+=" where ch_no = ?";
+		
+		Map<String, Integer> result = new HashMap<>();
+		
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, chNo);
+			
+			rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				result.put("uNo", rs.getInt("u_no"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		return result;
+	}
+	@Override
+	public Certification selectCertification(Connection conn, Certification certification) {
+		String sql = "";
+		sql += "select * from ";
+		sql += " certification";
+		sql += " where ce_no = ?";
+		
+		//인증 내역 결과
+		Certification result = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1,certification.getCeNo());
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				result = new Certification();
+				result.setCeNo(rs.getInt("ce_no"));
+				result.setPaNo(rs.getInt("pa_no"));
+				result.setCeOriginName(rs.getString("ce_origin_name"));
+				result.setCeStoredName(rs.getString("ce_stored_name"));
+				result.setCeCreateDate(rs.getDate("ce_create_date"));
+				result.setCeUpdateDate(rs.getDate("ce_update_date"));
+				result.setCeIsSuccess(rs.getString("ce_is_success"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace(); 
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}
+	
+	@Override
+	public int whatherUpdate(Connection conn, Certification certification) {
+		String sql = "";
+		sql += "UPDATE certification ";
+		sql += " set ce_is_success=?";
+		sql += " where ce_no = ?";
+		
+		//인증 여부 수정 결과
+		int res=-1;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, certification.getCeIsSuccess());
+			ps.setInt(2,certification.getCeNo());
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace(); 
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
 }

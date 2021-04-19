@@ -1,14 +1,14 @@
+<%@page import="java.util.Map"%>
 <%@page import="dto.Certification"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% List<Certification> list = (List)request.getAttribute("certificationList"); %>
 <% String title = (String)request.getAttribute("title"); %>
-
+<% Map<String, Boolean> whethers = (Map<String, Boolean>)request.getAttribute("whethers"); %>
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
 <style type="text/css">
-
 .tableHeader{
 	/* header정의 코드 */
  	text-align: center;
@@ -25,9 +25,20 @@
 	font-weight:bold;
 }
 
+#bottomButtons{
+	width: 900px;
+	margin: 0 auto;
+}
+#bottomButtons  > div{
+	display: inline-block;
+	height: 30px;
+	padding: 10px;
+	margin: 20px;
+	width:100px;
+}
+
 .wrap {
-	/* 내부 정렬 */
-	
+	/* 내부 정렬 */	
 	/* 외부 정렬 */
 	width: 900px;
 	margin: 0 auto;
@@ -58,7 +69,29 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function () { 
-    startDate(); 
+    startDate();
+    
+    $("#paLike").click(function(){
+    	$.ajax({
+    		type:"get"
+    		, url: "/participant/like"
+    		,data:{
+    			paLike : <%=whethers.get("paLike")%>
+    		}, dataType: "html"
+    		, success: function(res){
+    			
+    			$("#paLikeResult").html(res) //결과값 반영
+    		}
+    		,error: function(){
+    			console.log("실패");
+    		}
+    		
+    	});
+    });
+    $("#btnComplaint").click(function(){
+    	console.log("check")
+    })
+    
 }); 
 
 function startDate() { 
@@ -90,10 +123,9 @@ function startDate() {
 
 	<div>
 		<div id=chTitle class="text-center"><i class="far fa-thumbs-up"></i>&nbsp;&nbsp;<%=title %>인증</div>
-		<span id="date" class="h6 right"></span>
-		
+		<div id="date" class="h6 right"></div>
 	</div>
-
+	
 <div class="wrap">
 	<%for(int i=0; i<list.size(); i++){ %>
 		
@@ -116,6 +148,25 @@ function startDate() {
 		</a></div>
 	<%} %>
 </div>
+
+<!-- 위치 조정 -->
+<div><br><br><br></div>
+<div id="bottomButtons" class="text-center">
+<div id="paLikeResult">
+<%if(whethers.get("paLike")){ %>
+	<button id="paLike" class="btn btn-info" style="color:red;"><i class="far fa-thumbs-up fa-2x"></i></button>
+<%}else{ %>
+	<button id="paLike" class="btn btn-info" style="color:#ccc"><i class="far fa-thumbs-up fa-2x"></i></button>
+<%} %>
+</div>
+<%if(whethers.get("paComplaint")){ %>
+	<div><button id="btnComplaint" class="btn btn-danger disabled">신고</button></div>
+<% }else{%>
+	<div><button id="btnComplaint" class="btn btn-danger">신고</button></div>
+<%} %>
+<div><button id="btnReview" class="btn btn-info">후기</button></div>
+</div>
+
 
 </div>
 <%@ include file="/WEB-INF/views/participantCertification/participantCertificationPaging.jsp" %>

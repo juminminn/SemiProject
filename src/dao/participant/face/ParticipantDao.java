@@ -154,6 +154,48 @@ public interface ParticipantDao {
 	 * 
 	 */
 	public int certificationDelete(Connection conn, Certification certification);
+
+	/***
+	 * 챌린지 참가 테이블에 좋아요 여부 조회
+	 * 
+	 * @param connection - DB연결 객체
+	 * @param chNo - 챌린지 번호
+	 * @param uNo - 유저 번호
+	 * @return 좋아요 여부 (true 좋아요 누른 상태, false 좋아요 누르지 않은 상태)  
+	 */
+	
+	public boolean selectByPaLike(Connection conn, int chNo, int uNo);
+	
+	
+	/***
+	 * 신고 여부 테이블 조회
+	 * 
+	 * @param connection - DB연결 객체
+	 * @param chNo - 챌린지 번호
+	 * @param uNo - 유저 번호
+	 * @return 신고 여부(true 신고한 상태, false 신고하지않은 상태)
+	 */
+	
+	public boolean selectByComplaint(Connection conn, int chNo, int uNo);
+	
+	
+	/***
+	 * 좋아요 여부 바꾸기
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param participation
+	 * @return - 1이상이면 성공 0이하이면 실패
+	 */
+	public int updatePaLike(Connection conn, Participation participation);
+	
+	/***
+	 * 챌린지 좋아요 수 증감
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param participation - chNo와 챌린지 좋아요
+	 * @return - 1이상이면 성공 0 이하이면 실패
+	 */
+	public int increaseChLike(Connection conn, Participation participation);
 	
 	
 	

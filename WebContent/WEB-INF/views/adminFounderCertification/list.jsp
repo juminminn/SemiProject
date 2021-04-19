@@ -6,8 +6,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
-<%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
+
 
 <% 
 List<Member> memberlist = new ArrayList<>(); 
@@ -22,6 +23,7 @@ certificationList = (List)map.get("certificationList");
 <script type="text/javascript">
 $(document).ready(function() {
 	//리스트
+	$('#challenge').css({"background":"#EC9A29"})
 	$("#btnList").click(function(){
 		$(location).attr("href","/user/challenge/view?chNo=<%=(Integer)session.getAttribute("chNo")%>");
 		

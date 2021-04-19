@@ -9,8 +9,10 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +37,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	
 	private ParticipantDao participantDao = new ParticipantDaoImpl();
 	private FileRemove fileRemove = new FileRemove();
+	//저장할 객체
 	@Override
 	public Participation getParticipation(HttpServletRequest req) {
 		int paNo = participantDao.selectPaNo(JDBCTemplate.getConnection());
@@ -67,14 +70,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		return payment;
 	}
+	//추출해낼 paNo
 	@Override
 	public int getParticipationno(HttpServletRequest req) {
-		int chNo = Integer.parseInt(req.getParameter("chNo"));
+		int chNo = (Integer)req.getSession().getAttribute("chNo");
 		int uNo = (Integer)req.getSession().getAttribute("u_no");
 		int paNo = participantDao.selectByPaNo(JDBCTemplate.getConnection(), chNo, uNo);
 		return paNo;
 	}
 	
+	//챌린지 타이틀 반환
 	@Override
 	public String getTitle(HttpServletRequest req) {
 		//챌린지 번호
@@ -83,7 +88,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		return title;
 	}
-	
+	//챌린지 타이틀 반환
 	@Override
 	public String getTitle(int chNo) {
 		String title = participantDao.selectByTitle(JDBCTemplate.getConnection(), chNo);
@@ -189,13 +194,54 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public List<Member> getParticipantList(Paging paging, int chNo) {
 		return  participantDao.selectAllPartification(JDBCTemplate.getConnection(), paging, chNo);
 	}
-	
+	@Override
+	public Participation getLike(HttpServletRequest req) {
+		Boolean param = Boolean.parseBoolean(req.getParameter("paLike"));
+		//true일때 좋아요 활성화 -> 비활성화
+		Participation participation = new Participation();
+		if(param) {
+			participation.setPaLike("N");
+			//false일때 좋아요 비활성화 -> 활성화
+		}else {
+			participation.setPaLike("Y");
+		}
+		//좋아요 수를 증감할 챌린지 번호 입력
+		if(req.getSession().getAttribute("chNo") !=null) {
+			int chNo=(Integer)req.getSession().getAttribute("chNo");
+			participation.setChNo(chNo);
+		}
+		
+		return participation;
+	}
 	@Override
 	public void attendWrite(Participation participation) {
 		Connection conn = JDBCTemplate.getConnection();
 		if( participantDao.attendInsert(conn, participation) > 0 ) {
 			JDBCTemplate.commit(conn);
 		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+	}
+	//증감 챌린지
+	@Override
+	public void increaseLike(Participation participation) {
+		Connection conn = JDBCTemplate.getConnection();
+		if(participantDao.increaseChLike(conn, participation)>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+	}
+	//좋아요 여부
+	@Override
+	public void updatePaLike(Participation participation) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		if(participantDao.updatePaLike(conn, participation)>0) {
+			JDBCTemplate.commit(conn);
+		}else {
 			JDBCTemplate.rollback(conn);
 		}
 		
@@ -209,6 +255,24 @@ public class ParticipantServiceImpl implements ParticipantService {
 		} else {
 			JDBCTemplate.rollback(conn);
 		}
+	}
+	@Override
+	public Map<String, Boolean> getWhethers(HttpServletRequest req) {
+		//신고 여부와 좋아요 여부
+		Map<String, Boolean> result = new HashMap<>();
+		int chNo = (Integer)req.getSession().getAttribute("chNo");
+		int uNo = (Integer)req.getSession().getAttribute("u_no");
+		
+		
+		//해당 챌린지의 좋아요 여부를 DB에 조회해서 가져온다(단순 조회)
+		boolean paLike =  participantDao.selectByPaLike(JDBCTemplate.getConnection(), chNo, uNo);
+		
+		//해당 챌린지의 신고여부를 DB에 조회해서 가져온다(신고 테이블에 uNo와 chNo의 값이 존재하면 신고를 한 것)
+		boolean paComplaint = participantDao.selectByComplaint(JDBCTemplate.getConnection(), chNo, uNo);
+		result.put("paLike", paLike);
+		result.put("paComplaint", paComplaint);
+		
+		return result;
 	}
 	
 	@Override

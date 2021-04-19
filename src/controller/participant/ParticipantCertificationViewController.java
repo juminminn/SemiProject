@@ -1,6 +1,7 @@
 package controller.participant;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,11 +39,10 @@ public class ParticipantCertificationViewController extends HttpServlet {
 		String chWay = participantService.getChway(chNo); //chNo을 통한 인증 방법 반환
 		
 		
-		
-		
 		req.setAttribute("certification", certification);
 		req.setAttribute("title", title);
 		req.setAttribute("chWay", chWay);
+		
 		
 		req.getRequestDispatcher("/WEB-INF/views/participantCertification/view.jsp")
 			.forward(req, resp);

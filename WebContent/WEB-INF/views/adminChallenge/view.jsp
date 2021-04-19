@@ -66,7 +66,7 @@ talbe, th, td{
 		<tr><td>제목</td><td><%=challenge.getChTitle() %></td></tr>
 		<tr><td>카테고리</td><td><%=result.get("category") %></td></tr>
 		<tr><td>내용</td><td><%=challenge.getChContent() %></td></tr>
-		<tr><td rowspan="5"><i class="far fa-id-card fa-10x"></i><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
+		<tr><td rowspan="5"><a href="/founder/certification/list"><i class="far fa-id-card fa-10x"></i></a><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
 		<tr><td>개설자</td><td><%=result.get("name") %></td></tr>
 		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td></tr>
 		<tr><td >시작날짜</td><td><%=challenge.getChStartDate() %></td></tr>

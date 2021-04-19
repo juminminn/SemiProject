@@ -30,6 +30,12 @@ public class FounderCertificationList extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		//로그인이 되어있지 않으면 리다이렉트
+		if(req.getSession().getAttribute("login")==null) {
+			resp.sendRedirect("/");
+			return;
+		}
+		
 		Paging paging = null;
 		paging = founderService.getPaging(req);
 		//chNo 가져오기
@@ -47,11 +53,11 @@ public class FounderCertificationList extends HttpServlet {
 		
 		if(session.getAttribute("u_grade")!=null) {
 			if("M".equals(String.valueOf(session.getAttribute("u_grade")))) {
-				req.getRequestDispatcher("/WEB-INF/views/adminParticipant/list.jsp")
-				.forward(req, resp);
+				req.getRequestDispatcher("/WEB-INF/views/adminFounderCertification/list.jsp")
+					.forward(req, resp);
 			}else {
 				req.getRequestDispatcher("/WEB-INF/views/userFounderCertification/list.jsp")
-				.forward(req, resp);
+					.forward(req, resp);
 			}
 			return;
 		}

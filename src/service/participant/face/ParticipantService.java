@@ -1,6 +1,7 @@
 package service.participant.face;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -146,6 +147,40 @@ public interface ParticipantService {
 	 */
 	public List<Member> getParticipantList(Paging paging, int chNo);
 	
+	
+	/***
+	 * 좋아요 여부와 신고 여부를 가져온다
+	 * @param req - chNo와 uNo을 가지고 있다
+	 * @return 좋아요 여부와 신고 여부 확인
+	 */
+
+	public Map<String, Boolean> getWhethers(HttpServletRequest req);
+	/***
+	 * 좋아요 상태 가져오기
+	 * 
+	 * @param req - 좋아요 상태를 추출한다
+	 * @return 좋아요 상태를 반환
+	 */
+
+	public Participation getLike(HttpServletRequest req);
+	
+	
+	
+	/***
+	 * 현상태로 좋아요를 증가 혹은 감소 시킨다
+	 * 
+	 * @param participation - 좋아요 정보
+	 */
+	
+	public void increaseLike(Participation participation);
+	
+	/***
+	 * 좋아요 상태를 바꾼다
+	 * 
+	 * @param participation - 좋아요 정보
+	 */
+	public void updatePaLike(Participation participation);
+
 
 	
 

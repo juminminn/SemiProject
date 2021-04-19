@@ -1,5 +1,6 @@
 package service.founder.impl;
 
+import java.sql.Connection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import common.JDBCTemplate;
 import dao.founder.face.FounderDao;
 import dao.founder.impl.FounderDaoImpl;
+import dto.Certification;
 import dto.Challenge;
 import service.founder.face.FounderService;
 import util.Paging;
@@ -50,8 +52,49 @@ public class FounderServiceImpl implements FounderService {
 		return chNo;
 	}
 	@Override
+	public Map<String, Integer> getuId(int chNo) {
+		
+		return founderDao.selectByUno(JDBCTemplate.getConnection(), chNo);
+	}
+	
+	@Override
 	public Map<String, Object> getMap(Paging paging, int chNo) {
 		
 		return founderDao.selectAll(JDBCTemplate.getConnection(), paging, chNo);
 	}
+	@Override
+	public Certification getCertificationno(HttpServletRequest req) {
+		Certification certification = null;
+		
+		//객체가 있으면 코드 삽입
+		if(req.getParameter("ceNo")!=null && !"".equals(req.getParameter("ceNo"))) {
+			certification = new Certification();
+			certification.setCeNo(Integer.parseInt(req.getParameter("ceNo")));
+		}
+		return certification;
+	}
+	
+	@Override
+	public Certification certificationView(Certification certification) {
+		
+		return founderDao.selectCertification(JDBCTemplate.getConnection(), certification);
+	}
+	
+	@Override
+	public void whatherUpdate(HttpServletRequest req) {
+		int ceNo = Integer.parseInt(req.getParameter("ceNo"));
+		String whather = req.getParameter("whather");
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Certification certification = new Certification();
+		certification.setCeNo(ceNo);
+		certification.setCeIsSuccess(whather);
+		
+		if(founderDao.whatherUpdate(conn, certification)>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+	}
+	
 }

@@ -31,7 +31,6 @@ $( document ).ready( function() {
 	$('#challenge').css({"background":"#EC9A29"})
 	
 })
-
 </script>
 
 <div class="container">

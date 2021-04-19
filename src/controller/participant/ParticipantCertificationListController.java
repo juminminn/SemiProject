@@ -2,6 +2,7 @@ package controller.participant;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,11 +48,13 @@ public class ParticipantCertificationListController extends HttpServlet {
 		req.setAttribute("title", title);
 		req.setAttribute("chNo", chNo);
 		
+		//좋아요 등록 여부와 신고 등록 여부를 가져온다
+		Map<String, Boolean> whethers = participantService.getWhethers(req); 
 		
 		//조회결과 MODEL값 전달
 		req.setAttribute("certificationList", certificationList);
-
-
+		req.setAttribute("whethers", whethers);
+		
 		req.getRequestDispatcher("/WEB-INF/views/participantCertification/list.jsp")
 		.forward(req, resp);
 		

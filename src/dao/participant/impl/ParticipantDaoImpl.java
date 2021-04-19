@@ -566,4 +566,125 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		return res;
 		
 	}
+	@Override
+	public boolean selectByComplaint(Connection conn, int chNo, int uNo) {
+		//신고 여부 쿼리
+		String sql="";
+		sql += "SELECT count(*) AS cnt";
+		sql += " FROM complaint";
+		sql += " WHERE ch_no=? AND u_no=?";
+		boolean paComplaint = false;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, chNo);
+			ps.setInt(2, uNo);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				//좋아요 여부
+				int cnt = rs.getInt(1);
+				if(cnt >0) {
+					paComplaint = true;
+				}else {
+					paComplaint= false;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		//결과값 반환
+		return paComplaint;
+	}
+	
+	@Override
+	public boolean selectByPaLike(Connection conn, int chNo, int uNo) {
+		//좋아요 여부 쿼리
+		String sql="";
+		sql += "SELECT pa_like";
+		sql += " FROM participation";
+		sql += " WHERE ch_no=? AND u_no=?";
+		
+		boolean paLike = false;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, chNo);
+			ps.setInt(2, uNo);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				//좋아요 여부
+				String temp = rs.getString("pa_like");
+				if("Y".equals(temp)) {
+					paLike = true;
+				}else {
+					paLike= false;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//결과값 반환
+		return paLike;
+	}
+	@Override
+	public int updatePaLike(Connection conn, Participation participation) {
+		//좋아요 여부
+		String sql="";
+		sql+="UPDATE participation set pa_like=?";
+		sql+=" WHERE pa_no=?";
+		
+		int res = -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, participation.getPaLike());
+			ps.setInt(2, participation.getPaNo());
+			res = ps.executeUpdate();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	//증감 여부
+	@Override
+	public int increaseChLike(Connection conn, Participation participation) {
+		//좋아요 여부
+		String sql="";
+		sql+="UPDATE challenge";
+		if("Y".equals(participation.getPaLike())) {
+			sql+=" set ch_likes = ch_likes+1";
+		}else if("N".equals(participation.getPaLike())){
+			sql+=" set ch_likes = ch_likes-1";
+		}
+		sql+=" WHERE ch_no =?";
+		
+		int res = -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, participation.getChNo());
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return res;
+	}
+	
 }
