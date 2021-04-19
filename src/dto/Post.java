@@ -65,6 +65,5 @@ public class Post {
 	public void setP_views(int p_views) {
 		this.p_views = p_views;
 	}
+}	
 	
-	
-}
