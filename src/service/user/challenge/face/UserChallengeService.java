@@ -214,6 +214,13 @@ public interface UserChallengeService {
 	 * @param - req - 요청정보 객체(챌린지 내용+ 첨부파일)
 	 */
 	public void delete(HttpServletRequest req);
+	
+	/**
+	 * 챌린지 상태를 가져온다
+	 * @param challenge - 조회할 챌린지 번호
+	 * @return 챌린지 상태 가져오기
+	 */
+	public String getChState(Challenge challenge);
 }
 
 

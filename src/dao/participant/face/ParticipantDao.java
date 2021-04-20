@@ -197,6 +197,15 @@ public interface ParticipantDao {
 	 * @return - 1이상이면 성공 0 이하이면 실패
 	 */
 	public int increaseChLike(Connection conn, Participation participation);
+	
+	/***
+	 * 마이페이지 좋아요 수 증감
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param participation - chNo와 좋아요
+	 * @return 1이상이면 성공 0이하이면 실패
+	 */
+	public int increaseMypageLike(Connection conn, Participation participation);
 	/***
 	 * 다음 신고 번호 받아오기
 	 * 
@@ -232,6 +241,7 @@ public interface ParticipantDao {
 	 */
 	
 	public int reviewInsert(Connection conn, Participation participation);
+
 	
 	
 	

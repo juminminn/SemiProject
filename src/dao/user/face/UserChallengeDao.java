@@ -197,4 +197,14 @@ public interface UserChallengeDao {
 	 */
 	public int delete(Connection conn, Challenge challenge);
 	
+	/**
+	 * 챌린지 상태 검색
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param challenge - chNo
+	 * @return 챌린지 상태
+	 */
+	
+	public String selectChState(Connection conn, Challenge challenge);
+	
 }

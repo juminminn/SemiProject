@@ -176,6 +176,13 @@ public interface ParticipantService {
 	public void increaseLike(Participation participation);
 	
 	/***
+	 * 마이페이지의 현상태로 좋아요를 증가 혹은 감소시킨다
+	 * 
+	 * @param participation - 좋아요 정보
+	 */
+	public void increaseLikeMypage(Participation participation);
+	
+	/***
 	 * 좋아요 상태를 바꾼다
 	 * 
 	 * @param participation - 좋아요 정보
@@ -220,6 +227,12 @@ public interface ParticipantService {
 	 * @param participation - 리뷰 정보와 paNo의 정보를 가지고 있음 
 	 */
 	public void insertReview(Participation participation);
+
+
+	
+
+
+	
 
 
 	

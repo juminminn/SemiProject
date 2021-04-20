@@ -711,4 +711,9 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 			JDBCTemplate.rollback(JDBCTemplate.getConnection());
 		}
 	}
+	@Override
+	public String getChState(Challenge challenge) {
+		
+		return userChallengeDao.selectChState(JDBCTemplate.getConnection(), challenge);
+	}
 }

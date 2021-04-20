@@ -375,7 +375,8 @@ public class UserChallengeDaoImpl implements UserChallengeDao {
 		sql	+= " ch_likes,";
 		sql	+= " ch_origin_name,";
 		sql	+= " ch_stored_name, ";
-		sql += " ch_create_date";
+		sql += " ch_create_date,";
+		sql += " ch_state";
 		sql	+= " from challenge";
 		sql += " WHERE ch_no = ?";
 
@@ -410,6 +411,7 @@ public class UserChallengeDaoImpl implements UserChallengeDao {
 				result.setChOriginName(rs.getString("ch_origin_name"));
 				result.setChStoredName(rs.getString("ch_stored_name"));
 				result.setChCreateDate(rs.getDate("ch_create_date"));
+				result.setChState(rs.getString("ch_state"));
 			}
 
 		} catch (SQLException e) {
@@ -883,5 +885,29 @@ public class UserChallengeDaoImpl implements UserChallengeDao {
 			JDBCTemplate.close(ps);
 		}
 		return res;
+	}
+	@Override
+	public String selectChState(Connection conn, Challenge challenge) {
+		String sql="";
+		sql += "SELECT ch_state";
+		sql += " from challenge";
+		sql += " where ch_no=?";
+		
+		String chState = null;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, challenge.getChNo());
+			rs=ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			if(rs.next()) {
+				chState = rs.getString("ch_state");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(ps);
+		}
+		return chState;
 	}
 }

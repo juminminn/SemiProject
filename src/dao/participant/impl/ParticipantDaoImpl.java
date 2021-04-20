@@ -687,6 +687,33 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		}
 		return res;
 	}
+	@Override
+	public int increaseMypageLike(Connection conn, Participation participation) {
+		//좋아요 여부
+		String sql="";
+		sql+="UPDATE Mypage";
+		if("Y".equals(participation.getPaLike())) {
+			sql+=" set m_likes = m_likes+1";
+		}else if("N".equals(participation.getPaLike())){
+			sql+=" set m_likes = m_likes-1";
+		}
+		sql+=" WHERE m_no =?";
+
+		int res = -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, participation.getuNo());
+			res = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return res;
+	}
+	
+	
 	//다음 신고 번호 가져오기
 	@Override
 	public int selectComNo(Connection conn) {

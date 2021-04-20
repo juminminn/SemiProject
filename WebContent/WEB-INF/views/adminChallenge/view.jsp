@@ -71,7 +71,7 @@ talbe, th, td{
 		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td></tr>
 		<tr><td >시작날짜</td><td><%=challenge.getChStartDate() %></td></tr>
 		<tr><td >마감날짜</td><td><%=challenge.getChEndDate() %></td></tr>
-		<tr><td rowspan="5"><i class="fas fa-money-bill-wave fa-10x"></i><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>
+		<tr><td rowspan="5"><a href="/founder/reward/distribution"><i class="fas fa-money-bill-wave fa-10x"></i></a><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>
 		<tr><td >인증 가능 시간</td><td><%=challenge.getChStartTime() %> - <%=challenge.getChEndTime() %></td></tr>
 		<tr><td >인증 방법</td><td><%=challenge.getChWay() %></td></tr>
 		<tr><td >좋아요</td><td><%=challenge.getChLikes() %></td></tr>

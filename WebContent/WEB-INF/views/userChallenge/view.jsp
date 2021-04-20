@@ -7,7 +7,7 @@
 <% Map<String, String> result= (Map<String, String>)request.getAttribute("result"); %>
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
-
+<%String chState = (String)request.getSession().getAttribute("chState"); %>
 <script type="text/javascript">
 $(document).ready(function() {
 	//수정버튼 동작
@@ -50,14 +50,31 @@ talbe, th, td{
 			<img src="/upload/<%=challenge.getChStoredName() %>" width="400" height="250"/>
 		<%} %>
 		</td><td rowspan="7"> 
-		<%if(request.getSession().getAttribute("participation")!=null){ %>
-			<%if((Boolean)request.getSession().getAttribute("participation")){ %>
-				<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 참가중입니다</td>
+		<%--챌린지 진행 전 --%>
+		<%if(chState.equals("W")){ %>
+			<%if(request.getSession().getAttribute("participation")!=null){ %>
+				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
+					<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가 취소</td>
+				<%}else{ %>
+					<a href="/participant/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td>
+				<%} %>
 			<%}else{ %>
 				<a href="/participant/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td>
-			<%} %>
-		<%}else{ %>
-			<a href="/participant/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td>
+			<%} %>	
+		<%--챌린지 진행 중 --%>
+		<%}else if(chState.equals("Y")){ %>
+			<%if(request.getSession().getAttribute("participation")!=null){ %>
+				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
+					<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 참가중입니다.</td>
+				<%}else{ %>
+					<a><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 시작했습니다.</td>
+				<%} %>
+			<%}else{ %>
+				<a><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 시작했습니다.</td>
+			<%} %>	
+		<%--챌린지 종료 --%>
+		<%}else if(chState.equals("N")){ %>
+			<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>해당 챌린지는 종료했습니다.</td>
 		<%} %>
 		</tr>
 		<tr><td>챌린지 번호</td><td><%=challenge.getChNo() %></td></tr>
@@ -67,19 +84,35 @@ talbe, th, td{
 		<tr><td rowspan="5"><a href="/founder/certification/list"><i class="far fa-id-card fa-10x"></i></a><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
 		<tr><td>개설자</td><td><%=result.get("name") %></td></tr>
 		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td><td rowspan="8">
-		<%if(request.getSession().getAttribute("participation")!=null){ %>
-			<%if((Boolean)request.getSession().getAttribute("participation")){ %>
-				<a href="/participant/certification/list?chNo=<%=challenge.getChNo()%>" style="color:#A8201A"><i class="fas fa-file-upload fa-10x"></i></a><br>인증하기</td>
+		<%--챌린지 진행 전 --%>
+		<%if(chState.equals("W")){ %>
+			<%if(request.getSession().getAttribute("participation")!=null){ %>
+				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
+					<a style="color:#A8201A"><i class="fas fa-file-upload fa-10x"></i></a><br>챌린지 시작 전입니다.</td>
+				<%}else{ %>
+					<a><i class="fas fa-file-upload fa-10x"></i></a><br>참여해주세요!!</td>
+				<%} %>
 			<%}else{ %>
-				<a><i class="fas fa-file-upload fa-10x"></i></a><br>참여해주세요!!</td>
+				<a><i class="far fa-thumbs-up fa-10x"></i></a><br>참여해주세요!!</td>
 			<%} %>
-		<%}else{ %>
-			<a><i class="far fa-thumbs-up fa-10x"></i></a><br>참여해주세요!!</td>
+		<%--챌린지 진행 중 --%>
+		<%}else if(chState.equals("Y")){ %>
+			<%if(request.getSession().getAttribute("participation")!=null){ %>
+				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
+					<a href="/participant/certification/list?chNo=<%=challenge.getChNo()%>" style="color:#A8201A"><i class="fas fa-file-upload fa-10x"></i></a><br>인증하기</td>
+				<%}else{ %>
+					<a><i class="fas fa-file-upload fa-10x"></i></a><br>이미 챌린지가 시작됐습니다.</td>
+				<%} %>
+			<%}else{ %>
+				<a><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 챌린지가 시작됐습니다.</td>
+			<%} %>
+		<%}else if(chState.equals("N")){ %>
+			<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>해당 챌린지는 종료했습니다.</td>
 		<%} %>
 		</tr>
 		<tr><td >시작날짜</td><td><%=challenge.getChStartDate() %></td></tr>
 		<tr><td >마감날짜</td><td><%=challenge.getChEndDate() %></td></tr>
-		<tr><td rowspan="5"><i class="fas fa-money-bill-wave fa-10x"></i><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>
+		<tr><td rowspan="5"><a href="/founder/reward/distribution"><i class="fas fa-money-bill-wave fa-10x"></i></a><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>
 		<tr><td >인증 가능 시간</td><td><%=challenge.getChStartTime() %> - <%=challenge.getChEndTime() %></td></tr>
 		<tr><td >인증 방법</td><td><%=challenge.getChWay() %></td></tr>
 		<tr><td >좋아요</td><td><%=challenge.getChLikes() %></td></tr>

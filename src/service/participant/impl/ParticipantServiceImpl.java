@@ -248,7 +248,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		}
 		
 	}
-	//증감 챌린지
+	//좋아요 증감
 	@Override
 	public void increaseLike(Participation participation) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -259,6 +259,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 		}
 		
 	}
+	@Override
+	public void increaseLikeMypage(Participation participation) {
+		Connection conn = JDBCTemplate.getConnection();
+		if(participantDao.increaseMypageLike(conn, participation)>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+	}
+	
 	//좋아요 여부
 	@Override
 	public void updatePaLike(Participation participation) {
