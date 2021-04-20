@@ -2,7 +2,9 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%List<Board> boardList = (List)request.getAttribute("boardList"); %>
+    <%List<Board> boardList = (List)request.getAttribute("boardList");
+      List<Board> mvList = (List)request.getAttribute("MvList");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +37,26 @@ $(document).ready(function(){
 
 })
 </script>
+
 <div class="container" style="float:center; width:900px">
-<%-- <h3><%=boardList.get(0).getB_name() %></h3> --%>
+
+<h3><%=boardList.get(0).getB_name() %></h3>
+
+<div class="mostView">
+	<p style="font-size:20px;">최근 인기글</p>
+	<div style="float:left; width:50%;" class="left shadow">
+		<%for(int i=0; i<mvList.size(); i++){ %>
+		<p><a href="/board/view?pno=<%=mvList.get(i).getPno() %>"><%=mvList.get(i).getP_Title() %></a></p>
+		<%if(i == 4) break; }%>
+	</div>
+	<div style="float:left; width:50%;" class="right shadow">
+		<%if(mvList.size() > 5){
+			for(int i=5; i < mvList.size(); i++){%>
+		<p><a href="/board/view?pno=<%=mvList.get(i).getPno() %>"><%=mvList.get(i).getP_Title() %></a></p>
+		<%} } %>
+	</div>
+</div>
+
 <table class="table table-striped table-hover table-condensed">
 <tr>
 	<th>No.</th>

@@ -34,7 +34,6 @@ public class PostInsertController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//postService.InsertPost(request);
-		System.out.println("post도착");
 		postService.write(request);
 		response.sendRedirect("/board/3");
 	}

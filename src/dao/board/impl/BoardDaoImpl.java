@@ -62,6 +62,38 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
+	public List<Board> MostViewList(Board board) {
+		String sql ="";
+		sql += "select * from";
+		sql += " (select * from post where b_no=" + board.getBno() + " and p_create_date >= sysdate-2 order by p_views desc)";
+		sql += " where rownum <= 10";
+		
+		List<Board> MvList = new ArrayList<Board>();
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Board b = new Board();
+				b.setPno(rs.getInt("P_no"));
+				b.setBno(board.getBno());
+				b.setP_Create_Date(rs.getDate("P_create_date"));
+				b.setP_Title(rs.getString("p_title"));
+				b.setP_views(rs.getInt("p_views"));
+				
+				MvList.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return MvList;
+	}
+
+	@Override
 	public List<Board> cSearch(Board board, Paging paging, String word) {
 		String sql = "";
 		sql += "select * from (";

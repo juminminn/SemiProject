@@ -30,18 +30,22 @@ public class BoardListController extends HttpServlet {
 		Paging paging = null;
 
 		List<Board> boardList = new ArrayList<Board>();
-
+		List<Board> MvList = new ArrayList<Board>();
+		
 		if(search_type == null) {
 			paging = boardService.getPaging(request, 3);
 			boardList = boardService.Select(paging, 3);
+			MvList = boardService.MostViewList(3);
 			
 		}else if(search_type.equals("title_content")) {
 			paging = boardService.getPaging(request, 3);
 			boardList = boardService.pSearch(paging, 3, keyword);
+			MvList = boardService.MostViewList(3);
 			
 		}else {
 			paging = boardService.getPaging(request, 3);
 			boardList = boardService.cSearch(paging, 3, keyword);
+			MvList = boardService.MostViewList(3);
 			
 		}
 		
@@ -49,6 +53,8 @@ public class BoardListController extends HttpServlet {
 		request.setAttribute("paging", paging);
 		
 		request.setAttribute("boardList", boardList);
+		
+		request.setAttribute("MvList", MvList);
 		
 		request.getRequestDispatcher("/WEB-INF/views/post/Board.jsp")
 			.forward(request, response);

@@ -34,19 +34,10 @@ public class PostServiceImpl implements PostService {
 	public void DeletePost(HttpServletRequest req) {
 		Post post = new Post();
 		post.setP_no(Integer.parseInt(req.getParameter("pno")));
-		postDao.Delete(post);
+		post.setU_no((int)req.getSession().getAttribute("u_no"));
 		
-	}
-
-	@Override
-	public void InsertPost(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		Post post = new Post();
-		post.setP_title(req.getParameter("title"));
-		post.setP_content(req.getParameter("content"));
-		post.setU_id(req.getSession().getAttribute("u_id").toString());
-		post.setB_no(3);
-		postDao.Insert(post);
+		postDao.Delete(post);
+		postDao.MinusMyPost(post);
 		
 	}
 
@@ -80,12 +71,17 @@ public class PostServiceImpl implements PostService {
 	public void DeleteComment(HttpServletRequest req) {
 		Comment c = new Comment();
 		c.setCno(Integer.parseInt(req.getParameter("cno")));
+		c.setUno((int)req.getSession().getAttribute("u_no"));
 		postDao.DeleteComment(c);
+		
+		postDao.MinusMyComment(c);
 	}
 
 	@Override
 	public void InsertComment(Comment comment) {
 		postDao.InsertComment(comment);
+		
+		postDao.PlusMyComment(comment);
 		
 	}
 
@@ -103,6 +99,8 @@ public class PostServiceImpl implements PostService {
 	public void InsertCIC(Comment comment) {
 		postDao.InsertCIC(comment);
 		
+		postDao.PlusMyComment(comment);
+		
 	}
 
 	@Override
@@ -114,6 +112,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void write(HttpServletRequest req) {
 		Post post = new Post();
+		post.setU_no((int)req.getSession().getAttribute("u_no"));
+		
 		//파일 업로드 형태 검사
 		boolean isMultipart = false;
 		isMultipart = ServletFileUpload.isMultipartContent(req);
@@ -210,7 +210,7 @@ public class PostServiceImpl implements PostService {
 		post.setU_id(req.getSession().getAttribute("u_id").toString());
 		post.setB_no(3);
 		postDao.Insert(post);
-		
+		postDao.PlusMyPost(post);
 	}
 	
 }

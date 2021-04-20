@@ -24,6 +24,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public List<Board> MostViewList(int bno) {
+		Board board = new Board();
+		board.setBno(bno);
+		return boardDao.MostViewList(board);
+	}
+
+	@Override
 	public List<Board> cSearch(Paging paging, int bno, String word) {
 		Board board = new Board();
 		board.setBno(bno);
