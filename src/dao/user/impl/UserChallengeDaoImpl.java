@@ -14,6 +14,7 @@ import common.JDBCTemplate;
 import dao.user.face.UserChallengeDao;
 import dto.Challenge;
 import dto.Participation;
+import dto.Payback;
 import util.Paging;
 
 public class UserChallengeDaoImpl implements UserChallengeDao {
@@ -909,5 +910,123 @@ public class UserChallengeDaoImpl implements UserChallengeDao {
 			JDBCTemplate.close(ps);
 		}
 		return chState;
+	}
+	@Override
+	public List<Payback> selectAllPayback(Connection conn, Challenge challenge) {
+		//환급자를 만들기 위해 결제 테이블을 조회
+		String sql="";
+		sql += "SELECT *";
+		sql += " from payment P";
+		sql += " inner join users U";
+		sql += " on P.u_no = U.u_no";
+		sql += " where ch_no=?";
+		
+		List<Payback> result = new ArrayList<>();
+		Payback payback = null;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, challenge.getChNo());
+			rs=ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			while(rs.next()) {
+				payback = new Payback();
+				payback.setChNo(rs.getInt("ch_no")); //챌린지 번호
+				payback.setuNo(rs.getInt("u_no")); //유저 번호
+				payback.setImpUid(rs.getString("imp_uid")); //아임포트 고유 번호
+				payback.setMerchantUid(rs.getString("merchant_uid")); //가맹점 고유번호
+				payback.setPaybAmount(rs.getInt("paym_amount")); // 환불 금액
+				payback.setPaybChecksum(rs.getInt("paym_amount")); //환불 확인 금액
+				payback.setPaybRefundHolder(rs.getString("u_name")); //예금주
+				payback.setPaybReason("챌린지삭제"); //환불 사유
+				payback.setPaybRefundBank(rs.getString("u_bank")); //은행 service에서 은행코드로 변경
+				payback.setPaybTaxFree(0); //면세금액
+				payback.setPaybReFundAccount(rs.getString("u_account"));
+				result.add(payback);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		
+		return result;
+	}
+	@Override
+	public int selectPaybNo(Connection conn) {
+		//환급 번호 반환
+		String sql="";
+		sql += "select payback_seq.nextval";
+		sql += " from dual";
+		
+		int paybNo = 0;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				paybNo=rs.getInt(1);			
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		return paybNo;
+	}
+	@Override
+	public int paybInsert(Connection conn, Payback payback) {
+		//환급자 삽입 쿼리
+		
+		String sql = "";
+		sql += "insert into payback(";
+		sql += " payb_no,";
+		sql += " u_no,";
+		sql += " ch_no,";
+		sql += " payb_amount,";
+		sql += " payb_tax_free,";
+		sql += " payb_checksum,";
+		sql += " payb_reason,";
+		sql += " payb_refund_holder,";
+		sql += " payb_refund_bank,";
+		sql += " payb_refund_account,";
+		sql += " imp_uid,";
+		sql += " merchant_uid)";
+		sql += "  VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+		int res = 0;
+
+		try {
+
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, payback.getPaybNo());
+			ps.setInt(2, payback.getuNo());
+			ps.setInt(3, payback.getChNo());
+			ps.setInt(4, payback.getPaybAmount());
+			ps.setInt(5, payback.getPaybTaxFree());
+			ps.setInt(6, payback.getPaybChecksum());
+			ps.setString(7, payback.getPaybReason());
+			ps.setString(8, payback.getPaybRefundHolder());
+			ps.setString(9, payback.getPaybRefundBank());
+			ps.setString(10, payback.getPaybReFundAccount());
+			ps.setString(11, payback.getImpUid());
+			ps.setString(12, payback.getMerchantUid());
+		
+			res = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+
+		return res;
 	}
 }

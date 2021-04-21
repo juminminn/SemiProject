@@ -36,12 +36,19 @@ $( document ).ready( function() {
 	})//Challenge
 	
 	$( '#complaint' ).click( function() {
-
 		
 		$('#complaint').css({"background":"#EC9A29"})
 		$('#complaint').prevAll().css({"background":"#FFFFFF"})
 		$('#complaint').nextAll().css({"background":"#FFFFFF"})
 	})//Complaint
+	
+	$( '#comment' ).click( function() {
+		
+		$('#comment').css({"background":"#EC9A29"})
+		$('#comment').prevAll().css({"background":"#FFFFFF"})
+		$('#comment').nextAll().css({"background":"#FFFFFF"})
+	})//Complaint
+	
 })
 
 </script>
@@ -54,6 +61,7 @@ $( document ).ready( function() {
 		<li id="notice"><a href="#">공지사항</a></li>
 		<li id="challenge"><a href="/admin/challenge/list">챌린지</a></li>
 		<li id="complaint"><a href="#">신고 </a></li>
+		<li id="comment"><a href="#">댓글 </a></li>
 	</ul>
 	</div>
 </nav>

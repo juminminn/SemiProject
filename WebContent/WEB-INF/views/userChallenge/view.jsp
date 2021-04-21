@@ -54,7 +54,7 @@ talbe, th, td{
 		<%if(chState.equals("W")){ %>
 			<%if(request.getSession().getAttribute("participation")!=null){ %>
 				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
-					<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가 취소</td>
+					<a href="/participant/cancel?chNo=<%=challenge.getChNo()%>" style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가 취소</td>
 				<%}else{ %>
 					<a href="/participant/attend?chNo=<%=challenge.getChNo()%>"><i class="far fa-thumbs-up fa-10x"></i></a><br>참가하기</td>
 				<%} %>

@@ -196,7 +196,7 @@ public interface FounderDao {
 	public Participation selectPaIsSuccess(Connection conn,Integer key);
 	
 	/***
-	 * 환급자를 반환
+	 * 환불자를 반환
 	 * @param conn - DB연결 객체
 	 * @param participation - 챌린지를 성공한 참여자
 	 * @return 환급자를 반환
@@ -204,12 +204,20 @@ public interface FounderDao {
 	public Refunds selectRefunds(Connection conn, Participation participation);
 	
 	/***
-	 * 환급 다음 번호
+	 * 환불 다음 번호
 	 * @param conn - DB연결 객체
-	 * @return - 환급 다음 번호
+	 * @return - 환불 다음 번호
 	 */
 	
 	public int selectByReno(Connection conn);
+	
+	/**
+	 * 환불자 정보에 따른 DB저장
+	 * @param conn - DB연결 객체
+	 * @param refunds - 환불자 정보
+	 * @return - 1이상이면 성공 이하이면 실패
+	 */
+	public int insertRefunds(Connection conn, Refunds refunds);
 	
 	
 	

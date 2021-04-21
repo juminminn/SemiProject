@@ -1,5 +1,6 @@
 package service.user.challenge.face;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import dto.Challenge;
 import dto.Participation;
+import dto.Payback;
 import util.Paging;
 
 public interface UserChallengeService {
@@ -221,6 +223,33 @@ public interface UserChallengeService {
 	 * @return 챌린지 상태 가져오기
 	 */
 	public String getChState(Challenge challenge);
+	
+	
+	/**
+	 * 챌린지 번호와 유저 번호를 통한 환급자들 반환
+	 * @param 챌린지 번호을 통한 환급자들 반환
+	 * @return 환급자들 반환
+	 */
+	public List<Payback> getPaybList(Challenge challenge);
+	/**
+	 * 환급을 위한 토큰 발급 
+	 * @return 환불 토큰
+	 * @throws IOException 
+	 */
+	public String refundsToken() throws IOException;
+	
+	/**
+	 * 참여자들 최종 환급
+	 * @param paybList - 환급자 리스트
+	 * @param token - 환급 토큰
+	 * @throws IOException
+	 */
+	public void payback(List<Payback> paybList, String token) throws IOException;
+	/**
+	 * 환급 테이블에 저장
+	 * @param paybList - 환급 정보
+	 */
+	public void paybackInsert(List<Payback> paybList);
 }
 
 

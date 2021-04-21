@@ -431,13 +431,17 @@ public class FounderDaoImpl implements FounderDao {
 		sql+=" group by rollup(p.pa_no)";
 		sql+=" order by p.pa_no desc";
 		
-		Map<Integer, Integer> result = null;
+		Map<Integer, Integer> result = new HashMap<>();
+		//모든 값을 0으로 초기화
+		for(int i=0; i<paNoList.size(); i++) {
+			result.put(paNoList.get(i), 0);
+		}
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, chNo);
 			rs = ps.executeQuery();
-			result= new HashMap<>();
+			
 			
 			while(rs.next()) {
 				for(int i=0; i<paNoList.size(); i++) {
@@ -653,7 +657,6 @@ public class FounderDaoImpl implements FounderDao {
 			if(rs.next()) {
 				refunds = new Refunds();
 				refunds.setPaNo(participation.getPaNo()); //paNo
-				refunds.setPaybReason("챌린지 성공");  // 환불 사유
 				refunds.setPaybTaxFree(0); //면세금액
 				refunds.setPaybRefundBank(rs.getString("u_bank")); //은행 이름(service에서 kg이니시스  코드로 변환)
 				refunds.setPaybRefundAccount(rs.getString("u_account"));//계좌
@@ -699,6 +702,54 @@ public class FounderDaoImpl implements FounderDao {
 		
 		
 		return reNo;
+	}
+	
+	@Override
+	public int insertRefunds(Connection conn, Refunds refunds) {
+		String sql="";
+		sql += "INSERT INTO refunds(";
+		sql += "re_no,";
+		sql	+= "pa_no,";
+		sql	+= "re_point,";
+		sql	+= "re_amount,";
+		sql	+= "payb_tax_free,";
+		sql	+= "payb_checksum,";
+		sql	+= "payb_reason,";
+		sql	+= "payb_refund_holder,";
+		sql	+= "payb_refund_bank,";
+		sql	+= "payb_refund_account,";
+		sql	+= "imp_uid,";
+		sql	+= "merchant_uid,";
+		sql += "refund_availability,";
+		sql += "refundable_amount)";
+		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		int res= -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, refunds.getReNo());
+			ps.setInt(2, refunds.getPaNo());
+			ps.setInt(3, refunds.getRePoint());
+			ps.setInt(4, refunds.getReAmount());
+			ps.setInt(5, refunds.getPaybTaxFree());
+			ps.setInt(6, refunds.getPaybChecksum());
+			ps.setString(7, refunds.getPaybReason());
+			ps.setString(8, refunds.getPaybRefundHolder());
+			ps.setString(9, refunds.getPaybRefundBank());
+			ps.setString(10, refunds.getPaybRefundAccount());
+			ps.setString(11, refunds.getImpUid());
+			ps.setString(12, refunds.getMerchantUid());
+			ps.setString(13, refunds.getRefundAvailability());
+			ps.setInt(14, refunds.getRefundableAmount());
+			res = ps.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 	
 }

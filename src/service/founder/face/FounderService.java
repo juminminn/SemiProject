@@ -168,7 +168,7 @@ public interface FounderService {
 	 * @return 환급자들을 반환
 	 */
 
-	public Map<Integer, Refunds> refunder(Map<Integer, Participation> paMap);
+	public Map<Integer, Refunds> refunder(Map<Integer, Participation> paMap, boolean isSuccess);
 
 	/**
 	 * 최종 환급
@@ -177,5 +177,22 @@ public interface FounderService {
 	 * @throws IOException 예외처리
 	 */
 	public void refunds(Map<Integer, Refunds> reMap, String token) throws IOException;
+	
+	/**
+	 * 최종 환급에 따른 DB에 저장
+	 * @param reMap - 환급자 정보
+	 */
+
+	public void refundsInsert(Map<Integer, Refunds> reMap);
+	
+	/**
+	 * 참여자 챌린지 실패자 반환
+	 * 
+	 * @param paRate 인증 성공률
+	 * @return 실패자 반환
+	 */
+
+	public Map<Integer, Participation> refundsPaFail(Map<Integer, Double> paRate);
+
 
 }

@@ -125,7 +125,6 @@ public class FounderServiceImpl implements FounderService {
 		if(req.getSession().getAttribute("chNo")!=null) {
 				chNo = (Integer)req.getSession().getAttribute("chNo");
 		}
-		
 		if(founderDao.selectCeIsSuccess(JDBCTemplate.getConnection(), chNo)>0) {
 			check=false; //인증이 처리되지 않음
 		}else {
@@ -320,8 +319,6 @@ public class FounderServiceImpl implements FounderService {
 	@Override
 	public String refundsToken() throws IOException {
 		HttpURLConnection conn=null;
-		
-		
 		URL url = new URL("https://api.iamport.kr/users/getToken"); //엑세스할 토큰을 받아올 주소 입력
 		conn = (HttpURLConnection)url.openConnection();
 		
@@ -366,20 +363,34 @@ public class FounderServiceImpl implements FounderService {
 	@Override
 	public Map<Integer, Participation> refundsPaSuccess(Map<Integer, Double> paRate) {
 		Connection conn = JDBCTemplate.getConnection();
-		Map<Integer, Participation> paMap = new HashMap<>();
+		Map<Integer, Participation> paSuMap = new HashMap<>();
 		//성공자 불러오기 
 		for(Integer key: paRate.keySet()) {
 			if(paRate.get(key)>=50) { //참여자 성공 key = paNo value participation 유저번호와 챌린지 번호를 저장한다 
-				
 				Participation participation=founderDao.selectPaIsSuccess(conn,key);
-				paMap.put(key, participation); //성공자 객체 저장
+				paSuMap.put(key, participation); //성공자 객체 저장
 			}
 		}
-		
-		return paMap;
+		//성공자 반환
+		return paSuMap;
 	}
 	@Override
-	public Map<Integer, Refunds> refunder(Map<Integer, Participation> paMap) {
+	public Map<Integer, Participation> refundsPaFail(Map<Integer, Double> paRate) {
+		Connection conn = JDBCTemplate.getConnection();
+		Map<Integer, Participation> paFailMap = new HashMap<>();
+		//실패자 불러오기 
+		for(Integer key: paRate.keySet()) {
+			if(paRate.get(key)<50) { //실패자 성공 key = paNo value participation 유저번호와 챌린지 번호를 저장한다 
+				Participation participation=founderDao.selectPaIsSuccess(conn,key);
+				paFailMap.put(key, participation); //실패자 객체 저장
+			}
+		}
+		//실패자 반환
+		return paFailMap;
+	}
+	
+	@Override
+	public Map<Integer, Refunds> refunder(Map<Integer, Participation> paMap, boolean isSuccess) {
 		Connection conn = JDBCTemplate.getConnection();
 		Map<Integer, Refunds> reMap = new HashMap<>();
 		Refunds refunds = null;
@@ -395,6 +406,18 @@ public class FounderServiceImpl implements FounderService {
 			//환급자 다음 번호 가져오기
 			int reNo = founderDao.selectByReno(conn);
 			refunds.setReNo(reNo);
+			
+			if(isSuccess) {//성공자들
+				refunds.setPaybReason("챌린지 성공");  // 환불 사유
+				refunds.setRefundableAmount(0); //환불 가능액
+				refunds.setRefundAvailability("N"); //환불 불가
+			}else { //실패자들
+				refunds.setReAmount(0); // 금액을 안 돌려줌
+				refunds.setPaybReason("챌린지 실패");  // 환불 사유
+				refunds.setRefundableAmount(refunds.getReAmount()); //환불 가능액
+				refunds.setRefundAvailability("Y"); //환불 가능
+			}
+			
 			//환급자 저장
 			reMap.put(key, refunds); //환급자 객체 저장
 			
@@ -403,8 +426,7 @@ public class FounderServiceImpl implements FounderService {
 	}
 	@Override
 	public void refunds(Map<Integer, Refunds> reMap, String token) throws IOException {
-		
-		
+		//최종 환불
 		int responseCode; //응답 코드
 		for(Integer key: reMap.keySet()) {
 			URL url = new URL("https://api.iamport.kr/payments/cancel"); //환불 주소
@@ -413,7 +435,7 @@ public class FounderServiceImpl implements FounderService {
 			
 			//응답 객체
 			JSONObject post1Object = jobj.getJSONObject("response");
-			System.out.println(post1Object.toString()); 
+			
 			String access_token = post1Object.getString("access_token");
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json"); //header 설정
@@ -445,6 +467,15 @@ public class FounderServiceImpl implements FounderService {
 			obj.put("refund_bank",reMap.get(key).getPaybRefundBank());
 			obj.put("refund_account",reMap.get(key).getPaybRefundAccount());
 			
+//			System.out.println("impUid:"+reMap.get(key).getImpUid());
+//			System.out.println("amount:"+reMap.get(key).getReAmount());
+//			System.out.println("checksum:"+reMap.get(key).getPaybChecksum());
+//			System.out.println("reason:"+reMap.get(key).getPaybReason());
+//			System.out.println("refund_holder:"+reMap.get(key).getPaybRefundHolder());
+//			System.out.println("refund_bank:"+reMap.get(key).getPaybRefundBank());
+//			System.out.println("refund_account:"+reMap.get(key).getPaybRefundAccount());
+			
+			
 			bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			bw.write(obj.toString());
 			bw.flush();
@@ -467,13 +498,32 @@ public class FounderServiceImpl implements FounderService {
 				}
 				br.close();
 				System.out.println(""+sb.toString());
+				JSONObject messageObj = new JSONObject(sb.toString());
+				//메시지가 있을때 출력
+				if(!messageObj.isNull("message")) { //메시지가 null이 아닐때
+					String message = messageObj.getString("message");
+					System.out.println("message:"+message);
+				}
 				
 			}else {
 				System.out.println(conn.getResponseMessage());
 			}
 		
 		}
+	}
+	@Override
+	public void refundsInsert(Map<Integer, Refunds> reMap) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		for(Integer key: reMap.keySet()) {
+			if(founderDao.insertRefunds(conn, reMap.get(key))>0) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollback(conn);
+			}
+		}
 		
 	}
+	
 }
 

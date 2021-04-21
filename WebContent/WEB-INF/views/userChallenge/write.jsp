@@ -28,7 +28,6 @@ function submitContents(elClickedObj){
 
 <script type="text/javascript">
 $(document).ready(function() {
-	
 	//작성버튼 동작
 	$("#btnWrite").click(function() {
 		
@@ -46,6 +45,20 @@ $(document).ready(function() {
 	$('#file').change(function(){
 	    setImageFromFile(this, '#preview');
 	});
+	
+	$("#ch_title").blur(function(){ //포커스를 잃었을떄
+		var regex =/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+		if(!regex.test($(this).val())){
+			$("#titleM").css({"color":"#d9534f"})
+			$("#titleM").html("한글, 영어, 숫자만 가능합니다.")
+		}else{
+			$("#titleM").css({"color":"#5cb85c"})
+			$("#titleM").html("멋진 제목이네요!")
+		}
+		
+	})
+	
+	
 	
 });
 
@@ -66,6 +79,10 @@ function setImageFromFile(input, expression) {
 #ch_way {
 	width: 88%;
 }
+span{
+	float:left;
+
+}
 </style>
 
 <div class="container">
@@ -74,31 +91,32 @@ function setImageFromFile(input, expression) {
 <hr>
 
 <div>
-<form action="/user/challenge/write" method="post" enctype="multipart/form-data">
+<%--/user/challenge/write --%>
+<form action="#" method="post" enctype="multipart/form-data">
 <table class="table table-responsive text-center">
 		<tr><td colspan="2"><label for="file"><img id="preview" src="/resources/img/challenge.png" width="400" height="300"/></label><input type="file" accept="image/*" id="file" name="file" style="width:100%; display: none;"/></td></tr>
-		<tr><td>제목</td><td><input type="text" name="ch_title" style="width:100%"/></td></tr>
+		<tr><td>제목</td><td><input type="text" id="ch_title" name="ch_title" style="width:100%" class="form-control"/><span id="titleM"></span></td></tr>
 		<tr><td>카테고리</td><td>
-		<select style="width:100%" id="ch_category" name="ch_category">
+		<select style="width:100%" id="ch_category" name="ch_category" class="form-control">
 			<%for(int i=0; i<category.size(); i++){ %>
 			<option value="<%=category.get(i)%>"><%=category.get(i)%></option>
 			<%} %>
 		</select>
 		</td></tr>
-		<tr><td>내용</td><td><input type="text" name="ch_content" style="width:100%"/></td></tr>
-		<tr><td>참가비</td><td><input type="number" name="ch_money" step="1000" style="width:100%" /></td></tr>
-		<tr><td>개설자</td><td class="text-left"><%=name %></td></tr>
-		<tr><td>시작날짜</td><td><input type="date" name="ch_start_date" style="width:100%"/></td></tr>
-		<tr><td>마감날짜</td><td><input type="date" name="ch_end_date" style="width:100%"/></td></tr>
+		<tr><td>내용</td><td><input type="text" class="form-control" id="ch_content" name="ch_content" style="width:100%"/></td></tr>
+		<tr><td>참가비</td><td><input type="number" class="form-control" name="ch_money" step="1000" min="0" style="width:100%"/></td></tr>
+		<tr><td>개설자</td><td class="text-left" ><input type="text" class="form-control" id="ch_user_name" name="ch_user_name" style="width:100%" value="<%=name%>" readonly/></td></tr>
+		<tr><td>시작날짜</td><td><input type="date" class="form-control" id="ch_start_date" name="ch_start_date" style="width:100%"/></td></tr>
+		<tr><td>마감날짜</td><td><input type="date" class="form-control" id="ch_start_date" name="ch_end_date" style="width:100%"/></td></tr>
 		<tr><td >인증빈도</td><td>
-		<select style="width:100%" id="ch_cycle" name="ch_cycle">
+		<select style="width:100%" id="ch_cycle" name="ch_cycle" class="form-control">
 			<%for(int i=0; i<cycle.size(); i++){ %>
 			<option value="<%=cycle.get(i)%>"><%=cycle.get(i)%></option>
 			<%} %>
 		</select>
 		</td></tr>
-		<tr><td >인증 가능 시작 시간</td><td><input type="time" name="ch_start_time" style="width:100%"/></td></tr>
-		<tr><td >인증 가능 끝나는 시간</td><td><input type="time" name="ch_end_time" style="width:100%"/></td></tr>
+		<tr><td >인증 가능 시작 시간</td><td><input type="time" id="ch_start_time" name="ch_start_time" class="form-control" style="width:100%"/></td></tr>
+		<tr><td >인증 가능 끝나는 시간</td><td><input type="time" id="ch_end_time" name="ch_end_time" class="form-control" style="width:100%"/></td></tr>
 		<tr><td >인증 방법</td><td colspan="2"><textarea id="ch_way" name="ch_way"></textarea></td></tr>
 	</table>
 </form>

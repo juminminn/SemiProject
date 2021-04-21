@@ -6,6 +6,7 @@ import java.util.Map;
 
 import dto.Challenge;
 import dto.Participation;
+import dto.Payback;
 import util.Paging;
 
 public interface UserChallengeDao {
@@ -206,5 +207,31 @@ public interface UserChallengeDao {
 	 */
 	
 	public String selectChState(Connection conn, Challenge challenge);
+	
+	/**
+	 * 환급자들 반환
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param challenge - chNo
+	 * @return 환급자들 반환
+	 */
+	
+	public List<Payback> selectAllPayback(Connection conn, Challenge challenge);
+	/**
+	 * 환급자들 다음 번호
+	 * @param conn - DB연결 객체
+	 * @return 환급자 다음 번호
+	 */
+	public int selectPaybNo(Connection conn);
+	
+	/**
+	 * 환급자들 삽입
+	 * @param conn - DB연결 객체
+	 * @param payback - 환급 정보
+	 * @return - 1이상이면 데이터 삽입 완료 0
+	 */
+	public int paybInsert(Connection conn, Payback payback);
+	
+	
 	
 }

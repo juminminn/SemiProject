@@ -50,12 +50,22 @@ public class FounderRewardDistribution extends HttpServlet {
 		//환불을 위한 토큰 발급
 		String token=founderService.refundsToken();
 		//성공자들을 반환
-		Map<Integer, Participation> paMap=founderService.refundsPaSuccess(paRate);
-		//환급자들를 반환
-		Map<Integer, Refunds> reMap = founderService.refunder(paMap);
+		Map<Integer, Participation> paSuMap=founderService.refundsPaSuccess(paRate);
+		//실패자들을 반환
+		Map<Integer, Participation> paFailMap =founderService.refundsPaFail(paRate);
 		
-		//최종 환급
-		founderService.refunds(reMap, token);
+		//환불자들를 반환(챌린지에 성공한 사람들)
+		Map<Integer, Refunds> reSuMap = founderService.refunder(paSuMap, true);
+		//실패자들을 반환(챌린지에 실패한 사람들)
+		Map<Integer, Refunds> reFailMap = founderService.refunder(paFailMap, false);
+		
+		//최종 환불(성공자들만 환불)
+		founderService.refunds(reSuMap, token);
+		
+		//환불 완료후 DB에 저장
+		founderService.refundsInsert(reSuMap);
+		founderService.refundsInsert(reFailMap);
+		
 		if(req.getSession().getAttribute("u_grade")!=null) { //등급에 따른 분류
 			if("M".equals(String.valueOf(req.getSession().getAttribute("u_grade")))) { //관리자
 				resp.sendRedirect("/user/challenge/view?chNo="+chNo);
@@ -64,6 +74,7 @@ public class FounderRewardDistribution extends HttpServlet {
 			}
 			return;
 		}
+		resp.sendRedirect("/");
 		
 		
 	}
