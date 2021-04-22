@@ -102,6 +102,7 @@ $(document).ready(function(){
 <%@include file="/WEB-INF/views/layout/footer.jsp"%>
 </body>
 
+
 <style type="text/css">
 a{color: #000;}
 ul{list-style: none;}

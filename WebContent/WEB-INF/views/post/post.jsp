@@ -180,10 +180,8 @@ $(document).ready(function(){
 	top:50%;
 	float:right;
 }
-/* li{ */
-/* 	top:50%; */
-/* 	float:right; */
-/* } */
+
 a{	color:#000;}
 </style>
+
 </html>
