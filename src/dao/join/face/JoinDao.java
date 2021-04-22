@@ -9,9 +9,9 @@ public interface JoinDao {
 	
 	/** 회원가입 처리
 	 * 
-	 * @param conn 
-	 * @param mem 
-	 * @return
+	 * @param conn  -DB연결
+	 * @param mem  - 조회할 회원정보 
+	 * @return - 조회객체
 	 */
 	public int insertJoin(Connection conn, Member mem);
 

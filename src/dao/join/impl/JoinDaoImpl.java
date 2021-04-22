@@ -42,7 +42,7 @@ public class JoinDaoImpl implements JoinDao {
 			ps.setString(13, mem.getAddress() ); //주소
 			
 			
-			
+			//SQL수행객체 실행
 			res = ps.executeUpdate();
 					
 		} catch (SQLException e) {

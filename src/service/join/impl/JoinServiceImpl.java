@@ -22,9 +22,10 @@ public class JoinServiceImpl implements JoinService {
 		SimpleDateFormat afterFormat = new SimpleDateFormat("yyyy-mm-dd");
 		
 		
-		String birthYear = req.getParameter("birthYear");
+		    String birthYear = req.getParameter("birthYear");
 			String birthMonth = req.getParameter("birthMonth");
 			String birthDay = req.getParameter("birthDay");
+			//생년월일 총합 
 			String birth = birthYear + "-" + birthMonth +"-"+ birthDay;
 			
 		    member.setUid(req.getParameter("uid"));
@@ -44,7 +45,6 @@ public class JoinServiceImpl implements JoinService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			member.setAccount(req.getParameter("account"));
 			member.setBank(req.getParameter("bank"));
 			member.setChallenge(req.getParameter("challenge"));
@@ -60,15 +60,13 @@ public class JoinServiceImpl implements JoinService {
 
 	@Override
 	public boolean join(Member mem) {
-		System.out.println("db join start");
+		
 		Connection conn = JDBCTemplate.getConnection();
 
-		System.out.println("db join connect");
+		
 		if( joinDao.insertJoin(conn, mem) > 0 ) {
-			
 			JDBCTemplate.commit(conn);
-            System.out.println("컷밋 완료");
-			return true;
+            return true;
 			
 		} else {
         	JDBCTemplate.rollback(conn);
