@@ -2,11 +2,14 @@ package dao.participant.face;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import dto.Certification;
 import dto.Challenge;
+import dto.Complaint;
 import dto.Member;
 import dto.Participation;
+import dto.Payback;
 import dto.Payment;
 import util.Paging;
 
@@ -196,6 +199,84 @@ public interface ParticipantDao {
 	 * @return - 1이상이면 성공 0 이하이면 실패
 	 */
 	public int increaseChLike(Connection conn, Participation participation);
+	
+	/***
+	 * 마이페이지 좋아요 수 증감
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param participation - chNo와 좋아요
+	 * @return 1이상이면 성공 0이하이면 실패
+	 */
+	public int increaseMypageLike(Connection conn, Participation participation);
+	/***
+	 * 다음 신고 번호 받아오기
+	 * 
+	 * @param conn - DB연결 객체
+	 * @return - 다음 신고 번호
+	 */
+	public int selectComNo(Connection conn);
+	
+	/***
+	 * 신고 저장하기 
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param complaint - 신고내역 저장 객체
+	 * @return - 1이상이면 성공 0 이하이면 실패
+	 */
+	public int complaintInsert(Connection conn, Complaint complaint);
+	
+	/***
+	 * 리뷰 불러오기 
+	 * 
+	 * @param connection - DB 연결 객체
+	 * @param paNo - 참가한 챌린지 번호
+	 * @return review를 반환
+	 */
+	public String selectByReview(Connection conn , int paNo);
+	
+	/**
+	 * 리뷰 저장하기
+	 * 
+	 * @param conn - DB 연결 객체
+	 * @param participation - 입력/수정할 리뷰 객체
+	 * @return 1이상이면 성공 0 이하이면 실패
+	 */
+	
+	public int reviewInsert(Connection conn, Participation participation);
+	
+	/** 
+	 * payment를 조회하여 payback를 만들어서 가져온다
+	 * @param conn - DB연결 객체
+	 * @param paMap - 유저 번호와 챌린지 번호
+	 * @return 환급자 정보
+	 */
+	public Payback selectPayback(Connection conn, Map<String, Integer> paMap);
+	
+	/**
+	 * 다음 환급 번호 가져오기 
+	 * @param conn - DB연결 객체
+	 * @return 다음 환급 번호
+	 */
+	
+	public int selectByPaybNo(Connection conn);
+	
+	
+	/**
+	 * 환급자 정보 테이블에 삽입
+	 * @param conn - DB연결 객체
+	 * @param payback - 환급자 정보
+	 * @return 1이상이면 성공 0 이하이면 실패
+	 */
+	public int paybackInsert(Connection conn, Payback payback);
+	
+	/**
+	 * 참가 취소에 따른 참가자 삭제
+	 * @param conn - DB연결 객체
+	 * @param paNo - 참가자 번호
+	 * @return 1이상이면 성공 0 이하이면 실패
+	 */
+	public int participationDelete(Connection conn, int paNo);
+
 	
 	
 	

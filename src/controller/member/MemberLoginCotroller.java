@@ -14,6 +14,9 @@ import dto.Member;
 import service.member.face.MemberService;
 import service.member.impl.MemberServiceImpl;
 
+/**
+ * Servlet implementation class UserLoginCotroller
+ */
 @WebServlet("/member/login")
 public class MemberLoginCotroller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,8 +46,6 @@ public class MemberLoginCotroller extends HttpServlet {
 			session.setAttribute("u_id", mem.getUid());
 			session.setAttribute("u_grade", mem.getUgrade());
 			session.setAttribute("u_no", mem.getUno());
-			
-//			session.setMaxInactiveInterval(10); //세션 테스트 코드
 			
 			//아이디 기억하기가 체크 되었을때
 			if(check!=null) {

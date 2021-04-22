@@ -1,11 +1,17 @@
 package service.participant.impl;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,16 +26,20 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONObject;
 
 import common.JDBCTemplate;
 import dao.participant.face.ParticipantDao;
 import dao.participant.impl.ParticipantDaoImpl;
 import dto.Certification;
 import dto.Challenge;
+import dto.Complaint;
 import dto.Member;
 import dto.Participation;
+import dto.Payback;
 import dto.Payment;
 import service.participant.face.ParticipantService;
+import util.BankCode;
 import util.FileRemove;
 import util.Paging;
 
@@ -48,7 +58,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		participation.setPaNo(paNo);
 		participation.setuNo(uNo);
 		participation.setPaIsSuccess("W");
-		participation.setPaReview("없음");
+		participation.setPaReview("후기없음");
 		
 		return participation;
 	}
@@ -70,13 +80,32 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		return payment;
 	}
+	
 	//추출해낼 paNo
 	@Override
 	public int getParticipationno(HttpServletRequest req) {
+		//session에서 값을 가져온다
 		int chNo = (Integer)req.getSession().getAttribute("chNo");
 		int uNo = (Integer)req.getSession().getAttribute("u_no");
 		int paNo = participantDao.selectByPaNo(JDBCTemplate.getConnection(), chNo, uNo);
 		return paNo;
+	}
+	@Override
+	public Complaint getComplaint(HttpServletRequest req) {
+		Complaint complaint = null;
+		if(req.getParameter("complaintReason")!=null &&!"".equals(req.getParameter("complaintReason"))) {
+			//다음 신고 번호
+			int comNo = participantDao.selectComNo(JDBCTemplate.getConnection());
+			complaint = new Complaint();
+			complaint.setComNo(comNo);
+			int chNo = (Integer)req.getSession().getAttribute("chNo");
+			int uNo = (Integer)req.getSession().getAttribute("u_no");
+			complaint.setChNo(chNo);
+			complaint.setuNo(uNo);
+			complaint.setComContent(req.getParameter("complaintReason"));
+		}
+		
+		return complaint;
 	}
 	
 	//챌린지 타이틀 반환
@@ -99,6 +128,11 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public String getChway(int chNo) {
 		String chWay = participantDao.selectByChWay(JDBCTemplate.getConnection(), chNo);
 		return chWay;
+	}
+	@Override
+	public String getReview(int paNo) {
+		String review = participantDao.selectByReview(JDBCTemplate.getConnection(), paNo);
+		return review;
 	}
 	
 	
@@ -223,7 +257,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		}
 		
 	}
-	//증감 챌린지
+	//좋아요 증감
 	@Override
 	public void increaseLike(Participation participation) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -234,6 +268,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 		}
 		
 	}
+	@Override
+	public void increaseLikeMypage(Participation participation) {
+		Connection conn = JDBCTemplate.getConnection();
+		if(participantDao.increaseMypageLike(conn, participation)>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+	}
+	
 	//좋아요 여부
 	@Override
 	public void updatePaLike(Participation participation) {
@@ -673,6 +717,217 @@ public class ParticipantServiceImpl implements ParticipantService {
 			}
 		}
 		
+	}
+	
+	//신고 내역 저장
+	@Override
+	public void insertComplaint(Complaint complaint) {
+		if( participantDao.complaintInsert(JDBCTemplate.getConnection(), complaint) > 0 ) {
+			JDBCTemplate.commit(JDBCTemplate.getConnection());
+		} else {
+			JDBCTemplate.rollback(JDBCTemplate.getConnection());
+		}
+		
+	}
+	
+	//리뷰 추출
+	@Override
+	public Participation getReview(HttpServletRequest req) {
+		//session에서 값을 가져온다
+		Participation participation =null;
+		String review = req.getParameter("paReview");
+		if(review !=null && !"".equals(review)) {
+			participation = new Participation();
+			int chNo = (Integer)req.getSession().getAttribute("chNo");
+			int uNo = (Integer)req.getSession().getAttribute("u_no");
+			int paNo = participantDao.selectByPaNo(JDBCTemplate.getConnection(), chNo, uNo);
+			participation.setPaNo(paNo);
+			participation.setPaReview(review);
+			
+		}
+		
+		return participation;
+	}
+	@Override
+	public void insertReview(Participation participation) {
+		if( participantDao.reviewInsert(JDBCTemplate.getConnection(), participation) > 0 ) {
+			JDBCTemplate.commit(JDBCTemplate.getConnection());
+		} else {
+			JDBCTemplate.rollback(JDBCTemplate.getConnection());
+		}
+		
+	}
+	@Override
+	public String refundsToken() throws IOException {
+		HttpURLConnection conn=null;
+		URL url = new URL("https://api.iamport.kr/users/getToken"); //엑세스할 토큰을 받아올 주소 입력
+		conn = (HttpURLConnection)url.openConnection();
+		
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/json");
+		conn.setRequestProperty("Accept", "application/json");
+		
+		//Data설정
+		conn.setDoOutput(true); //OutputStream으로 POST 데이터를 넘겨주겠다는 옵션
+		JSONObject obj = new JSONObject();
+		obj.put("imp_key", "9081765440266501"); 
+		obj.put("imp_secret","DdLtVjTUlJ47lCyLGOsnmwycGAlfngk0u6uqpnkK7oSs0qeHfG5BdDNTd99BqtBVA6m0tGLB5D364hOj"); 
+		
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		bw.write(obj.toString());
+		bw.flush();
+		bw.close();
+		
+		int responseCode = conn.getResponseCode(); //응답코드 받기
+		System.out.println("응답코드 : "+responseCode);
+		StringBuilder sb=null;
+		
+		if(responseCode==200) {//성공
+			//System.out.println("토큰 발급 성공!!");
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			sb = new StringBuilder();
+			String line = null;
+			while((line=br.readLine())!=null) {
+				sb.append(line+"\n");
+			}
+			br.close();
+			System.out.println(""+sb.toString());
+			
+		}else {
+			System.out.println(conn.getResponseMessage());
+		}
+		String  token= sb.toString(); //발급된 통근 반환
+		return token;
+	}
+	@Override
+	public Map<String, Integer> getChNoUno(HttpServletRequest req) {
+		Map<String, Integer> paMap = new HashMap<>();
+		int chNo = 0;
+		int uNo = 0;
+		if(req.getParameter("chNo")!=null) {
+			chNo = Integer.parseInt(req.getParameter("chNo"));
+		}else if(req.getSession().getAttribute("chNo")!=null) {
+			chNo = (Integer)req.getSession().getAttribute("chNo");
+		}
+		
+		if(req.getSession().getAttribute("u_no")!=null) {
+			uNo = (Integer)req.getSession().getAttribute("u_no");
+		}
+
+		paMap.put("chNo", chNo);
+		paMap.put("uNo", uNo);
+		
+		return paMap;
+	}
+	//환급 정보 가져오기
+	@Override
+	public Payback getPayback(Map<String, Integer> paMap) {
+		//payment를 조회하여 payBack를 가져온다
+		Payback payback = participantDao.selectPayback(JDBCTemplate.getConnection(),paMap);
+		
+		int paybNo = participantDao.selectByPaybNo(JDBCTemplate.getConnection());
+		
+		payback.setPaybNo(paybNo);
+		//kg이니시스 은행코드로 변환
+		BankCode bankCode = new BankCode(payback.getPaybRefundBank());
+		payback.setPaybRefundBank(bankCode.getCode());
+		
+		return payback;
+	}
+	
+	
+	@Override
+	public void payback(Payback payback, String token) throws IOException {
+		int responseCode; //응답 코드
+		URL url = new URL("https://api.iamport.kr/payments/cancel"); //환불 주소
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		JSONObject jobj = new JSONObject(token);
+		
+		//응답 객체
+		JSONObject post1Object = jobj.getJSONObject("response");
+		System.out.println(post1Object.toString()); 
+		String access_token = post1Object.getString("access_token");
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/json"); //header 설정
+		conn.setRequestProperty("Authorization", access_token); //header 설정
+		conn.setRequestProperty("Accept", "application/json");
+		//Data설정
+		conn.setDoOutput(true); //OutputStream으로 POST 데이터를 넘겨주겠다는 옵션
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		JSONObject obj = new JSONObject(); //JSON 객체
+		StringBuilder sb = new StringBuilder();
+		
+		int now = post1Object.getInt("now");
+		int expired_at  = post1Object.getInt("expired_at");
+	
+		
+		System.out.println("token(response): " + access_token);
+	    System.out.println("now(response): " + now);
+	    System.out.println("expired_at(response): " + expired_at);
+		
+		
+		obj = new JSONObject();
+		
+		
+		obj.put("imp_uid", payback.getImpUid());
+		obj.put("amount", payback.getPaybAmount());
+		obj.put("checksum",payback.getPaybChecksum());
+		obj.put("reason",payback.getPaybReason());
+		obj.put("refund_holder",payback.getPaybRefundHolder());
+		obj.put("refund_bank", payback.getPaybRefundBank());
+		obj.put("refund_account",payback.getPaybReFundAccount());
+		
+		bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		bw.write(obj.toString());
+		bw.flush();
+		bw.close();
+	    
+		
+		responseCode = conn.getResponseCode(); //응답코드 받기
+		
+		System.out.println("응답코드 : "+responseCode);
+		sb=null;
+		
+		if(responseCode==200) {//성공
+			System.out.println("환불성공!!");
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			sb = new StringBuilder();
+			String line = null;
+			while((line=br.readLine())!=null) {
+				sb.append(line+"\n");
+			}
+			br.close();
+			System.out.println(""+sb.toString());
+			JSONObject messageObj = new JSONObject(sb.toString());
+			//메시지가 있을때 출력
+			if(!messageObj.isNull("message")) { //메시지가 null이 아닐때
+				String message = messageObj.getString("message");
+				System.out.println("message:"+message);
+			}
+		}else {
+			System.out.println(conn.getResponseMessage());
+		}
+		
+	}
+	@Override
+	public void paybackInsert(Payback payback) { //환급 정보 저장
+		if( participantDao.paybackInsert(JDBCTemplate.getConnection(), payback) > 0 ) {
+			JDBCTemplate.commit(JDBCTemplate.getConnection());
+		} else {
+			JDBCTemplate.rollback(JDBCTemplate.getConnection());
+		}
+		
+	}
+	
+	@Override
+	public void participationDelete(int paNo) {
+		if( participantDao.participationDelete(JDBCTemplate.getConnection(), paNo) > 0 ) {
+			JDBCTemplate.commit(JDBCTemplate.getConnection());
+		} else {
+			JDBCTemplate.rollback(JDBCTemplate.getConnection());
+		}
 	}
 	
 }
