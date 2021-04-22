@@ -90,7 +90,7 @@
 		<%	} %>
 	<%} %>
 	</div>
-<%@ include file="../ChallengeList/pagings/popularPaging.jsp" %>
+<%@ include file="../challengeList/pagings/popularPaging.jsp" %>
 </div>
 </body>
  --%>
