@@ -74,6 +74,7 @@ public class MemberDaoImpl implements MemberDao {
 			//조회 결과 처리
 			while(rs.next()) {
 				result = new Member();
+				
 				result.setUid( rs.getString("u_id") );
 				result.setUpassword( rs.getString("u_password") );
 				result.setUgrade(rs.getString("u_grade"));
@@ -90,6 +91,7 @@ public class MemberDaoImpl implements MemberDao {
 		
 		//최종 결과 반환
 		return result;
+<<<<<<< HEAD
 		
 	}
 	@Override
@@ -143,6 +145,8 @@ public class MemberDaoImpl implements MemberDao {
 
 		//최종 결과 반환
 		return result;
+=======
+>>>>>>> goIsaac/master
 	}
 
 }
