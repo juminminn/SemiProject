@@ -1,10 +1,13 @@
 package service.user.face;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import dto.RefundPoint;
+import dto.Refunds;
 import util.Paging;
 
 public interface UserService {
@@ -46,6 +49,63 @@ public interface UserService {
 	 * @return 챌린지 번호
 	 */
 	public int getChNo(HttpServletRequest req);
+
+	/**
+	 * 환불할 refunds객체를 추출해낸다
+	 * @param req - 요청 객체
+	 * @return refunds
+	 */
+	
+	public Refunds getRefunds(HttpServletRequest req);
+	/**
+	 * 환불할 refunds객체를 추출해낸다
+	 * @param uNo 
+	 * @param req - 요청 객체
+	 * @return refunds
+	 */
+	
+	/**
+	 * 현재 자신이 가지고 있는 포인트 반환
+	 * @param uNo - 유저 번호
+	 * @return 현재 포인트
+	 */
+	public int getMypagePoint(int uNo);
+	
+	/**
+	 * 사용자 현재포인트 반환 
+	 * @param req - 요청 객체
+	 * @return 현재 포인트
+	 */
+	public int getCurPoint(HttpServletRequest req);
+	
+	
+	/**
+	 * refunds 업데이트
+	 * @param refunds - 포인트 사용내역 저장
+	 */
+	public void refundsUpdate(Refunds refunds);
+	/**
+	 * 포인트 사용 업데이트
+	 * @param rePoint - 사용한 포인트
+	 */
+	public void mypageUpdate(int rePoint, int uNo);
+	/**
+	 * 환불을 위한 토큰 발급
+	 * @return 토큰
+	 * @throws IOException
+	 */
+	public String refundsToken() throws IOException;
+	
+	
+	/**
+	 * 최종 환불
+	 * @param refunds - 최종 환불 객체
+	 * @param token - 토큰
+	 */
+	public void refunds(Refunds refunds, String token) throws IOException;
+
+
+	
 	
 
 }

@@ -589,8 +589,6 @@ public class FounderDaoImpl implements FounderDao {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, isSuccess);
 			ps.setInt(2, key);
-			
-			
 			res = ps.executeUpdate();
 		}catch (SQLException e) {
 			e.printStackTrace();

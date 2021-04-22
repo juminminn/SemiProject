@@ -1,6 +1,7 @@
 package dto;
 
 public class RefundPoint {
+	private int reNo; // 환불 번호
 	private int uNo; //유저번호
 	private int chNo; // 챌린지 번호
 	private String chTitle; // 챌린지 제목
@@ -11,12 +12,14 @@ public class RefundPoint {
 	private String paybRefundAccount; // 환불 계좌
 	private String chStoredName; //챌린지 사진 저장 이름
 	private String chOriginName; //챌린지 사진 원본 이름
+	
 	@Override
 	public String toString() {
-		return "RefundPoint [uNo=" + uNo + ", chNo=" + chNo + ", chTitle=" + chTitle + ", refundAvailability="
-				+ refundAvailability + ", refundableAmount=" + refundableAmount + ", paybRefundHolder="
-				+ paybRefundHolder + ", paybRefundBank=" + paybRefundBank + ", paybRefundAccount=" + paybRefundAccount
-				+ ", chStoredName=" + chStoredName + ", chOriginName=" + chOriginName + "]";
+		return "RefundPoint [reNo=" + reNo + ", uNo=" + uNo + ", chNo=" + chNo + ", chTitle=" + chTitle
+				+ ", refundAvailability=" + refundAvailability + ", refundableAmount=" + refundableAmount
+				+ ", paybRefundHolder=" + paybRefundHolder + ", paybRefundBank=" + paybRefundBank
+				+ ", paybRefundAccount=" + paybRefundAccount + ", chStoredName=" + chStoredName + ", chOriginName="
+				+ chOriginName + "]";
 	}
 	public int getuNo() {
 		return uNo;
@@ -78,6 +81,13 @@ public class RefundPoint {
 	public void setChOriginName(String chOriginName) {
 		this.chOriginName = chOriginName;
 	}
+	public int getReNo() {
+		return reNo;
+	}
+	public void setReNo(int reNo) {
+		this.reNo = reNo;
+	}
+	
 	
 	
 }

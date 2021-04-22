@@ -38,7 +38,8 @@ public class FounderRewardDistribution extends HttpServlet {
 		//참가자별 인증 성공률 불러오기
 		Map<Integer, Double> paRate = founderService.getPaRate(paNoList, total, chNo);
 		
-		//챌린지 참가 성공
+		
+		//챌린지 참가 성공 여부
 		founderService.participationIsSuccess(paRate);
 		
 		//포인트 적립

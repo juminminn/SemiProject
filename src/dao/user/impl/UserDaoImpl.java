@@ -11,6 +11,7 @@ import common.JDBCTemplate;
 import dao.user.face.UserDao;
 import dto.Challenge;
 import dto.RefundPoint;
+import dto.Refunds;
 import util.Paging;
 
 public class UserDaoImpl implements UserDao {
@@ -70,6 +71,7 @@ public class UserDaoImpl implements UserDao {
 		sql += " 		on p.u_no = u.u_no";
 		sql += " 		where pa_is_success = 'N'";
 		sql += " 		and u.u_no = ?";
+		sql += "		and refund_availability='Y'";
 		sql += " 		ORDER BY R.re_no DESC";
 		sql += "	) C";
 		sql += " ) refunds";
@@ -122,6 +124,7 @@ public class UserDaoImpl implements UserDao {
 	public RefundPoint selectRefundPoint(Connection conn, RefundPoint refundPoint) {
 		String sql = "";
 		sql += "SELECT";
+		sql += " re_no,";
 		sql += " u.u_no,";
 		sql += " C.ch_no,";
 		sql += " ch_title,";
@@ -159,6 +162,7 @@ public class UserDaoImpl implements UserDao {
 				result = new RefundPoint();
 
 				//결과값 한 행 처리
+				result.setReNo(rs.getInt("re_no"));
 				result.setuNo(rs.getInt("u_no"));
 				result.setChNo(rs.getInt("ch_no"));
 				result.setChTitle(rs.getString("ch_title"));
@@ -181,5 +185,132 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		return result;
+	}
+	@Override
+	public Refunds selectRefunds(Connection conn, Refunds refunds) {
+		String sql = "";
+		sql += "SELECT * FROM";
+		sql += " refunds";
+		sql += " WHERE re_no = ?";
+		
+		Refunds result = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, refunds.getReNo());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = new Refunds();
+				result.setReNo(rs.getInt("re_no"));
+				result.setPaNo(rs.getInt("pa_no"));
+				result.setRePoint(rs.getInt("re_point")); //사용 포인트
+				result.setReAmount(rs.getInt("re_amount"));
+				result.setPaybTaxFree(rs.getInt("payb_tax_free"));
+				result.setPaybChecksum(rs.getInt("payb_checksum"));
+				result.setPaybReason(rs.getString("payb_reason"));
+				result.setPaybRefundHolder(rs.getString("payb_refund_holder"));
+				result.setPaybRefundBank(rs.getString("payb_refund_bank"));
+				result.setPaybRefundAccount(rs.getString("payb_refund_account"));
+				result.setImpUid(rs.getString("imp_uid"));
+				result.setMerchantUid(rs.getString("merchant_uid"));
+				result.setRefundableAmount(rs.getInt("refundable_amount"));
+				result.setRefundAvailability(rs.getString("refund_availability"));
+			
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int selectMypagePoint(Connection conn, int uNo) {
+		//현재 포인트 조회
+		String sql = "";
+		sql += "SELECT * FROM";
+		sql += " mypage";
+		sql += " WHERE m_no = ?";
+		
+		int curPoint = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, uNo);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				curPoint = rs.getInt("m_c_point");
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return curPoint;
+	}
+	@Override
+	public int refundsUpdate(Connection conn, Refunds refunds) {
+		String sql ="";
+		sql+="update refunds";
+		sql+=" set refundable_amount = refundable_amount - ?,";
+		sql+=" re_point = re_point+?,";
+		sql+=" re_amount = re_amount + ?,";
+		sql+=" payb_checksum = payb_checksum-?,";
+		sql+=" payb_date = sysdate,";
+		sql+=" refund_availability = case";
+		sql+=" when (refundable_amount - ? <= 0) ";
+		sql+=" then 'N'";
+		sql+=" ELSE 'Y'";
+		sql+=" END";
+		sql+=" where re_no = ?";
+		int res = -1;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, refunds.getReAmount());
+			ps.setInt(2, refunds.getRePoint());
+			ps.setInt(3, refunds.getReAmount());
+			ps.setInt(4, refunds.getReAmount());
+			ps.setInt(5, refunds.getReAmount());
+			ps.setInt(6, refunds.getReNo());
+			res = ps.executeUpdate();
+			
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(ps);
+		}
+		return res;
+	}
+	@Override
+	public int mypageUpdate(Connection conn, int rePoint, int uNo) {
+		String sql ="";
+		sql+="update mypage";
+		sql+=" set m_c_point = m_c_point - ?";
+		sql+=" where m_no =?";
+		
+		int res = -1;
+		try {
+			ps =conn.prepareStatement(sql);
+			ps.setInt(1, rePoint);
+			ps.setInt(2, uNo);
+			res=ps.executeUpdate();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 }

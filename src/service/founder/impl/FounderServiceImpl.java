@@ -191,11 +191,18 @@ public class FounderServiceImpl implements FounderService {
 //		System.out.println("cycle:"+cycle);
 //		System.out.println("count:"+count);
 //		System.out.println("------------------------");
+		Long lday = (endDate.getTime() - startDate.getTime())/(24*60*60*1000);
+		double day = lday.doubleValue();
 		
-		Long total = count*(endDate.getTime() - startDate.getTime())/(cycle*24*60*60*1000); //총 인증을 해야할 횟수
-		System.out.println(total);
+		System.out.println("일자 :"+day);
+		System.out.println("사이클:"+cycle);
+		System.out.println("인증 횟수:"+count);
 		
-		return total.intValue(); //총 인증을 해야할 횟수 int형으로 반환
+		double total = count*(day/cycle); //총 인증을 해야할 횟수
+		
+		System.out.println("total:"+total);
+		
+		return (int)Math.ceil(total); //총 인증을 해야할 횟수 int형으로 반환(올림)
 	}
 	@Override
 	public Map<Integer, Double> getPaRate(List<Integer> paNoList, int total, int chNo) {
@@ -305,7 +312,7 @@ public class FounderServiceImpl implements FounderService {
 				if(paRate.get(key)>=50) { //50% 이상 성공 
 					isSuccess = "Y"; //성공
 				}
-				else if(paRate.get(key)<50) { //실패
+				else{ //실패
 					isSuccess = "N"; //실패
 				}
 			if(founderDao.updatePaIsSuccess(conn, key, isSuccess) > 0) {
@@ -412,9 +419,9 @@ public class FounderServiceImpl implements FounderService {
 				refunds.setRefundableAmount(0); //환불 가능액
 				refunds.setRefundAvailability("N"); //환불 불가
 			}else { //실패자들
-				refunds.setReAmount(0); // 금액을 안 돌려줌
 				refunds.setPaybReason("챌린지 실패");  // 환불 사유
 				refunds.setRefundableAmount(refunds.getReAmount()); //환불 가능액
+				refunds.setReAmount(0); // 금액을 안 돌려줌
 				refunds.setRefundAvailability("Y"); //환불 가능
 			}
 			

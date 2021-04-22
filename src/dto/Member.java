@@ -16,7 +16,7 @@ public class Member {
    private String account; //계좌
    private String bank; //은행
    private String ugrade; //등급
-   private int post; //우편번호
+   private String post; //우편번호
    private int caution; //경고
    private String challenge; //도전하고 싶은 챌린져
    private String address; //주소
@@ -31,10 +31,10 @@ public class Member {
 			   + singup + ", account=" + account + ", bank=" + bank + ", ugrade=" + ugrade + ", post=" + post
 			   + ", caution=" + caution + ", challenge=" + challenge + ", address=" + address + "]";
    }
-   public int getPost() {
+   public String getPost() {
 	return post;
    }
-   public void setPost(int post) {
+   public void setPost(String post) {
 	   this.post = post;
    }
    public int getCaution() {

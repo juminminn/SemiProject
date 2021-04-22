@@ -28,8 +28,9 @@ public class UserUsePointViewController extends HttpServlet {
 		int uNo = userService.getuNo(req); 
 		int chNo = userService.getChNo(req);
 		RefundPoint refundPoint = userService.view(uNo,chNo);
+		int curPoint  = userService.getMypagePoint(uNo); //현재 포인트 가져오기
 		req.setAttribute("refundPoint", refundPoint);
-		
+		req.setAttribute("curPoint", curPoint);
 		req.getRequestDispatcher("/WEB-INF/views/userUsePoint/view.jsp")
 			.forward(req, resp);
 	}

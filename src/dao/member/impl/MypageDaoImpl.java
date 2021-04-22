@@ -46,7 +46,7 @@ public class MypageDaoImpl implements MypageDao {
 				member.setAccount(rs.getString("u_account"));
 				member.setBank(rs.getString("u_bank"));
 				member.setUgrade(rs.getString("u_grade"));
-				member.setPost(rs.getInt("u_post"));
+				member.setPost(rs.getString("u_post"));
 				member.setAddress(rs.getString("u_address"));
 				member.setPhone(rs.getString("u_phone"));
 			}
