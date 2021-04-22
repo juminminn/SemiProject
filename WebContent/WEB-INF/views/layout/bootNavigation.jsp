@@ -23,16 +23,10 @@
 		<li>
 			<a href="#">게시판</a>
 			<ul>
-<<<<<<< HEAD
 				<li><a href="/board/1">챌린지</a></li>
 				<li><a href="/board/2">유저</a></li>
 				<li><a href="/board/3">자유</a></li>
 				<li><a href="/board/4">팁, 노하우</a></li>
-=======
-				<li><a href="/board/3">입력1</a></li>
-				<li><a href="/board/3">입력2</a></li>
-				<li><a href="/board/3">입력3</a></li>
->>>>>>> upstream/master
 			</ul>
 		</li>
 		<li>
