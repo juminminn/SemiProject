@@ -124,6 +124,7 @@ ul{list-style: none;}
 	box-shadow:0px 0px 6px #ccc;
 }
 .postView{
+/*  	box-shadow:0px 0px 6px #ccc; */
 	font-size:20px;
 	text-align:center;
 	height:40px;
