@@ -21,7 +21,8 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public void Update(Post post) {
 		String sql = "";
-		sql += "UPDATE post set p_title='" + post.getP_title() + "', p_content='" + post.getP_content() + "' where p_no=" + post.getP_no();
+		sql += "UPDATE post set p_title='" + post.getP_title() + "', p_content='" + post.getP_content() + "'";
+		sql += ", p_stored_name='" + post.getP_stored_name() + "', p_origin_name='" + post.getP_origin_name() + "' where p_no=" + post.getP_no();
 		
 		try {
 			ps = conn.prepareStatement(sql);

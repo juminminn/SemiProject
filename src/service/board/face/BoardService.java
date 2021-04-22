@@ -13,4 +13,7 @@ public interface BoardService {
 	public List<Board> cSearch(Paging paging, int bno, String word);
 	public List<Board> pSearch(Paging paging, int bno, String word);
 	public Paging getPaging(HttpServletRequest req, int bno);
+	public Paging cSearchGetPaging(HttpServletRequest req, int bno, String keyword);
+	public Paging pSearchGetPaging(HttpServletRequest req, int bno, String keyword);
+	public String[] BoardData(int bno);
 }
