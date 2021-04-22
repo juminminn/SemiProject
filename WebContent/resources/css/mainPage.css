@@ -241,7 +241,7 @@ header{
 	height: 0px;
 	font-size: 0px; 
 	line-height:0px;
-	transition: all 0.5s ease-out;
+	/* transition: all 0.5s ease-out; */
 }
 .ndropdown > li > ul > li > a{
 	/* 배경색 지정 */

@@ -24,13 +24,13 @@ public class MypageDaoImpl implements MypageDao {
 	ResultSet rs = null;
 
 	@Override // user 정보를 가져오는 메소드
-	public Member selectInfo(Connection conn, String uId) {
-		String sql = "SELECT * FROM USERS WHERE U_ID =?";
+	public Member selectInfo(Connection conn, int uNo) {
+		String sql = "SELECT * FROM USERS WHERE U_NO =?";
 		Member member = new Member();
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, uId);
+			ps.setInt(1, uNo);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				member.setUno(rs.getInt("u_no"));
@@ -240,7 +240,7 @@ public class MypageDaoImpl implements MypageDao {
 
 	@Override
 	public List<Challenge> selectAllUserChall(Connection conn, int uNo) {
-		String sql = "SELECT * FROM CHALLENGE WHERE U_NO = ?";
+		String sql = "SELECT * FROM CHALLENGE WHERE U_NO = ? AND TO_CHAR(SYSDATE, 'yyyy/MM/dd') <= TO_CHAR(CH_END_DATE, 'yyyy/MM/dd')";
 		List<Challenge> list = new ArrayList<>(); //챌린지 전부를 담을 리스트
 		Challenge chall = null; // 챌린지를 담을 객체
 
@@ -266,7 +266,8 @@ public class MypageDaoImpl implements MypageDao {
 				chall.setChCaution(rs.getInt("ch_caution"));
 				chall.setChLikes(rs.getInt("ch_likes"));
 				chall.setChOriginName(rs.getString("ch_origin_name"));				
-				chall.setChStoredName(rs.getString("ch_stored_name"));				
+				chall.setChStoredName(rs.getString("ch_stored_name"));		
+				chall.setChState(rs.getString("ch_state"));
 
 				list.add(chall);
 			}		

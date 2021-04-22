@@ -1,3 +1,4 @@
+<%@page import="java.io.File"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.Challenge"%>
 <%@page import="dto.Mypage"%>
@@ -6,16 +7,19 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jsp" %>
 <%@ include file="/WEB-INF/views/layout/navigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/session/sessionCheck.jsp" %>
 
 <%
-	Member memberInfo =(Member) session.getAttribute("memberInfo");
-	Mypage mypageInfo = (Mypage) session.getAttribute("mypageInfo");
-	int refundsTotal = (int)session.getAttribute("refundsTotal"); //누적 총상금
-	int paymentTotal = (int)session.getAttribute("paymentTotal"); //누적 결재액
+	Member memberInfo =(Member) request.getAttribute("memberInfo");
+	Mypage mypageInfo = (Mypage) request.getAttribute("mypageInfo");
+	int refundsTotal = (int)request.getAttribute("refundsTotal"); //누적 총상금
+	int paymentTotal = (int)request.getAttribute("paymentTotal"); //누적 결재액
 %>
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -24,22 +28,72 @@ $(document).ready(function(){
 	
 	$("#my1").click(function(){
 		$("#contentDiv").load($(this).attr("href")) //메뉴 구현
+		
+		$("#my1").css({
+			"text-decoration" : "underline"
+			,"font-weight" : "bolder"
+		})	
+		$("#my2, #my3, #my4").css({
+			"text-decoration" : "none"
+				,"font-weight" : "normal"
+		})
+		
 		return false;
 	})
 	$("#my2").click(function(){
 		$("#contentDiv").load($(this).attr("href")) //메뉴 구현
+		
+		$("#my2").css({
+			"text-decoration" : "underline"
+			,"font-weight" : "bolder"
+		})	
+		$("#my1, #my3, #my4, #my5").css({
+			"text-decoration" : "none"
+				,"font-weight" : "normal"
+		})
+		
 		return false;
 	})
 	$("#my3").click(function(){
 		$("#contentDiv").load($(this).attr("href")) //메뉴 구현
+		
+		$("#my3").css({
+			"text-decoration" : "underline"
+			,"font-weight" : "bolder"
+		})	
+		$("#my1, #my2, #my4, #my5").css({
+			"text-decoration" : "none"
+				,"font-weight" : "normal"
+		})
+		
 		return false;
 	})
 	$("#my4").click(function(){
 		$("#contentDiv").load($(this).attr("href")) //메뉴 구현
+		
+		$("#my4").css({
+			"text-decoration" : "underline"
+			,"font-weight" : "bolder"
+		})	
+		$("#my1, #my2, #my3, #my5").css({
+			"text-decoration" : "none"
+				,"font-weight" : "normal"
+		})
+		
 		return false;
 	})
 	$("#my5").click(function(){
 		$("#contentDiv").load($(this).attr("href")) //메뉴 구현
+		
+		$("#my5").css({
+			"text-decoration" : "underline"
+			,"font-weight" : "bolder"
+		})	
+		$("#my1, #my2, #my3, #my4").css({
+			"text-decoration" : "none"
+				,"font-weight" : "normal"
+		})
+		
 		return false;
 	})
 	
@@ -56,7 +110,6 @@ $(document).ready(function(){
 		
 } 
 
-
 /*-------------------------  */
 
 
@@ -70,11 +123,18 @@ $(document).ready(function(){
 
 /* 프로필  */
 
-#profileImg{
+.imgDiv{/*프로필 사진 감싸는 div  */
+	width: 200px;
+	heigth: 110px;
+	box-sizing: border-box;
+	text-align: center;	 
+}
+
+.profileImg{/*프로필 이미지 속성  */
 	margin-top: 10px;
-	width: 180x;
-	height: 120px;
-	border-radius: 20px;
+	width: 60%;
+	height: 80%;
+	border-radius: 30px;
 }
 
 .profileCard {
@@ -152,12 +212,23 @@ li a {
     color: white;
 } 
 
-li a:hover:not(.active) {
+li a:hover {
     background-color: #143642;
     color: white;
 }
 /* ------------------------------*/
 
+/* 마이페이지 제목 영역 */
+#mypageTitle{
+	margin: 0px auto;
+	text-align: left;
+	border-bottom: 2px solid #ccc;
+}
+
+#mypageTitle > div{ /* 마이페이지 텍스트  */
+	font-size: 35px;
+	margin-bottom: 10px;
+}
 
 /* 마이페이지 내용 영역 */
 #contentDiv{
@@ -171,18 +242,19 @@ li a:hover:not(.active) {
 </style>
 
 <div id="container">
-	<h1>Mypage</h1>
-	<hr>
+	<div id="mypageTitle"> 
+	<div><strong>마이페이지</strong></div>
+	</div>
 	
 	<!--마이페이지 프로필/카테고리  -->
 	<div id="categoryDiv">
 		<!--마이페이지 프로필  -->
 		<div class="profileCard">
-		 
-		  <% if(mypageInfo.getmStoredname() != null) {%>
-			<img src="/upload/<%=mypageInfo.getmStoredname() %>" id="profileImg" >
+		 <% File proImg = new File(request.getServletContext().getRealPath("upload") + "\\" + mypageInfo.getmStoredname()); %>
+		  <% if(mypageInfo.getmStoredname() != null && proImg.exists()) {%>
+			<div class="imgDiv"><img src="/upload/<%=mypageInfo.getmStoredname() %>" class="profileImg" ></div>
 			<% } else {%>
-			<img src="/resources/logoRed" style="width:200px;" >
+			<div class="imgDiv"><img src="/resources/img/logoRed.png" style="width:200px;" class="profileImg"></div>
 			<% } %>
 		 
 		 <h2><%=memberInfo.getNick() %></h2>
@@ -191,12 +263,11 @@ li a:hover:not(.active) {
 		
 		<!-- 포인트 사용을 위한 폼 영역  --> 
 		 <form action="#" method="post">		 	
-		 	<div style="text-align: center; margin-top: 10px;">포인트 <button id="usePoint">사용</button></div>
-			 <input type="text" placeholder="point" id="mPointInput"/>	 
+		 	<div style="text-align: center; margin-top: 10px;"><strong style="color:#EC9A29">포인트</strong> <button id="usePoint">사용</button></div>	 
 		 </form>
  		 <!-----------------------------  --> 
  		  
- 		  <p><button id="goToChall">Go to Challenge</button></p>
+ 		  <p><a href="/user/challenge/list"><button id="goToChall">Go to Challenge</button></a></p>
 			
 		</div>
 			
@@ -215,5 +286,4 @@ li a:hover:not(.active) {
 	<div id="contentDiv">
 	</div>	
 </div>
-
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
