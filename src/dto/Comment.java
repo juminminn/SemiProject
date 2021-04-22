@@ -11,13 +11,22 @@ public class Comment {
 	private String U_id;
 	private String C_content;
 	private Date C_Create_date;
-	
+	private int depth;
 	
 	@Override
 	public String toString() {
 		return "Comment [Cno=" + Cno + ", Pno=" + Pno + ", Uno=" + Uno + ", fk_Cno=" + fk_Cno + ", U_nick=" + U_nick
 				+ ", U_id=" + U_id + ", C_content=" + C_content + ", C_Create_date=" + C_Create_date + "]";
 	}
+	
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
 	public int getFk_Cno() {
 		return fk_Cno;
 	}

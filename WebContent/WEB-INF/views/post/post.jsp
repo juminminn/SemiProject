@@ -3,7 +3,9 @@
 <%@page import="dto.Post"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   <%Post post = (Post)request.getAttribute("post"); %>
+   <%Post post = (Post)request.getAttribute("post");
+   	 String[] boardData = (String[])request.getAttribute("boardData");
+   %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,68 +71,119 @@ $(document).ready(function(){
 	
 })
 </script>
-</head>
-<body>
 <%@include  file="/WEB-INF/views/layout/bootHeader.jsp"%>
 <%@include file="/WEB-INF/views/layout/navigation.jsp" %>
-
-
-
-<div class="container" style="width:900px; text-align:center; margin:0 auto;">
+</head>
+<body>
+<div class="container">
+	<h2 style="text-align:left;"><%=boardData[1] %></h2>
+	
 	<div class="content">
-		<table class="table table-bordered" style="margin:0 auto; width:100%; text-align:left;" border="1" >
-			<tr>
-				<td class="info">글번호</td><td><%=post.getP_no() %></td>
-			</tr>
-			<tr>
-				<td class="info">제목</td><td><%=post.getP_title() %></td>
-			</tr>
-			<tr>
-				<td class="info">작성자</td><td><%=post.getU_nick() %></td>
-			</tr>
-			<tr>
-				<td class="info">조회수</td><td><%=post.getP_views() %></td>
-			</tr>
-			<tr>
-				<td class="info">작성일</td><td><%=post.getP_create_date() %></td>
-			</tr>
-			<tr><td colspan="2"><%=post.getP_content() %></td></tr>
-		</table>
-		
-		<div>
-			<span>첨부파일</span>
-			<%if(post.getP_stored_name() != null) {%>
-				<a href="/upload/<%=post.getP_stored_name() %>"
- 				download="<%=post.getP_origin_name() %>">
-				<%=post.getP_origin_name() %></a>
-			<%} %>
+		<div class="head">
+			<div class="post number"><span>No. <%=post.getP_no() %></span></div>
+			<div class="post title"><span><%=post.getP_title() %></span></div>
+		</div>
+		<div class="head under" style="height:40px">
+			<ul class="postUl">
+				<li class="post nick"><%=post.getU_nick() %></li>
+				<%if(session.getAttribute("u_id") != null){ %>
+ 				<%if(session.getAttribute("u_id").equals(post.getU_id())){ %> 
+ 				<li class="dele"><a id="boardDelete" style="cursor:pointer">삭제</a></li>
+				<li class="upda"><a href="/board/update?mid=<%=boardData[0] %>&pno=<%=post.getP_no()%>">수정</a></li>
+				<%} 
+ 				}%>
+				<li class="post view">조회수 <span><%=post.getP_views() %></span></li>
+				<li class="post date">작성일 <span><%=post.getP_create_date() %></span></li>
+			</ul>
+		</div>
+		<br>
+		<div class="body">
+			<div><%=post.getP_content() %></div>
 		</div>
 		
-		
+		<br>
 		<br>
 		
-		<%if(session.getAttribute("u_id") != null){ %>
- 		<%if(session.getAttribute("u_id").equals(post.getU_id())){ %> 
-		<a id="boardDelete" style="cursor:pointer">삭제</a>
-		<a href="/board/update?pno=<%=post.getP_no()%>">수정</a>
-		<%} 
- 		}%>
+	</div><!-- content div 끝 -->
+	
+	<div style="float:left">
+		<%if(post.getP_stored_name() != null && !post.getP_stored_name().equals("null")) {%>
+			<span>첨부파일</span>
+			<a href="/upload/<%=post.getP_stored_name() %>"
+ 			download="<%=post.getP_origin_name() %>">
+			<%=post.getP_origin_name() %></a>
+			<br>
+		<%} %>
 	</div>
 	
-	<br>
 	<hr>
 	
-	<div id="comment">
-		
-	</div>
+	<div id="comment" class="comment"><!-- 댓글 ajax로 불러올곳 --></div>
+	
 	
 	<div>
 		<h3 style="float:left;">댓글 쓰기</h3>
 		<textarea id="c_content" style="width :900px; height:80px;"></textarea><br>
 		<button id="btnInsert" style="float : right;">댓글 등록</button>
 	</div>
-</div>
+	
+	
+	
+</div><!-- 컨테이너 div끝 -->
 
 <%@include file="/WEB-INF/views/layout/footer.jsp"%>
 </body>
+<style type="text/css">
+.container{
+	width:930px; 
+	text-align:center; 
+	margin:0 auto;
+}
+.head{
+	border:1px solid #e5e5e5;
+	position:relative;
+}
+.under{
+	background-color:#f7f7f7;
+	padding:10px;
+	position:relative;
+}
+.number{
+	position:absolute;
+	left:10px;
+	top:50%;
+	transform: translateY(-50%);
+}
+.title{
+	font-size:20px;
+}
+.dele,.upda{
+	margin-left:15px;
+}
+.nick{
+	position:absolute;
+	left:15px;
+	top:50%;
+	transform: translateY(-50%);
+}
+.date{
+	margin-left:15px;
+}
+.view{
+	margin-left:15px;
+}
+.postUl{
+	list-style:none;
+	text-align:right;
+}
+.postUl>li{
+	top:50%;
+	float:right;
+}
+/* li{ */
+/* 	top:50%; */
+/* 	float:right; */
+/* } */
+a{	color:#000;}
+</style>
 </html>
