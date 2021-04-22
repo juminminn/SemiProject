@@ -2,9 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%ChallengeCategory category = (ChallengeCategory)request.getAttribute("ca_title"); %>
-<%int num = Integer.parseInt(request.getParameter("category")); %>
+<%int num = Integer.parseInt(request.getParameter("subject")); %>
 <div class = "container">
-<%if(num == 1){ %>
+<% if(num == 0){ %>
+<h1><%=category.getTitle() %> <span class="fas fa-dumbbell fa-sm"></span></h1>
+<%}else if(num == 1){ %>
 <h1><%=category.getTitle() %> <span class="fas fa-dumbbell fa-sm"></span></h1>
 <%}else if(num == 2){ %>
 <h1><%=category.getTitle() %> <span class="fas fa-trophy fa-sm"></span></h1>

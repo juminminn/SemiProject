@@ -4,53 +4,93 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% List<Challenge> list = (List<Challenge>)request.getAttribute("newChallenges"); %>
+<% List<Integer> participant = (List<Integer>)request.getAttribute("cntParticipant"); %>
+<% List<Integer> like = (List<Integer>)request.getAttribute("cntLikes"); %>
 <!DOCTYPE html>
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
-<body>
-<%@ include file="/WEB-INF/views/ChallengeList/category.jsp" %>
-<div class="participant"><h3><span class="fas fa-user"></span> 참여자 현황</h3></div>
-<div class="wrapper">
-<%for(int i = 0; i< list.size(); i++){ %>
-<%if(list.get(i).getChStoredName()== null || list.get(i).getChStoredName().contains("저장")){ %>
-<div class = "imgarea">
-<img src="/resources/img/challenge.png" alt="챌린지 임시페이지">
-<p><%= list.get(i).getChTitle() %> <span class="fas fa-user sm"></span></p>
-</div>
-<%}else{ %>
-<div class = "imgarea">
-<img src="/resources/img/challenge.png" alt="챌린지 저장이미지">
-<p><%= list.get(i).getChTitle() %> <span class="fas fa-user sm"></span></p>
-<%-- <%= request.getServletContext().getRealPath("/") %>\<%=list.get(i).getChStoredName() %> --%>
-</div>
-<%	} %>
-<%} %>
-</div>
-</div>
-</body>
 <style type="text/css">
 .container{
 	width : 900px;
 	height : 900px;
 	border : 1px solid #ccc;
 	text-align : center;
-	padding : 10px;
+	padding : 15px;
 }
 .participant{
 	text-align : right;
+	margin-right : 15pxs;
 }
 .wrapper{
-	border : 1px solid #ccc;
-	width : 572px;
+	/* border : 1px solid #ccc; */
+	width : 750px;
+	height: 630px;
 	margin : 0 auto;
-	height : 100%;
 }
 .imgarea{
-	width : 225px;
+	width : 300px;
 	float: left;
 	box-sizing: border-box;
-	margin : 30px;
-	border : 1px solid #ccc;
+	margin : 37px;
+	cursor : pointer;
+	/* border : 1px solid #ccc; */
+}
+.imgarea > img{
+ 	width : 250px;
+ 	height: 180px;	
+	border-radius : 5px;
+}
+.imgarea > p{
+	font-size : larger;
+	margin: 10px 0 10px;
+}
+.title{
+	font-weight : bold;
+}
+.imgarea > .title::after{
+	content:"new!";
+	width: 5px;
+	background: #A8201A;
+	color:white;
+	font-size:small;
+	font-weight: bold;
+	padding : 2px;
+	margin-left: 5px;
+	border-radius : 5px;
+}
+.people{
+	margin-right : 20px;
 }
 </style>
+<body>
+<%@ include file="./subjects.jsp" %>
+<div class="participant">
+</div>
+	<div class="wrapper">
+		<%for(int i = 0; i< list.size(); i++){ %>
+		<%if(list.get(i).getChStoredName()== null || list.get(i).getChStoredName().contains("저장")){ %>
+		<div class = "imgarea" onclick = "location.href='/user/challenge/view?chNo=<%= list.get(i).getChNo()%>'">
+			<img src="/resources/img/challenge.png" alt="챌린지 임시페이지"/>
+			<p class="title"><%= list.get(i).getChTitle() %></p>
+			<p class="status">
+			<span class="people"><i class="fas fa-user"></i> <%= participant.get(i) %> </span>
+	 		<span class="like"><i class="far fa-thumbs-up"></i> <%= like.get(i) %> </span>
+			</p>
+		</div>
+		<%}else{ %>
+		<div class = "imgarea"  onclick = "location.href='/user/challenge/view?chNo=<%= list.get(i).getChNo()%>'">
+			<img src="/upload/<%=list.get(i).getChStoredName() %>" alt="챌린지 저장이미지" />
+			<p class = "title"><%= list.get(i).getChTitle() %></p>
+			<p class = "status">
+			<span class="people"><i class="fas fa-user"></i> <%= participant.get(i) %></span>			
+	 		<span class="like"><i class="far fa-thumbs-up"></i> <%= like.get(i) %></span>
+			</p>
+		</div>
+		<%	} %>
+	<%} %>
+	</div>
+<%@ include file="/WEB-INF/views/ChallengeList/pagings/newPaging.jsp" %>
+</div>
+</body>
+
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

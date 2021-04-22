@@ -7,8 +7,9 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-<link rel="stylesheet" href="/resources/css/bootMainPage.css">
+<link rel="stylesheet" href="/resources/css/bootMainPage(new).css">
 <script type="text/javascript" src="/resources/js/mainPage.js"></script>
+<script type="text/javascript" src="/resources/js/search.js"></script>
 
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -47,9 +48,9 @@
 	</ul>
 	</div>
 	<div class="center" style="padding:30px 20px;">
-		<form action="#" method="get">
-			<input type="text" id="search" name="search" />
-				<button class="startBtn"><i class="fas fa-search"></i></button>
+		<form action="/search" method="get" id ="form">
+			<input type="text" id="key" name="key"/>
+				<button class="startBtn" id="sumbit" type="button"><i class="fas fa-search"></i></button>
 		</form>
 	</div>
 	
