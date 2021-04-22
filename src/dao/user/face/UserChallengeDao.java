@@ -165,6 +165,7 @@ public interface UserChallengeDao {
 	 * @return - 1를 반환되면 참여중 아니면 0을 반환
 	 */
 	public int selectParticipation(Connection conn, Participation participation);
+	
 	/**
 	 *새로운 challenge을 table의 저장
 	 *
@@ -230,5 +231,7 @@ public interface UserChallengeDao {
 	 * @return - 1이상이면 데이터 삽입 완료 0
 	 */
 	public int paybInsert(Connection conn, Payback payback);
+	
+	
 	
 }

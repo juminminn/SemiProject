@@ -27,9 +27,10 @@ public class CommentInsertController extends HttpServlet {
 		int u_no = (int)session.getAttribute("u_no");
 		String c_content = request.getParameter("content");		
 		int pno = Integer.parseInt(request.getParameter("pno"));
+		
 		Comment cmt = new Comment();
 		cmt.setC_content(c_content);
-		cmt.setUno(u_no);
+		cmt.setUno(u_no);;
 		cmt.setPno(pno);
 		postService.InsertComment(cmt);
 		

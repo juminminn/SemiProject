@@ -24,13 +24,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Board> MostViewList(int bno) {
-		Board board = new Board();
-		board.setBno(bno);
-		return boardDao.MostViewList(board);
-	}
-
-	@Override
 	public List<Board> cSearch(Paging paging, int bno, String word) {
 		Board board = new Board();
 		board.setBno(bno);
@@ -59,41 +52,6 @@ public class BoardServiceImpl implements BoardService {
 		Paging paging = new Paging(totalCount, curPage, 20);
 		
 		return paging;
-	}
-	
-	@Override
-	public Paging cSearchGetPaging(HttpServletRequest req, int bno, String keyword) {
-		String param = req.getParameter("curPage");
-		int curPage = 0;
-		if(param != null && !"".equals(param)) {
-			curPage = Integer.parseInt(param);
-		}
-		
-		int totalCount = boardDao.CSearchAndCnt(bno, keyword);
-
-		Paging paging = new Paging(totalCount, curPage, 20);
-		
-		return paging;
-	}
-
-	@Override
-	public Paging pSearchGetPaging(HttpServletRequest req, int bno, String keyword) {
-		String param = req.getParameter("curPage");
-		int curPage = 0;
-		if(param != null && !"".equals(param)) {
-			curPage = Integer.parseInt(param);
-		}
-		
-		int totalCount = boardDao.TSearchAndCnt(bno, keyword);
-
-		Paging paging = new Paging(totalCount, curPage, 20);
-		
-		return paging;
-	}
-
-	@Override
-	public String[] BoardData(int bno) {
-		return boardDao.boardData(bno);
 	}
 
 
