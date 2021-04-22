@@ -21,7 +21,7 @@ public class Challenge {
 	private int chLikes; //좋아요 개수
 	private String chOriginName; // 원본 파일 이름(사진) 
 	private String chStoredName; //저장 파일 이름(사진)
-	private String chState; // 챌린지 종료상태
+	private String chState; //챌린지 운영 상태
 	
 	@Override
 	public String toString() {
@@ -31,149 +31,117 @@ public class Challenge {
 				+ ", chEndTime=" + chEndTime + ", chWay=" + chWay + ", chCaution=" + chCaution + ", chLikes=" + chLikes
 				+ ", chOriginName=" + chOriginName + ", chStoredName=" + chStoredName + ", chState=" + chState + "]";
 	}
-
-	public final int getChNo() {
+	public int getChNo() {
 		return chNo;
 	}
-
-	public final void setChNo(int chNo) {
+	public void setChNo(int chNo) {
 		this.chNo = chNo;
 	}
-
-	public final int getCaNo() {
+	public int getCaNo() {
 		return caNo;
 	}
-
-	public final void setCaNo(int caNo) {
+	public void setCaNo(int caNo) {
 		this.caNo = caNo;
 	}
-
-	public final int getCecNo() {
+	public int getCecNo() {
 		return cecNo;
 	}
-
-	public final void setCecNo(int cecNo) {
+	public void setCecNo(int cecNo) {
 		this.cecNo = cecNo;
 	}
-
-	public final int getuNo() {
+	
+	public int getuNo() {
 		return uNo;
 	}
-
-	public final void setuNo(int uNo) {
+	public void setuNo(int uNo) {
 		this.uNo = uNo;
 	}
-
-	public final String getChTitle() {
+	
+	public String getChTitle() {
 		return chTitle;
 	}
-
-	public final void setChTitle(String chTitle) {
+	public void setChTitle(String chTitle) {
 		this.chTitle = chTitle;
 	}
-
-	public final String getChContent() {
+	public String getChContent() {
 		return chContent;
 	}
-
-	public final void setChContent(String chContent) {
+	public void setChContent(String chContent) {
 		this.chContent = chContent;
 	}
-
-	public final Date getChCreateDate() {
+	public Date getChCreateDate() {
 		return chCreateDate;
 	}
-
-	public final void setChCreateDate(Date chCreateDate) {
+	public void setChCreateDate(Date chCreateDate) {
 		this.chCreateDate = chCreateDate;
 	}
-
-	public final Date getChStartDate() {
+	public Date getChStartDate() {
 		return chStartDate;
 	}
-
-	public final void setChStartDate(Date chStartDate) {
+	public void setChStartDate(Date chStartDate) {
 		this.chStartDate = chStartDate;
 	}
-
-	public final Date getChEndDate() {
+	public Date getChEndDate() {
 		return chEndDate;
 	}
-
-	public final void setChEndDate(Date chEndDate) {
+	public void setChEndDate(Date chEndDate) {
 		this.chEndDate = chEndDate;
 	}
-
-	public final int getChMoney() {
+	public int getChMoney() {
 		return chMoney;
 	}
-
-	public final void setChMoney(int chMoney) {
+	public void setChMoney(int chMoney) {
 		this.chMoney = chMoney;
 	}
-
-	public final String getChStartTime() {
+	
+	public String getChStartTime() {
 		return chStartTime;
 	}
-
-	public final void setChStartTime(String chStartTime) {
+	public void setChStartTime(String chStartTime) {
 		this.chStartTime = chStartTime;
 	}
-
-	public final String getChEndTime() {
+	public String getChEndTime() {
 		return chEndTime;
 	}
-
-	public final void setChEndTime(String chEndTime) {
+	public void setChEndTime(String chEndTime) {
 		this.chEndTime = chEndTime;
 	}
-
-	public final String getChWay() {
+	public String getChWay() {
 		return chWay;
 	}
-
-	public final void setChWay(String chWay) {
+	public void setChWay(String chWay) {
 		this.chWay = chWay;
 	}
-
-	public final int getChCaution() {
+	public int getChCaution() {
 		return chCaution;
 	}
-
-	public final void setChCaution(int chCaution) {
+	public void setChCaution(int chCaution) {
 		this.chCaution = chCaution;
 	}
-
-	public final int getChLikes() {
+	public int getChLikes() {
 		return chLikes;
 	}
-
-	public final void setChLikes(int chLikes) {
+	public void setChLikes(int chLikes) {
 		this.chLikes = chLikes;
 	}
-
-	public final String getChOriginName() {
+	public String getChOriginName() {
 		return chOriginName;
 	}
-
-	public final void setChOriginName(String chOriginName) {
+	public void setChOriginName(String chOriginName) {
 		this.chOriginName = chOriginName;
 	}
-
-	public final String getChStoredName() {
+	public String getChStoredName() {
 		return chStoredName;
 	}
-
-	public final void setChStoredName(String chStoredName) {
+	public void setChStoredName(String chStoredName) {
 		this.chStoredName = chStoredName;
 	}
-
-	public final String getChState() {
+	public String getChState() {
 		return chState;
 	}
-
-	public final void setChState(String chState) {
+	public void setChState(String chState) {
 		this.chState = chState;
 	}
-
+	
+	
 }
