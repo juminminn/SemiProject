@@ -93,6 +93,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public String[] BoardData(int bno) {
+		System.out.println("");
 		return boardDao.boardData(bno);
 	}
 
