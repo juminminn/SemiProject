@@ -16,7 +16,7 @@
 <header>
 	<div class="left">
 		<a href = "/">
-			<img src="/resources/img/AchievementWhite.png" width="250" height="100"
+			<img src="/resources/img/AchievementWhite.png" width="230" height="100"
 		alt="Achievement"  title="Achievement"> </a>
 	</div>
 	

@@ -201,18 +201,18 @@ $(document).ready(function(){
     width: 200px;
     background-color: #DAD2D8;
 }
-li a {
+#myCategory li a {
     display: block;
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
 }
- li a.myHome {
+#myCategory  li a.myHome {
     background-color: #EC9A29;
     color: white;
 } 
 
-li a:hover {
+#myCategory li a:hover {
     background-color: #143642;
     color: white;
 }

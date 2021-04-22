@@ -46,7 +46,7 @@ public class MypageDaoImpl implements MypageDao {
 				member.setAccount(rs.getString("u_account"));
 				member.setBank(rs.getString("u_bank"));
 				member.setUgrade(rs.getString("u_grade"));
-				member.setPost(rs.getInt("u_post"));
+				member.setPost(rs.getString("u_post"));
 				member.setAddress(rs.getString("u_address"));
 				member.setPhone(rs.getString("u_phone"));
 			}
@@ -410,7 +410,9 @@ public class MypageDaoImpl implements MypageDao {
 				refunds.setPaybRefundBank(rs.getString("payb_refund_bank"));
 				refunds.setPaybRefundAccount(rs.getString("payb_refund_account"));
 				refunds.setImpUid(rs.getString("imp_uid"));
-				refunds.setMerchantUid(rs.getString("merchant_uid"));	
+				refunds.setMerchantUid(rs.getString("merchant_uid"));
+				refunds.setRefundAvailability(rs.getString("refund_availability"));
+				refunds.setRefundableAmount(rs.getInt("refundable_amount"));
 			}		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -487,7 +489,9 @@ public class MypageDaoImpl implements MypageDao {
 				refunds.setPaybRefundBank(rs.getString("payb_refund_bank"));
 				refunds.setPaybRefundAccount(rs.getString("payb_refund_account"));
 				refunds.setImpUid(rs.getString("imp_uid"));
-				refunds.setMerchantUid(rs.getString("merchant_uid"));	
+				refunds.setMerchantUid(rs.getString("merchant_uid"));
+				refunds.setRefundAvailability(rs.getString("refund_availability"));
+				refunds.setRefundableAmount(rs.getInt("refundable_amount"));
 			}		
 		} catch (SQLException e) {
 			e.printStackTrace();
