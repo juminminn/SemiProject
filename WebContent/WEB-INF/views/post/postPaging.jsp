@@ -14,14 +14,14 @@
 		
 		<!-- 이전 페이징 리스트로 가기 -->
 		<%	if(paging.getStartPage() > paging.getPageCount()) { %>
-		<li><a href="?curPage=<%=paging.getStartPage() - paging.getPageCount() %>">&laquo;</a></li>
+		<li><a href="?search_type=<%=request.getParameter("search_type") %>&keyword=<%=request.getParameter("keyword") %>&curPage=<%=paging.getStartPage() - paging.getPageCount() %>">&laquo;</a></li>
 		<%	} else { %>
 		<li class="disabled"><a>&laquo;</a></li>
 		<%	} %>
 		
 		<!-- 이전 페이지로 가기 -->
 		<%	if(paging.getCurPage() != 1) { %>
-		<li><a href="?curPage=<%=paging.getCurPage() - 1 %>">&lt;</a></li>
+		<li><a href="?search_type=<%=request.getParameter("search_type") %>&keyword=<%=request.getParameter("keyword") %>&curPage=<%=paging.getCurPage() - 1 %>">&lt;</a></li>
 		<%	} %>
 		
 		

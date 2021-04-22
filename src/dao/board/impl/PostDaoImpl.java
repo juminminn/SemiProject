@@ -21,7 +21,8 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public void Update(Post post) {
 		String sql = "";
-		sql += "UPDATE post set p_title='" + post.getP_title() + "', p_content='" + post.getP_content() + "' where p_no=" + post.getP_no();
+		sql += "UPDATE post set p_title='" + post.getP_title() + "', p_content='" + post.getP_content() + "'";
+		sql += ", p_stored_name='" + post.getP_stored_name() + "', p_origin_name='" + post.getP_origin_name() + "' where p_no=" + post.getP_no();
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -74,7 +75,7 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public void Insert(Post post) {
 		String sql ="";
-		sql += "insert into post(p_no, u_no, b_no, p_title, p_content, p_views, p_origin_name, p_stored_name) values(post_seq.nextval, (select u_no from users where u_id='" + post.getU_id() + "'),"
+		sql += "insert into post(p_no, u_no, b_no, p_title, p_content, p_views, p_origin_name, p_stored_name) values(post_seq.nextval, " + post.getU_no() + ","
 				+ post.getB_no() + ", '" + post.getP_title() + "', '" + post.getP_content() + "', 0, '" + post.getP_origin_name() + "', '" + post.getP_stored_name() + "')";
 		
 		try {
@@ -265,8 +266,83 @@ public class PostDaoImpl implements PostDao {
 		
 		return u_nick;
 	}
-	
-	
-	
 
+	@Override
+	public void PlusMyPost(Post post) {
+		String sql = "";
+		sql += "Update myPage set m_post = m_post + 1 where m_no=" + post.getU_no();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+	}
+	
+	@Override
+	public void MinusMyPost(Post post) {
+		String sql = "";
+		sql += "Update myPage set m_post = m_post - 1 where m_no=" + post.getU_no();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+	}
+
+	@Override
+	public void PlusMyComment(Comment comment) {
+		String sql = "";
+		sql += "Update myPage set m_comment = m_comment + 1 where m_no=" + comment.getUno();
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.executeUpdate();
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+	}
+	
+	@Override
+	public void MinusMyComment(Comment comment) {
+		String sql = "";
+		sql += "Update myPage set m_comment = m_comment - 1 where m_no=" + comment.getUno();
+		System.out.println(sql);
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.executeUpdate();
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+	}
+	
+	
 }

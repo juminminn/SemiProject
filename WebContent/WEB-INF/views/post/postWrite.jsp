@@ -7,13 +7,14 @@
 <%
 	Post post = (Post)request.getAttribute("post");
 	String nick = request.getAttribute("u_nick").toString();
+	String[] boardData = (String[])request.getAttribute("boardData");
 %>
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 
 <div style="width:900px; margin:0 auto;">
-	<h2>게시판이름</h2>
+	<h2><%=boardData[1] %></h2>
 	<hr>
 	<h3>쓰기</h3>
 	<hr>
@@ -26,11 +27,11 @@
 					<td><%if(post == null){ %>
 						<input style="width:90%;" type="text" id="title" name="p_title" placeholder="제목"/>
 						<%}else{ %>
+						<input type="hidden" name="pno" value="<%=post.getP_no()%>"/>
 						<input style="width:90%;" type="text" id="title" name="p_title" value="<%=post.getP_title()%>"/>
 						<%} %>
 					</td>
 				</tr>
-				<tr><td colspan="2">내용</td></tr>
 				<tr><td colspan="2"><%if(post == null){ %>
 						<textarea style="width:100%; height:100%;" id="content" name="p_content"></textarea>
 						<%}else { %>
@@ -41,9 +42,9 @@
 
 			</table>
 			<%if(post == null){ %>
-				<input multiple="multiple" type="file" name="file" value="파일첨부" />
+				<input type="file" name="file" value="파일첨부" />
 			<%}else{ %>
-				<input multiple="multiple" type="file" name="file" value="<%=post.getP_origin_name() %>" />
+				<input type="file" name="file" value="<%=post.getP_origin_name() %>" />
 			<%} %>
 			<br><br><br>
 		</div>	
@@ -83,18 +84,28 @@ nhn.husky.EZCreator.createInIFrame({
 
 
 $(document).ready(function(){
+	if(<%=nick.equals("")%>){
+		alert('로그인후 글쓰기가 가능합니다');
+		history.back();
+	}
+	
+	
+	
 	$("#btnWrite").click(function(){
+		submitContents($("#btnWrite"))
 		<%if(post == null){%>
-			submitContents( $("#btnWrite") )
 			$("form").submit();
 		<%}else{%>
-			oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+			var form = $("#writeFrm")[0];
+			var formData = new FormData(form);
 			$.ajax({
 				url : "/board/update",
 				type : "POST",
-				data : {title : $("#title").val(), content : $("#content").val(), pno: <%=post.getP_no()%>},
+				contentType: false,
+				processData: false,
+				data : formData,
 				success : function(){
-					location.href="/board/view?pno=<%=post.getP_no()%>";
+					location.href="/board/view?mid=<%=boardData[0]%>&pno=<%=post.getP_no()%>";
 				}
 			});
 		<%}%>
