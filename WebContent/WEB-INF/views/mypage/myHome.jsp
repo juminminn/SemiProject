@@ -262,7 +262,7 @@ $(document).ready(function(){
 		 <span>Total Reword: <%=refundsTotal %> &#8361;</span>
 		
 		<!-- 포인트 사용을 위한 폼 영역  --> 
-		 <form action="#" method="post">		 	
+		 <form action="/user/use/point/list" method="get">		 	
 		 	<div style="text-align: center; margin-top: 10px;"><strong style="color:#EC9A29">포인트</strong> <button id="usePoint">사용</button></div>	 
 		 </form>
  		 <!-----------------------------  --> 
