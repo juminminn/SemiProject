@@ -11,6 +11,7 @@ import dto.Post;
 public interface PostService {
 	public Post SelectPost(HttpServletRequest req);
 	public void DeletePost(HttpServletRequest req);
+	public void InsertPost(HttpServletRequest req);
 	public void UpdatePost(HttpServletRequest req);
 	public void UpdateViews(HttpServletRequest req);
 	public List<Comment> SelectComment(HttpServletRequest req);

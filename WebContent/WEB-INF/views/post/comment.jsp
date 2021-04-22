@@ -23,21 +23,18 @@
 		});
 		
 		
-		//대댓글 버튼클릭
 		$("#btnCiC<%=i%>").click(function(){
 			$("#divCiC<%=i%>").html("");
 			$("#divCiC<%=i%>").append("<textarea id='textCiC' style='width:900px; height:80px; '></textarea><button id='cancelCiC'>취소</button>");
 			$("#divCiC<%=i%>").append("<button id='insertCiC'>댓글 등록</button>");
 			$("#textCiC").focus();
 			
-			//대댓글 취소버튼
 			$("#cancelCiC").click(function(){
 				$("#divCiC<%=i%>").html("");
 			});
 			
 			var login = <%=session.getAttribute("login")%>
 			
-			//대댓글 등록 버튼
 			$("#insertCiC").click(function(){
 				if(login){
 					$.ajax({
@@ -57,18 +54,16 @@
 		});
 		
 		
-		//댓글 수정 
+		
 		$("#cmtUp<%=i%>").click(function(){
 			$("#cmtDiv<%=i%>").html("");
 			$("#cmtDiv<%=i%>").append("<p></p><textarea id='cmtContent' style='width:900px; height:80px; '><%=cList.get(i).getC_content()%></textarea>");
 			$("#cmtDiv<%=i%>").append("<button id='cmtCancel'>취소</button><button id='cmtUpdate'>댓글 등록</button><hr>");
 			
-			//댓글수정 취소버튼
 			$("#cmtCancel").click(function(){
 				location.reload();
 			});
 			
-			//댓글수정 등록버튼
 			$("#cmtUpdate").click(function(){
 				$.ajax({
 					url:"/comment/update",
@@ -90,16 +85,8 @@
     
     
 <%for(int i=0; i<cList.size(); i++){ %>
-
-
 <div id="cmtDiv<%=i%>">
-
-
-
-
-
-
-
+<%-- <div style="padding:0 0 5px 40px" id="cmtDiv<%=i%>"> --%>
 	<span style="float:left;"><%=cList.get(i).getU_nick() %></span>
 	<div>
 	<span><%=cList.get(i).getC_Create_date() %></span>

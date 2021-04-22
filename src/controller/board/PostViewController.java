@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.Comment;
 import dto.Post;
-import service.board.face.BoardService;
 import service.board.face.PostService;
-import service.board.impl.BoardServiceImpl;
 import service.board.impl.PostServiceImpl;
 
 /**
@@ -23,7 +21,6 @@ import service.board.impl.PostServiceImpl;
 public class PostViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private PostService postService = new PostServiceImpl();
-    private BoardService boardService = new BoardServiceImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -31,10 +28,7 @@ public class PostViewController extends HttpServlet {
 
 		Post post = postService.SelectPost(request);
 
-		String[] boardData = boardService.BoardData(Integer.parseInt(request.getParameter("mid")));
-		
-		request.setAttribute("boardData", boardData);
-		
+
 		request.setAttribute("post", post);
 		
 		

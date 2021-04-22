@@ -37,12 +37,13 @@ public class ParticipantCancelController extends HttpServlet {
 		Payback payback = participantService.getPayback(paMap);
 		//최종 환급
 		participantService.payback(payback, token);
+		System.out.println(payback);
 		//환급 정보 테이블에 저장
-		participantService.paybackInsert(payback);
-		
-		//partipation정보 삭제
-		int paNo=participantService.getParticipationno(req);
-		participantService.participationDelete(paNo);
+//		participantService.paybackInsert(payback);
+//		
+//		//partipation정보 삭제
+//		int paNo=participantService.getParticipationno(req);
+//		participantService.participationDelete(paNo);
 		
 		if(req.getSession().getAttribute("u_grade")!=null) { //등급에 따른 분류
 			if("M".equals(String.valueOf(req.getSession().getAttribute("u_grade")))) { //관리자

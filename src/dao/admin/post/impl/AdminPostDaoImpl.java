@@ -107,7 +107,7 @@ public class AdminPostDaoImpl implements AdminPostDao {
 	@Override
 	public int selectCntAll(Connection conn) {
 		String sql = "";
-		sql += "SELECT count(*) cnt FROM board";
+		sql += "SELECT count(*) cnt FROM post";
 		
 		//총 게시글 수
 		int cnt = 0;

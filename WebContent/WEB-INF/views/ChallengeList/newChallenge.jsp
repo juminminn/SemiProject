@@ -89,7 +89,7 @@
 		<%	} %>
 	<%} %>
 	</div>
-<%@ include file="/WEB-INF/views/challengeList/pagings/newPaging.jsp" %>
+<%@ include file="/WEB-INF/views/ChallengeList/pagings/newPaging.jsp" %>
 </div>
 </body>
 

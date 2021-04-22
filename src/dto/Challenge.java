@@ -23,7 +23,6 @@ public class Challenge {
 	private String chStoredName; //저장 파일 이름(사진)
 	private String chState; //챌린지 운영 상태
 	
-	
 	@Override
 	public String toString() {
 		return "Challenge [chNo=" + chNo + ", caNo=" + caNo + ", cecNo=" + cecNo + ", uNo=" + uNo + ", chTitle="
