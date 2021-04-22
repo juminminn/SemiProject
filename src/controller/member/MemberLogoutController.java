@@ -21,6 +21,6 @@ public class MemberLogoutController extends HttpServlet {
 		req.getSession().invalidate();
 		
 		//메인페이지로 리다이렉트
-		resp.sendRedirect("/");
+		resp.sendRedirect("/admin/notice");
 	}
 }
