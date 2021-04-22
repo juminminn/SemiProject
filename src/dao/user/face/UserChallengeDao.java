@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import common.JDBCTemplate;
 import dto.Challenge;
+import dto.Participation;
+import dto.Payback;
 import util.Paging;
 
 public interface UserChallengeDao {
@@ -158,6 +159,13 @@ public interface UserChallengeDao {
 	public int selectCaNo(Connection conn, String category);
 	
 	/**
+	 *ch_no 와 u_no을 통하여 해당 챌린지 참여 여부 확인 
+	 * 
+	 * @param participation - 조회정보가 담겨져 있는 객체
+	 * @return - 1를 반환되면 참여중 아니면 0을 반환
+	 */
+	public int selectParticipation(Connection conn, Participation participation);
+	/**
 	 *새로운 challenge을 table의 저장
 	 *
 	 *@param challenge - 챌린지 정보를 가지고 있다  
@@ -188,5 +196,39 @@ public interface UserChallengeDao {
 	 *@return int - (삭제 성공했을때 1이 반환되고 실패했을시 0이 반환된다) 
 	 */
 	public int delete(Connection conn, Challenge challenge);
+	
+	/**
+	 * 챌린지 상태 검색
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param challenge - chNo
+	 * @return 챌린지 상태
+	 */
+	
+	public String selectChState(Connection conn, Challenge challenge);
+	
+	/**
+	 * 환급자들 반환
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param challenge - chNo
+	 * @return 환급자들 반환
+	 */
+	
+	public List<Payback> selectAllPayback(Connection conn, Challenge challenge);
+	/**
+	 * 환급자들 다음 번호
+	 * @param conn - DB연결 객체
+	 * @return 환급자 다음 번호
+	 */
+	public int selectPaybNo(Connection conn);
+	
+	/**
+	 * 환급자들 삽입
+	 * @param conn - DB연결 객체
+	 * @param payback - 환급 정보
+	 * @return - 1이상이면 데이터 삽입 완료 0
+	 */
+	public int paybInsert(Connection conn, Payback payback);
 	
 }

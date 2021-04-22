@@ -44,7 +44,7 @@ public class popularChallengeController extends HttpServlet {
     	req.setAttribute("popParticipant",popParticipant); //참여자수
     	req.setAttribute("popLikes", popLikes); //좋아요 수
     	
-    	req.getRequestDispatcher("/WEB-INF/views/ChallengeList/popularChallenge.jsp").forward(req, resp);
+    	req.getRequestDispatcher("/WEB-INF/views/challengeList/popularChallenge.jsp").forward(req, resp);
     	
     }       
 

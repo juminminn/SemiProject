@@ -23,4 +23,13 @@ public interface MemberDao {
 	 */
 	
 	public Member selectMemberByUserid(Connection conn, Member mem);
+
+	/**
+	 * uno을 이용한 회원 정보 조회 
+	 * @param conn - DB연결 객체
+	 * @param mem - 조회할 회원
+	 * @return - 조회 객체
+	 */
+	
+	public Member selectInfoAll(Connection conn, Member mem);
 }

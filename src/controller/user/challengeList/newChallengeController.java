@@ -46,7 +46,7 @@ public class newChallengeController extends HttpServlet {
     	req.setAttribute("cntParticipant", cntParticipant);
     	req.setAttribute("cntLikes", cntLikes);
     	
-    	req.getRequestDispatcher("/WEB-INF/views/ChallengeList/newChallenge.jsp").forward(req, resp);
+    	req.getRequestDispatcher("/WEB-INF/views/challengeList/newChallenge.jsp").forward(req, resp);
     	
     }
 }

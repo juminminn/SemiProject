@@ -47,13 +47,13 @@ $(document).ready(function() {
 	});
 	
 	$("#ch_title").blur(function(){ //포커스를 잃었을떄
-		var regex =/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+		var regex =/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\s]+$/;
 		if(!regex.test($(this).val())){
-			$("#titleM").css({"color":"#d9534f"})
-			$("#titleM").html("한글, 영어, 숫자만 가능합니다.")
+			$("#messageTitle").css({"color":"#d9534f"})
+			$("#messageTitle").html("한글, 영어, 숫자만 가능합니다.")
 		}else{
-			$("#titleM").css({"color":"#5cb85c"})
-			$("#titleM").html("멋진 제목이네요!")
+			$("#messageTitle").css({"color":"#5cb85c"})
+			$("#messageTitle").html("멋진 제목이네요!")
 		}
 		
 	})
@@ -95,7 +95,7 @@ span{
 <form action="#" method="post" enctype="multipart/form-data">
 <table class="table table-responsive text-center">
 		<tr><td colspan="2"><label for="file"><img id="preview" src="/resources/img/challenge.png" width="400" height="300"/></label><input type="file" accept="image/*" id="file" name="file" style="width:100%; display: none;"/></td></tr>
-		<tr><td>제목</td><td><input type="text" id="ch_title" name="ch_title" style="width:100%" class="form-control"/><span id="titleM"></span></td></tr>
+		<tr><td>제목</td><td><input type="text" id="ch_title" name="ch_title" style="width:100%" class="form-control"/><span id="messageTitle"></span></td></tr>
 		<tr><td>카테고리</td><td>
 		<select style="width:100%" id="ch_category" name="ch_category" class="form-control">
 			<%for(int i=0; i<category.size(); i++){ %>

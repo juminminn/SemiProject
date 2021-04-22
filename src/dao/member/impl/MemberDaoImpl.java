@@ -91,8 +91,6 @@ public class MemberDaoImpl implements MemberDao {
 		
 		//최종 결과 반환
 		return result;
-<<<<<<< HEAD
-		
 	}
 	@Override
 	public Member selectInfoAll(Connection conn, Member mem) {
@@ -145,8 +143,7 @@ public class MemberDaoImpl implements MemberDao {
 
 		//최종 결과 반환
 		return result;
-=======
->>>>>>> goIsaac/master
+
 	}
 
 }

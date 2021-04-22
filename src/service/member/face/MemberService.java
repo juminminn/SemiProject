@@ -32,6 +32,13 @@ public interface MemberService {
 	 * 
 	 */
 	public Member info(Member mem);
+	/**
+	 * 유저의 모든 정보 가져오기
+	 * 
+	 * @param req - 회원 번호를 요청 객체
+	 * @return member - 조회된 회원 정보
+	 */
+	public Member infoAll(HttpServletRequest req);
 	
 	
 	
