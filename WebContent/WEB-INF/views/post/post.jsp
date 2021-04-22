@@ -133,4 +133,55 @@ $(document).ready(function(){
 
 <%@include file="/WEB-INF/views/layout/footer.jsp"%>
 </body>
+
+<style type="text/css">
+.container{
+	width:930px; 
+	text-align:center; 
+	margin:0 auto;
+}
+.head{
+	border:1px solid #e5e5e5;
+	position:relative;
+}
+.under{
+	background-color:#f7f7f7;
+	padding:10px;
+	position:relative;
+}
+.number{
+	position:absolute;
+	left:10px;
+	top:50%;
+	transform: translateY(-50%);
+}
+.title{
+	font-size:20px;
+}
+.dele,.upda{
+	margin-left:15px;
+}
+.nick{
+	position:absolute;
+	left:15px;
+	top:50%;
+	transform: translateY(-50%);
+}
+.date{
+	margin-left:15px;
+}
+.view{
+	margin-left:15px;
+}
+.postUl{
+	list-style:none;
+	text-align:right;
+}
+.postUl>li{
+	top:50%;
+	float:right;
+}
+a{	color:#000;}
+</style>
+
 </html>

@@ -77,4 +77,41 @@ $(document).ready(function(){
 <%} %>
 <%@include file="/WEB-INF/views/layout/footer.jsp"%>
 </body>
+
+
+<style type="text/css">
+a{color: #000;}
+ul{list-style: none;}
+.mostView{
+	background-color:#f8f8f8;
+	height:110px;
+	margin-bottom:10px;
+}
+.leftP{
+	min-height:110px;
+	width:50%;
+	float:left;
+}
+.rightP{
+	min-height:110px;
+	width:50%;
+	float:right;
+}
+.shadow{
+	box-shadow:0px 0px 6px #ccc;
+}
+.postView{
+/*  	box-shadow:0px 0px 6px #ccc; */
+	font-size:20px;
+	text-align:center;
+	height:40px;
+	color:#ffffff;
+	background-color:#143642;
+	margin:0px;
+}
+</style>
+
+
+
+
 </html>
