@@ -21,8 +21,7 @@ public class Challenge {
 	private int chLikes; //좋아요 개수
 	private String chOriginName; // 원본 파일 이름(사진) 
 	private String chStoredName; //저장 파일 이름(사진)
-	private String chState; //챌린지 상태
-	
+	private String chState; //챌린지 운영 상태
 	
 	@Override
 	public String toString() {
@@ -143,7 +142,6 @@ public class Challenge {
 	public void setChState(String chState) {
 		this.chState = chState;
 	}
-	
 	
 	
 }

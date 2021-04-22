@@ -40,7 +40,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return category;
 	}
 	@Override
-	public int getCntnewChallenges(Connection conn, ChallengeCategory number) {
+	public int getCntnewChallenges(Connection conn, ChallengeCategory number) { 
 		String sql = "";
 		sql += "SELECT count(*) FROM challenge "
 				+ "WHERE months_between(sysdate, ch_create_date) <= 1 "
@@ -63,7 +63,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		}
 		return challenges;
 	}
-	@Override
+	@Override//신규 챌린지
 	public List<Challenge> newChallengebyCategory(Connection conn, ChallengeCategory number, Paging paging) {
 		String sql = "";
 		sql = "SELECT * FROM( " + 
@@ -106,6 +106,124 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		}finally {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
+		}
+		return list;
+	}
+	@Override
+	public List<Integer> countParticipants(Connection conn, List<Challenge> list) {
+		String sql = "";
+		sql += "SELECT count(*) FROM participation WHERE ch_no = ?";
+		//결과를 저장할 개별 변수 
+		int participants = 0;
+		List<Integer> chNo = new ArrayList<>();
+		try {
+			ps = conn.prepareStatement(sql);
+			for(int i = 0; i< list.size(); i++) {
+				ps.setInt(1, list.get(i).getChNo());
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					participants = rs.getInt(1);
+					chNo.add(participants);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return chNo;
+	}
+	@Override
+	public List<Integer> countLikes(Connection conn, List<Challenge> list) {
+		String sql = "";
+		sql += "SELECT count(pa_like) FROM participation "
+				+ "WHERE pa_like = 'Y' and ch_no= ?";
+		//결과를 저장할 개별 변수
+		int likes = 0;
+		List<Integer> likeList = new ArrayList<>();
+		try {
+			ps = conn.prepareStatement(sql);
+			for(int i = 0; i< list.size(); i++) {
+				ps.setInt(1, list.get(i).getChNo());
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					likes = rs.getInt(1);
+					likeList.add(likes);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return likeList;
+	}
+	@Override
+	public int getCntPopularChallenges(Connection conn, ChallengeCategory subject) {
+		String sql = "";
+		sql += "SELECT COUNT(*) FROM( " + 
+				"SELECT * FROM challenge WHERE ch_likes >= 100 and ca_no = ?)POPULAR";
+		//결과를 저장할 변수 
+		int popular = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, subject.getCategoryNo());
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				popular = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+			JDBCTemplate.close(rs);
+		}
+		return popular;
+	}
+	@Override//인기 챌린지
+	public List<Challenge> popularChallenges(Connection conn, ChallengeCategory subject, Paging paging) {
+		String sql = "";
+		sql += "SELECT * FROM( " + 
+				"SELECT ROWNUM rnum, POPULAR.* FROM( " + 
+				"SELECT ch_no, ch_title, ch_start_date, ch_end_date, ch_likes, ch_origin_name, ch_stored_name " + 
+				"FROM challenge " + 
+				"WHERE ch_likes >= 100 AND ca_no = ? " + 
+				"ORDER BY ch_no DESC " + 
+				")POPULAR)R " + 
+				"WHERE rnum between ? and ?";
+		
+		List<Challenge> list = new ArrayList<>();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, subject.getCategoryNo());
+			ps.setInt(2, paging.getStartNo());
+			ps.setInt(3, paging.getEndNo());
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Challenge popular = new Challenge();
+				
+				popular.setChNo(rs.getInt("ch_no"));
+				popular.setChTitle(rs.getString("ch_title"));
+				popular.setChStartDate(rs.getDate("ch_start_date"));
+				popular.setChEndDate(rs.getDate("ch_end_date"));
+				popular.setChLikes(rs.getInt("ch_likes"));
+				popular.setChOriginName(rs.getString("ch_origin_name"));
+				popular.setChStoredName(rs.getString("ch_stored_name"));
+				
+				list.add(popular);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+			JDBCTemplate.close(rs);
 		}
 		return list;
 	}

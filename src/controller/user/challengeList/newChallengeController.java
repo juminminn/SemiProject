@@ -33,18 +33,18 @@ public class newChallengeController extends HttpServlet {
     	// view에 카테고리 정보 전송하기
     	req.setAttribute("ca_title", info);
     	
-    	//현재 페이지 정보 가져오기(페이징)
-    	String param = req.getParameter("curPage");
-    	int curPage = 0;
-    	if(param!=null && !param.equals("")) {
-    		curPage = Integer.parseInt(param);
-    	}
     	
     	//신규챌린지 카테고리별 리스트 가져오기
-    	List<Challenge> list = challengeService.getNewChallenges(number, curPage);
+    	List<Challenge> list = challengeService.getNewChallenges(req,number);
+    	
+    	//챌린지 참여 수 조회하기
+    	List<Integer> cntParticipant = challengeService.getCntParticipant(list);
+    	//챌린지 좋아요 수 조회하기
+    	List<Integer> cntLikes = challengeService.getCntLikes(list);
     	//리스트 속성 전달
     	req.setAttribute("newChallenges", list);
-    	
+    	req.setAttribute("cntParticipant", cntParticipant);
+    	req.setAttribute("cntLikes", cntLikes);
     	
     	req.getRequestDispatcher("/WEB-INF/views/ChallengeList/newChallenge.jsp").forward(req, resp);
     	
