@@ -111,7 +111,7 @@ public class AdminCommentDaoImpl implements AdminCommentDao {
 	@Override
 	public int selectCntAll(Connection conn) {
 		String sql = "";
-		sql += "SELECT count(*) cnt FROM board";
+		sql += "SELECT count(*) cnt FROM COMMENTS";
 		
 		//총 게시글 수
 		int cnt = 0;

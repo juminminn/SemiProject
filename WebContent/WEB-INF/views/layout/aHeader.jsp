@@ -29,7 +29,7 @@
 			<ul>
 				<li><a href="/member/login">로그인</a></li>
 			</ul>
-			<%}else if((boolean)session.getAttribute("login")) {%>
+			<%}else if((boolean)session.getAttribute("login")&& "M".equals((String)session.getAttribute("u_grade"))) {%>
 				<ul>
 					<li><a href="/member/logout">로그아웃</a></li>
 				</ul>

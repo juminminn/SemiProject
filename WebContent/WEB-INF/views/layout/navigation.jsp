@@ -23,14 +23,13 @@
 		<li>
 			<a href="#">게시판</a>
 			<ul>
-				<li><a href="/board/1">챌린지</a></li>
-				<li><a href="/board/2">유저</a></li>
-				<li><a href="/board/3">자유</a></li>
-				<li><a href="/board/4">팁, 노하우</a></li>
+				<li><a href="/board/3">입력1</a></li>
+				<li><a href="/board/3">입력2</a></li>
+				<li><a href="/board/3">입력3</a></li>
 			</ul>
 		</li>
 		<li>
-			<a href="#">신규챌린지</a>
+			<a href="/user/challenge/new?subject=0">신규챌린지</a>
 			<ul>
 				<li><a href="/user/challenge/new?subject=1">운동</a></li>
 				<li><a href="/user/challenge/new?subject=2">자기관리</a></li>
@@ -43,7 +42,7 @@
 			</ul>
 		</li>
 		<li>
-			<a href="#">인기챌린지</a>
+			<a href="/user/challenge/popular?subject=0">인기챌린지</a>
 			<ul>
 				<li><a href="/user/challenge/popular?subject=1">운동</a></li>
 				<li><a href="/user/challenge/popular?subject=2">자기관리</a></li>
