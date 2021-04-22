@@ -21,6 +21,7 @@ public class Challenge {
 	private int chLikes; //좋아요 개수
 	private String chOriginName; // 원본 파일 이름(사진) 
 	private String chStoredName; //저장 파일 이름(사진)
+	private String chState; //챌린지 운영 상태
 	
 	@Override
 	public String toString() {
@@ -28,7 +29,7 @@ public class Challenge {
 				+ chTitle + ", chContent=" + chContent + ", chCreateDate=" + chCreateDate + ", chStartDate="
 				+ chStartDate + ", chEndDate=" + chEndDate + ", chMoney=" + chMoney + ", chStartTime=" + chStartTime
 				+ ", chEndtime=" + chEndTime + ", chWay=" + chWay + ", chCaution=" + chCaution + ", chLikes=" + chLikes
-				+ ", chOriginName=" + chOriginName + ", chStoredName=" + chStoredName + "]";
+				+ ", chOriginName=" + chOriginName + ", chStoredName=" + chStoredName +", chState=" + chState + "]";
 	}
 	public int getChNo() {
 		return chNo;
@@ -134,6 +135,12 @@ public class Challenge {
 	}
 	public void setChStoredName(String chStoredName) {
 		this.chStoredName = chStoredName;
+	}
+	public String getChState() {
+		return chState;
+	}
+	public void setChState(String chState) {
+		this.chState = chState;
 	}
 	
 	

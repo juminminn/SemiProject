@@ -135,11 +135,7 @@ $(document).ready(function(){
 <style type="text/css">
 .content{
 	 width : 900px;
-<<<<<<< HEAD
 	 /* border: 1px solid #ccc; */
-=======
-	 border: 1px solid #ccc;
->>>>>>> 8667ecd11fff253f746c23efef707b1818cde30c
 	 margin: 0 auto;
 	 text-align: justify;
 	 padding-top : 15px;

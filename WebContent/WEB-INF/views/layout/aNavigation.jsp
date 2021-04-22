@@ -49,7 +49,7 @@ $( document ).ready( function() {
 <nav>
 <div>
 	<ul class="ndropdown">
-		<li id="member"><a href="#">회원</a></li>
+		<li id="member"><a href="/admin/user/list">회원</a></li>
 		<li id="board"><a href="#">게시판</a></li>
 		<li id="notice"><a href="#">공지사항</a></li>
 		<li id="challenge"><a href="/admin/challenge/list">챌린지</a></li>
