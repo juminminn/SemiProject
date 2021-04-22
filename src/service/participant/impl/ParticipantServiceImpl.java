@@ -825,7 +825,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public Payback getPayback(Map<String, Integer> paMap) {
 		//payment를 조회하여 payBack를 가져온다
 		Payback payback = participantDao.selectPayback(JDBCTemplate.getConnection(),paMap);
+		
 		int paybNo = participantDao.selectByPaybNo(JDBCTemplate.getConnection());
+		
 		payback.setPaybNo(paybNo);
 		//kg이니시스 은행코드로 변환
 		BankCode bankCode = new BankCode(payback.getPaybRefundBank());

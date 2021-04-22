@@ -837,6 +837,8 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		sql +=" on U.u_no = P.u_no";
 		sql +=" where P.u_no = ? AND P.ch_no=?";
 		
+		
+		
 		Payback payback = null;
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
