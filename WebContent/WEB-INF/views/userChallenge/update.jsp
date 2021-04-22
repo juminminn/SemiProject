@@ -217,9 +217,9 @@ span{
 			<input type="file" accept="image/*" id="file" name="file" accept="image/*" style="width:100%; display: none;"/>
 		</td></tr>
 		
-		<tr><td>제목</td><td><input type="text" id="ch_title" name="ch_title" style="width:100%" value="<%=updateChallenge.getChTitle()%>"/><span id="messageTitle"></span></td></tr>
+		<tr><td>제목</td><td><input type="text" id="ch_title" name="ch_title" class="form-control" style="width:100%" value="<%=updateChallenge.getChTitle()%>"/><span id="messageTitle"></span></td></tr>
 		<tr><td>카테고리</td><td>
-		<select style="width:100%" id="ch_category" name="ch_category">
+		<select style="width:100%" id="ch_category" name="ch_category" class="form-control">
 			<%for(int i=0; i<category.size(); i++){ %>
 				<%--현재값과 일치헀을때 --%>
 				<%if(category.get(i).equals(result.get("category"))){ %> 
@@ -230,13 +230,13 @@ span{
 			<%} %>
 		</select>
 		</td></tr>
-		<tr><td>내용</td><td><input type="text" id="ch_content" name="ch_content" style="width:100%"  value="<%=updateChallenge.getChContent()%>"/><span id="messageContent"></span></td></tr>
-		<tr><td>참가비</td><td><input type="number" name="ch_money" style="width:100%"value="<%=updateChallenge.getChMoney()%>"/></td></tr>
-		<tr><td>개설자</td><td class="text-left"><%=name %></td></tr>
-		<tr><td>시작날짜</td><td><input type="date" id="ch_start_date" name="ch_start_date" style="width:100%" value="<%=updateChallenge.getChStartDate()%>"/><span id="messageStartDate"></span></td></tr>
-		<tr><td>마감날짜</td><td><input type="date" id="ch_end_date" name="ch_end_date" style="width:100%" value="<%=updateChallenge.getChEndDate()%>"/><span id="messageEndDate"></span></td></tr>
+		<tr><td>내용</td><td><input type="text" id="ch_content" name="ch_content" class="form-control" style="width:100%"  value="<%=updateChallenge.getChContent()%>"/><span id="messageContent"></span></td></tr>
+		<tr><td>참가비</td><td><input type="number" name="ch_money" class="form-control" style="width:100%"value="<%=updateChallenge.getChMoney()%>"/></td></tr>
+		<tr><td>개설자</td><td><input type="text" class="form-control" id="ch_user_name" name="ch_user_name" style="width:100%" value="<%=name%>" readonly/></td></tr>
+		<tr><td>시작날짜</td><td><input type="date" id="ch_start_date" class="form-control" name="ch_start_date" style="width:100%" value="<%=updateChallenge.getChStartDate()%>"/><span id="messageStartDate"></span></td></tr>
+		<tr><td>마감날짜</td><td><input type="date" id="ch_end_date" class="form-control" name="ch_end_date" style="width:100%" value="<%=updateChallenge.getChEndDate()%>"/><span id="messageEndDate"></span></td></tr>
 		<tr><td >인증빈도</td><td>
-		<select style="width:100%" id="ch_cycle" name="ch_cycle">
+		<select style="width:100%" id="ch_cycle" name="ch_cycle" class="form-control">
 			<%for(int i=0; i<cycle.size(); i++){ %>
 				<%if(cycle.get(i).equals(result.get("title"))){ %> 
 					<option selected value="<%=cycle.get(i)%>"><%=cycle.get(i)%></option>
@@ -246,8 +246,8 @@ span{
 			<%} %>
 		</select>
 		</td></tr>
-		<tr><td >인증 가능 시작 시간</td><td><input type="time" id="ch_start_time" name="ch_start_time" style="width:100%" value="<%=updateChallenge.getChStartTime()%>"/><span id="messageStartTime"></span></td></tr>
-		<tr><td >인증 가능 끝나는 시간</td><td><input type="time" id="ch_end_time" name="ch_end_time" style="width:100%" value="<%=updateChallenge.getChEndTime()%>"/><span id="messageEndTime"></span></td></tr>
+		<tr><td >인증 가능 시작 시간</td><td><input type="time" id="ch_start_time" name="ch_start_time" class="form-control" style="width:100%" value="<%=updateChallenge.getChStartTime()%>"/><span id="messageStartTime"></span></td></tr>
+		<tr><td >인증 가능 끝나는 시간</td><td><input type="time" id="ch_end_time" name="ch_end_time" class="form-control" style="width:100%" value="<%=updateChallenge.getChEndTime()%>"/><span id="messageEndTime"></span></td></tr>
 		<tr><td >인증 방법</td><td colspan="2"><textarea id="ch_way" name="ch_way" ><%=updateChallenge.getChWay() %></textarea></td></tr>
 	</table>
 </form>

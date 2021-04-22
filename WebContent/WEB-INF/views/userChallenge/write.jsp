@@ -214,7 +214,7 @@ span{
 		</td></tr>
 		<tr><td>내용</td><td><input type="text" class="form-control" id="ch_content" name="ch_content" style="width:100%"/><span id="messageContent"></span></td></tr>
 		<tr><td>참가비</td><td><input type="number" class="form-control" name="ch_money" step="1000" min="0" style="width:100%"/></td></tr>
-		<tr><td>개설자</td><td class="text-left" ><input type="text" class="form-control" id="ch_user_name" name="ch_user_name" style="width:100%" value="<%=name%>" readonly/></td></tr>
+		<tr><td>개설자</td><td ><input type="text" class="form-control" id="ch_user_name" name="ch_user_name" style="width:100%" value="<%=name%>" readonly/></td></tr>
 		<tr><td>시작날짜</td><td><input type="date" class="form-control" id="ch_start_date" name="ch_start_date" style="width:100%"/><span id="messageStartDate"></span></td></tr>
 		<tr><td>마감날짜</td><td><input type="date" class="form-control" id="ch_end_date" name="ch_end_date" style="width:100%"/><span id="messageEndDate"></span></td></tr>
 		<tr><td >인증빈도</td><td>
