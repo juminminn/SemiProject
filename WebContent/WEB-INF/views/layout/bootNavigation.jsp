@@ -21,7 +21,7 @@
 			</ul>
 		</li>
 		<li>
-			<a href="#">게시판</a>
+			<a href="/board/1">게시판</a>
 			<ul>
 				<li><a href="/board/1">챌린지</a></li>
 				<li><a href="/board/2">유저</a></li>
