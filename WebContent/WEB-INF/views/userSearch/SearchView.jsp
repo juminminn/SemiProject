@@ -1,47 +1,117 @@
+<%@page import="dto.ChallengeList"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
+<% List<ChallengeList> list = (List<ChallengeList>)request.getAttribute("searchWord"); %>
 <script type="text/javascript">
 $(document).ready(function(){
-	$('#key').attr("value",<%=request.getParameter("key")%>)
+	$('#key').attr("value","<%=request.getParameter("key")%>")
 })
 </script>
-<style type="text/css">
-.container{
-	width : 900px;
-	height : 500px;
-	border : 1px solid #ccc;
-}
-.detail{
-	border : 1px solid #ccc;
+<link rel="stylesheet" href="/resources/css/searchView.css">
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('#btndetail').click(function(){
+	//카테고리 배열로 저장
+	 var lists = [];
+	 $("input[name='ca_no']:checked").each(function(i){
+		 if($(this).val() === "0"){
+		 lists = ["1","2","3","4","5","6","7"]
+		 }else{
+		 lists.push($(this).val())
+		 }
+	 })
+		 //console.log(lists)
+		 //정렬기준
+	 var select = $("select[name='alignby']").val() 
+	 console.log(select)
+	 $.ajax({
+		 type : "post"
+		 ,url : "/search?key=<%=request.getParameter("key")%>"
+	 	 , data :{
+	 		 'ca_no':lists
+	 		 ,'alignby': select
+	 	 }
+	 	 , dataType : "html" 
+	 	 , success : function(result){
+	 		console.log("ajax성공") 
+			$('.result').hide()
+			//$('.detailResult').css("display"=="none")
+			$('.detailResult').html(result)
+	 	 }
+	 	 , error : function(request, status, error){
+	 		 console.log("ajax실패")
+	 		 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	 	 }
+		})
+	 })//btn click event end
+ 
+	$("input:checkbox:not([id = 'all'])").click(function(){
+		$("input:checkbox[id='all']").attr('checked',false)
+	})// 전체 이외 카테고리 체크할 경우 전체 체크박스 체크 해제
+	$("input:checkbox[id='all']").click(function(){
+		$("input:checkbox:not([id = 'all'])").attr('checked',false)
+	})// 전체 체크박스 체크할 경우 이외 카테고리 체크 해제 
 	
-}
-</style>
+	 $("select[name='alignby']").change(function(){ //정렬박스 변경될때 실행
+		 console.log("select changed")
+		 var lists = [];
+		 $("input[name='ca_no']:checked").each(function(i){
+			 if($(this).val() === "0"){
+			 lists = ["1","2","3","4","5","6","7"]
+			 }else{
+			 lists.push($(this).val())
+			 }
+		 })
+		 var order = $("select[name='alignby']").val()
+		  $.ajax({
+			 type : "post"
+			 ,url : "/search?key=<%=request.getParameter("key")%>"
+		 	 , data :{
+		 		 'ca_no':lists
+		 		 ,'alignby': order
+		 	 }
+		 	 , dataType : "html" 
+		 	 , success : function(result){
+		 		console.log("ajax성공") 
+				$('.result').hide()
+				//$('.detailResult').css("display"=="none")
+				$('.detailResult').html(result)
+		 	 }
+		 	 , error : function(request, status, error){
+		 		 console.log("ajax실패")
+		 		 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		 	 }
+		  })
+	 })
+})//ready function() end
+</script>
 <body>
-<div class="container">
-	<div class="detail">
-		<h4>카테고리</h4>
-		<form class="form-horizontal">
-		<div class="checkbox">
-		<label><input type="checkbox" id = "all" class="checkbox" name="ca_no" value = "0">전체</label>
-		<label><input type="checkbox" id = "exercise" class="checkbox" name="ca_no" value = "1">운동</label>
-		<label><input type="checkbox" id = "selfincrement" class="checkbox" name="ca_no" value = "2">자기관리</label>
-		<label><input type="checkbox" id = "study" class="checkbox" name="ca_no" value = "3">공부</label>
-		<label><input type="checkbox" id = "hobby" class="checkbox" name="ca_no" value = "4">취미</label>
-		<label><input type="checkbox" id = "language" class="checkbox" name="ca_no" value = "5">외국어</label>
-		<label><input type="checkbox" id = "financial" class="checkbox" name="ca_no" value = "6">재테크</label>
-		<label><input type="checkbox" id = "habbits" class="checkbox" name="ca_no" value = "7">생활습관</label>
-		</div>
-		<div class="selectbox">
-		<select name="orderby">
-			<option value="ch_create_date">최근순</option>
-			<option value="ch_likes">좋아요순</option>
-			<option value="p_uno">참여인원순</option>
-		</select>
-		</div>
-		<button type="button">상세검색</button>
-		</form>
+<%@ include file="/WEB-INF/views/userSearch/detailCheckbox.jsp" %>
+	<div class="detailResult" ></div>
+	<div class="result">
+<% for(int i = 0; i< list.size(); i++){ %>
+	<div class = "imgarea" >
+	<%if(list.get(i).getChStoredName().contains("저장")){ %>
+		<a class="scroll"><img src="/resources/img/challenge.png" alt="챌린지 임시페이지"/></a>
+	<%} else {%>
+		<a class="scroll"><img src="/upload/<%=list.get(i).getChStoredName() %>" alt="챌린지 저장페이지"/></a>
+	<%} %>
+			<p class="title"><%=list.get(i).getChTitle() %></p>
+			<p class="status">
+			<%if(list.get(i).getuId().contains("manager")){ %>
+			<span class="name"><i class="fas fa-cog"></i>공식</span>
+			<%}else{ %>
+			<span class="name"><%=list.get(i).getuId() %> </span>
+			<%} %>
+	 		<span class="like"><i class="far fa-thumbs-up"></i><%=list.get(i).getChLikes() %></span>
+			</p>
+	</div>
+<%} %>
+	<%@ include file="/WEB-INF/views/userSearch/searchPaging/searchPaging.jsp" %>
 	</div>
 </div>
 </body>
