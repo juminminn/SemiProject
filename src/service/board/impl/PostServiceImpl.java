@@ -72,7 +72,7 @@ public class PostServiceImpl implements PostService {
 		//업로드 최대 크기 설정
 		upload.setFileSizeMax(10 * 1024 * 1024);
 		
-		//전달데이터
+		//받아온게시글 정보를 items에 집어넣음
 		List<FileItem> items = null;
 		try {
 			items = upload.parseRequest(req);
@@ -83,7 +83,7 @@ public class PostServiceImpl implements PostService {
 		
 		Iterator<FileItem> iter = items.iterator();
 		
-		//request 정보 처리
+		//request에서 받아온 게시글 정보 처리
 		while(iter.hasNext()) {
 			FileItem item = iter.next();
 			
@@ -94,26 +94,25 @@ public class PostServiceImpl implements PostService {
 				String key = item.getFieldName();
 				if("p_title".equals(key)) {
 					try {
+						//제목 post객체에 저장
 						post.setP_title(item.getString("UTF-8"));
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if("p_content".equals(key)) {
 					try {
+						//내용을 post객체에 저장
 						post.setP_content(item.getString("UTF-8"));
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if("pno".equals(key)) {
 					try {
+						//게시글 번호를 post객체에 저장
 						post.setP_no(Integer.parseInt(item.getString("UTF-8")));
 					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -121,21 +120,25 @@ public class PostServiceImpl implements PostService {
 			}//게시글 객체 생성 끝
 			
 			
+			//게시글에 올린 첨부파일를 업로드진행
 			if(!item.isFormField()) {
-				//UUID 생성
+				//파일 뒤에 들어갈 UUID 생성
 				UUID uuid = UUID.randomUUID();
 				String id = uuid.toString().split("-")[0];// 8자리 UUID
 				
+				//파일을 저장할 경로 설정
 				File uploadFolder = new File(req.getServletContext().getRealPath("upload"));
 				uploadFolder.mkdir();
 				
+				//원본파일명에 UUID를 추가해서 저장할 파일명설정
 				File up = new File(uploadFolder, item.getName() + "_" + id);
 				
-				//첨부파일 이름 입력
+				//원본파일 이름 post객체에 저장
 				post.setP_origin_name(item.getName());
+				//저장될 파일 이름 post객체에 저장
 				post.setP_stored_name(item.getName() + "_" + id);
 				
-				// 처리된 파일 업로드
+				//파일 업로드
 				try {
 					item.write(up);
 					item.delete();
@@ -146,7 +149,7 @@ public class PostServiceImpl implements PostService {
 			
 		}//while(iter.next())끝
 
-		
+		//Dao에서 게시글 수정 메서드 호출
 		postDao.Update(post);
 	}
 
@@ -208,16 +211,18 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void write(HttpServletRequest req) {
+	public int write(HttpServletRequest req) {
+		//게시글 객체 생성
 		Post post = new Post();
+		//사용자번호 객체에 저장
 		post.setU_no((int)req.getSession().getAttribute("u_no"));
 		
-		//파일 업로드 형태 검사
+		//enctype 검사
 		boolean isMultipart = false;
 		isMultipart = ServletFileUpload.isMultipartContent(req);
 		
 		if(!isMultipart) {
-			return;
+			return 0;
 		}
 		
 		//아이템 팩토리 객체 생성
@@ -235,10 +240,10 @@ public class PostServiceImpl implements PostService {
 		//파일 업로드 객체 생성
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		
-		//업로드 최대 크기 설정
+		//업로드 최대 크기 10mb로 설정
 		upload.setFileSizeMax(10 * 1024 * 1024);
 		
-		//전달데이터
+		//작성한 게시글 내용을 items에 저장
 		List<FileItem> items = null;
 		try {
 			items = upload.parseRequest(req);
@@ -249,53 +254,57 @@ public class PostServiceImpl implements PostService {
 		
 		Iterator<FileItem> iter = items.iterator();
 		
-		//request 정보 처리
+		//게시글 정보 처리
 		while(iter.hasNext()) {
 			FileItem item = iter.next();
 			
 			//빈파일 처리
 			if(item.getSize() <= 0) continue;
 			
+			
 			if(item.isFormField()) {
 				String key = item.getFieldName();
 				if("p_title".equals(key)) {
 					try {
+						//작성한 제목 게시글 객체에 저장
 						post.setP_title(item.getString("UTF-8"));
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if("p_content".equals(key)) {
 					try {
+						//작성한 내용 게시글 객체에 저장
 						post.setP_content(item.getString("UTF-8"));
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				}else if("bno".equals(key)) {
+					//게시글 객체에 게시판 번호 저장
+					post.setB_no(Integer.parseInt(item.getString()));
 				}
 
 			}//게시글 객체 생성 끝
 			
-			
+			//게시글에 첨부한 파일 업로드 처리
 			if(!item.isFormField()) {
-				//UUID 생성
+				//저장될 파일명뒤에 들어갈 UUID 생성
 				UUID uuid = UUID.randomUUID();
 				String id = uuid.toString().split("-")[0];// 8자리 UUID
 				
+				//파일객체생성, 저장될 위치 설정
 				File uploadFolder = new File(req.getServletContext().getRealPath("upload"));
 				uploadFolder.mkdir();
 				
 				File up = new File(uploadFolder, item.getName() + "_" + id);
 				
 				
-				//첨부파일 이름 입력
+				//원본 파일명 게시글 객체에 저장
 				post.setP_origin_name(item.getName());
+				//저장될 파일명 게시글 객체에 저장
 				post.setP_stored_name(item.getName() + "_" + id);
-				System.out.println(item.getName());
 				
-				// 처리된 파일 업로드
+				//첨부파일 업로드 처리
 				try {
-					System.out.println("도착");
 					item.write(up);
 					item.delete();
 				}catch(Exception e) {
@@ -305,10 +314,14 @@ public class PostServiceImpl implements PostService {
 			
 		}//while(iter.next())끝
 		
+		//게시글 객체에 사용자 id 저장
 		post.setU_id(req.getSession().getAttribute("u_id").toString());
-		post.setB_no(3);
+		//게시글 DB에 저장하는 Dao메서드 실행
 		postDao.Insert(post);
+		//마이페이지에 작성한 게시글수 증가시키는 Dao실행
 		postDao.PlusMyPost(post);
+		
+		return post.getB_no();
 	}
 	
 }

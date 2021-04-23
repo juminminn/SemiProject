@@ -25,7 +25,7 @@ public class PostDeleteController extends HttpServlet {
 		postService.DeletePost(request);
 		
 		
-		response.sendRedirect("/board/3");
+		response.sendRedirect("/board/" + request.getParameter("bno"));
 	}
 
 }

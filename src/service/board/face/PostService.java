@@ -19,5 +19,5 @@ public interface PostService {
 	public void UpdateComment(HttpServletRequest req);
 	public void InsertCIC(Comment comment);
 	public String getNick(HttpSession session);
-	public void write(HttpServletRequest req);
+	public int write(HttpServletRequest req);
 }
