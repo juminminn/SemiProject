@@ -219,6 +219,14 @@ public interface FounderDao {
 	 */
 	public int insertRefunds(Connection conn, Refunds refunds);
 	
+	/**
+	 * 챌린지에 상태를 가져온다
+	 * @param conn - DB연결객체
+	 * @param chNo - 챌린지 번호
+	 * @return 챌린지 상태
+	 */
+	public String selectChallengeCheck(Connection conn, int chNo);
+	
 	
 	
 	

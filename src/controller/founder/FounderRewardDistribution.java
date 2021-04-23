@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dto.Participation;
 import dto.Refunds;
@@ -25,10 +26,28 @@ public class FounderRewardDistribution extends HttpServlet {
 	private FounderService founderService = new FounderServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
-		//챌린지 번호 조회
 		int chNo = founderService.getChallengeno(req);
+		Map<String, Integer> uNo = founderService.getuId(chNo);
+		HttpSession session = req.getSession();
+		boolean endChallenge = founderService.checkStateChallenge(req);
+		String text; //에러 텍스트
+		//매니저 혹은 번호가 같지 않을때 
+		if(!(uNo.get("uNo")==(Integer)session.getAttribute("u_no") || "M".equals(String.valueOf(session.getAttribute("u_grade"))))) { //번호가 같지 않을떄(개설자가 아닐때)
+			text = "개설자 혹인 매니저만 가능합니다.";
+			req.setAttribute("text", text);
+			req.getRequestDispatcher("/WEB-INF/views/userChallenge/error.jsp")
+			.forward(req, resp);
+			return;
+		}
+		//챌린지 종료
+		if(!endChallenge) {
+			text="챌린지를 종료해주세요";
+			req.setAttribute("text", text);
+			req.getRequestDispatcher("/WEB-INF/views/userChallenge/error.jsp")
+			.forward(req, resp);
+			return;
+		}
+
 		//참가자 챌린지 리스트 반환
 		List<Integer> paNoList = founderService.getPaNoList(chNo);
 		

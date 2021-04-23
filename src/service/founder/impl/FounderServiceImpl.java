@@ -531,6 +531,25 @@ public class FounderServiceImpl implements FounderService {
 		}
 		
 	}
+	@Override
+	public boolean checkStateChallenge(HttpServletRequest req) {
+		int chNo =0; 
+		boolean check = false;
+		
+		//chNo을 세션에서 구한다
+		if(req.getSession().getAttribute("chNo")!=null) {
+				chNo = (Integer)req.getSession().getAttribute("chNo");
+		}
+		
+		String chState = founderDao.selectChallengeCheck(JDBCTemplate.getConnection(), chNo);
+		if("W".equals(chState) || "Y".equals(chState)) {
+			check=false; //챌린지가 완료 되지 않음
+		}else {
+			check=true; //챌린지가 완료됨
+		}
+		
+		return check;
+	}
 	
 }
 
