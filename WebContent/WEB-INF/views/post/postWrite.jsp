@@ -25,6 +25,7 @@
 				<tr><td>닉네임</td><td><%= nick %></td></tr>
 				<tr><td>제목</td>
 					<td><%if(post == null){ %>
+						<input type="hidden" name="bno" value="<%=boardData[0] %>"/>
 						<input style="width:90%;" type="text" id="title" name="p_title" placeholder="제목"/>
 						<%}else{ %>
 						<input type="hidden" name="pno" value="<%=post.getP_no()%>"/>
@@ -71,6 +72,16 @@ function submitContents( elClickedObj ) {
 	} catch(e) {}
 	
 }
+
+function titleCheck(){
+	alert('제목을 입력해주세요');
+	$("#title").focus();
+	return;
+}
+function contentCheck(){
+	alert('내용을 입력해주세요');
+	$("#content").focus();
+}
 </script>
 
 <script type="text/javascript">
@@ -90,25 +101,36 @@ $(document).ready(function(){
 	}
 	
 	
-	
 	$("#btnWrite").click(function(){
-		submitContents($("#btnWrite"))
-		<%if(post == null){%>
-			$("form").submit();
-		<%}else{%>
-			var form = $("#writeFrm")[0];
-			var formData = new FormData(form);
-			$.ajax({
-				url : "/board/update",
-				type : "POST",
-				contentType: false,
-				processData: false,
-				data : formData,
-				success : function(){
-					location.href="/board/view?mid=<%=boardData[0]%>&pno=<%=post.getP_no()%>";
-				}
-			});
-		<%}%>
+		submitContents($("#btnWrite"))//스마트에이터내용 #content로 반영하는 함수
+		
+		if($("#title").val().length == 0){//제목 비어있는경우 확인
+			titleCheck();
+		}else if($("#content").val().length == 0){//내용 비어있는경우확인
+			contentCheck();
+		}else{//게시글 submit 진행
+			<%if(post == null){%>
+				$("form").submit();
+			<%}else{%>
+				var form = $("#writeFrm")[0];
+				var formData = new FormData(form);
+				$.ajax({
+					url : "/board/update",
+					type : "POST",
+					contentType: false,
+					processData: false,
+					data : formData,
+					success : function(){
+						location.href="/board/view?mid=<%=boardData[0]%>&pno=<%=post.getP_no()%>";
+					},
+					error:function(){
+						location.href="/board/view?mid=<%=boardData[0]%>&pno=<%=post.getP_no()%>";
+					}
+				});
+			<%}%>
+
+		}//if문끝
+		
 	});
 	
 })

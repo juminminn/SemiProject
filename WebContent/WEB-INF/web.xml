@@ -5,6 +5,19 @@
     <welcome-file>main</welcome-file>
   </welcome-file-list>
   
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/WEB-INF/views/error/404errorPage.jsp</location>
+  </error-page>
+  <error-page>
+  	<error-code>405</error-code>
+  	<location>/WEB-INF/views/error/405errorPage.jsp</location>
+  </error-page>
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/WEB-INF/views/error/500errorPage.jsp</location>
+  </error-page>
+  
   <filter>
     <filter-name>HangulEncodingFilter</filter-name>
     <filter-class>filter.EncodingFilter</filter-class>
@@ -21,4 +34,6 @@
     <filter-name>ScheduleChalleng</filter-name>
     <filter-class>filter.ScheduleChallenge</filter-class>
   </filter>
+  
+  
 </web-app>
