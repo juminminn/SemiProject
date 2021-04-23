@@ -36,7 +36,7 @@
 			<!-- 비로그인 상태 -->
 			<ul>
 				<li><a href="/member/login">로그인</a></li>
-				<li><a href="#">회원가입</a></li>
+				<li><a href="/member/provision">회원가입</a></li>
 			</ul>
 			<%}else if((boolean)session.getAttribute("login") && "U".equals((String)session.getAttribute("u_grade"))) {%>
 				<ul>
