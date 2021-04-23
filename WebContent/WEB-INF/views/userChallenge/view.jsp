@@ -131,7 +131,7 @@ talbe, th, td{
 <div class="text-center">	
 <button id="btnList" class="btn btn-primary">목록</button>
 
-<%	if( result.get("u_id").equals( (String)session.getAttribute("u_id")) || "M".equals((String)session.getAttribute("u_grade"))){ %>
+<%	if(result.get("u_id").equals((String)session.getAttribute("u_id")) || "M".equals((String)session.getAttribute("u_grade"))){ %>
 	<%--챌린지 시작전 --%>
 	<%if("W".equals(challenge.getChState())){ %>
 	<button id="btnUpdate" class="btn btn-info">수정</button>

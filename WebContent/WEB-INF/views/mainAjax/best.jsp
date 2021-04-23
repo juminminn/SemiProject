@@ -17,7 +17,7 @@
 <!--  	이미지가 저장되지 않았을 경우 기본 이미지 대체-->
 <%		if (challenge.getChStoredName()== null || challenge.getChStoredName().contains("저장")){ %>
 			<a href="/user/challenge/view?chNo=<%= challenge.getChNo() %>">
-			<img src="./resources/img/test1.png" style="width : 100%; height: 150px; border-radius:5px;"/>
+			<img src="./resources/img/AchievementWhite.png" style="width : 100%; height: 150px; border-radius:5px;"/>
 			<p class="title"><%=challenge.getChTitle() %></p></a>
 <!--  	이미지가 저장되었을 경우 저장된 이미지 대체-->
 <% 		} else {%>		

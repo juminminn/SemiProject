@@ -15,7 +15,7 @@
 <%	if (list.get(i).getChStoredName()== null || list.get(i).getChStoredName().contains("저장")){ %>
 		<!--이미지 정보 -->
 		<a href="/user/challenge/view?chNo=<%= list.get(i).getChNo() %>">
-		<img src="./resources/img/like1.jpg" width="100%" height="150px;"/>
+		<img src="./resources/img/AchievementWhite.png" width="100%" height="150px;"/>
 		<p class="title"><%= list.get(i).getChTitle() %></p></a>
 		
 		<!--챌린지 정보 -->
