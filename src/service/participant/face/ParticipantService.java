@@ -1,12 +1,14 @@
 package service.participant.face;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import dto.Certification;
+import dto.CertificationCycle;
 import dto.Complaint;
 import dto.Member;
 import dto.Participation;
@@ -274,6 +276,63 @@ public interface ParticipantService {
 	 */
 
 	public void participationDelete(int paNo);
+
+
+	/**
+	 * 해당 챌린지의 인증 주기 번호 가져오기
+	 * @param chNo - 챌린지 번호 가져오기
+	 * @return 인증 주기 번호
+	 */
+	public int getCecNo(int chNo);
+
+	
+	/**
+	 * 인증 주기 목록 가져오기
+	 * @param cecNo - 인증 주기 번호
+	 * @return 인증주기 반환
+	 */
+	public CertificationCycle getCertificationCycle(int cecNo);
+
+	/**
+	 * 챌린지 시작 날짜 및 끝나는 날짜 얻어오기
+	 * @param chNo - 챌린지 번호
+	 * @return 챌린지 시작 날짜 및 끝나는 날짜
+	 */
+	public Map<String, Date> getChallengeDate(int chNo);
+
+	/**
+	 * 챌린지를 몇 주간 진행하는지
+	 * @param challengeDate
+	 * @param 몇 일간 인증하는지
+	 * @return week
+	 */
+	public int getWeeks(Map<String, Date> challengeDate , int cycle);
+
+	/**
+	 * 전체 구간 날짜별로 구하기
+	 * @param challengeDate - 챌린지 날짜
+	 * @param cecCycle - 인증 주기
+	 * @param section - 전체 구간 
+	 * @return 전체 구간 날짜별로 구하기 
+	 */
+	public List<Map<String, Date>> getSectionAll(Map<String, Date> challengeDate, int cecCycle, int section);
+
+	/**
+	 * 자신의 현재 구간 구하기
+	 * @param challengeDate - 챌린지 날짜
+	 * @param cecCycle - 인증 주기
+	 * @param section - 전체 구간
+	 * @return 현재 구간 구하기
+	 */
+	public Map<String, Date> getCurSection(Map<String, Date> challengeDate, int cecCycle, int section);
+
+	/**
+	 * 현재 구간 인증 횟수
+	 * @param curSection - 현재 구간
+	 * @param paNo - 참가 챌린지 번호
+	 * @return 인증 횟수
+	 */
+	public int getCerCount(Map<String, Date> curSection, int paNo);
 
 
 	

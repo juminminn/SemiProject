@@ -194,9 +194,9 @@ public class FounderServiceImpl implements FounderService {
 		Long lday = (endDate.getTime() - startDate.getTime())/(24*60*60*1000);
 		double day = lday.doubleValue();
 		
-		System.out.println("일자 :"+day);
-		System.out.println("사이클:"+cycle);
-		System.out.println("인증 횟수:"+count);
+//		System.out.println("일자 :"+day);
+//		System.out.println("사이클:"+cycle);
+//		System.out.println("인증 횟수:"+count);
 		
 		double total = count*(day/cycle); //총 인증을 해야할 횟수
 		

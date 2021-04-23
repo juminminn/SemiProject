@@ -210,7 +210,7 @@ span{
 		
 		<tr><td colspan="2"><label for="file"><%--더미 데이터와 구분하기 위하여 --%>
 		<%if(updateChallenge.getChStoredName().contains("저장")){ %> 
-			<img src="/resources/img/challenge.png" id="preview" width="400" height="250"/>
+			<img src="/resources/img/AchievementWhite.png" id="preview" width="400" height="250"/>
 		<%}else{ %>
 			<img src="/upload/<%=updateChallenge.getChStoredName() %>" id="preview" width="400" height="250"/>
 		<%} %>

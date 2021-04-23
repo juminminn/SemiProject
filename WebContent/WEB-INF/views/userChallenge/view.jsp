@@ -68,10 +68,10 @@ talbe, th, td{
 				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
 					<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 참가중입니다.</td>
 				<%}else{ %>
-					<a><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 시작했습니다.</td>
+					<i class="far fa-thumbs-up fa-10x"></i><br>이미 시작했습니다.</td>
 				<%} %>
 			<%}else{ %>
-				<a><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 시작했습니다.</td>
+				<i class="far fa-thumbs-up fa-10x"></i><br>이미 시작했습니다.</td>
 			<%} %>	
 		<%--챌린지 종료 --%>
 		<%}else if(chState.equals("N")){ %>
@@ -106,10 +106,10 @@ talbe, th, td{
 				<%if((Boolean)request.getSession().getAttribute("participation")){ %>
 					<a href="/participant/certification/list?chNo=<%=challenge.getChNo()%>" style="color:#A8201A"><i class="fas fa-file-upload fa-10x"></i></a><br>인증하기</td>
 				<%}else{ %>
-					<a><i class="fas fa-file-upload fa-10x"></i></a><br>이미 챌린지가 시작됐습니다.</td>
+					<i class="fas fa-file-upload fa-10x"></i><br>이미 챌린지가 시작됐습니다.</td>
 				<%} %>
 			<%}else{ %>
-				<a><i class="far fa-thumbs-up fa-10x"></i></a><br>이미 챌린지가 시작됐습니다.</td>
+				<i class="far fa-thumbs-up fa-10x"></i><br>이미 챌린지가 시작됐습니다.</td>
 			<%} %>
 		<%}else if(chState.equals("N")){ %>
 			<a style="color:#A8201A"><i class="far fa-thumbs-up fa-10x"></i></a><br>해당 챌린지는 종료했습니다.</td>
@@ -131,7 +131,7 @@ talbe, th, td{
 <div class="text-center">	
 <button id="btnList" class="btn btn-primary">목록</button>
 
-<%	if( result.get("u_id").equals( (String)session.getAttribute("u_id")) || "M".equals(session.getAttribute("u_grade"))){ %>
+<%	if( result.get("u_id").equals( (String)session.getAttribute("u_id")) || "M".equals((String)session.getAttribute("u_grade"))){ %>
 	<%--챌린지 시작전 --%>
 	<%if("W".equals(challenge.getChState())){ %>
 	<button id="btnUpdate" class="btn btn-info">수정</button>
