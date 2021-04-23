@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import dto.AdminComplaint;
-import util.ComplaintPaging;
+import util.AdminComplaintPaging;
 
 public interface AdminComplaintService {
 	
@@ -16,7 +16,7 @@ public interface AdminComplaintService {
 	 * @param complaintPaging - 페이징 정보 객체
 	 * @return List<Complaint> - 신고목록 전체 조회결과
 	 */
-	public List<AdminComplaint> getList(ComplaintPaging complaintPaging);
+	public List<AdminComplaint> getList(AdminComplaintPaging complaintPaging);
 	
 	
 	/**
@@ -28,7 +28,7 @@ public interface AdminComplaintService {
 	 * @param req - curPage정보를 담고 있는 요청정보 객체
 	 * @return 페이징 계산이 완료된 Paging 객체
 	 */
-	public ComplaintPaging getComplaintPaging(HttpServletRequest req);
+	public AdminComplaintPaging getComplaintPaging(HttpServletRequest req);
 	
 	
 	/**

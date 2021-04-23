@@ -28,7 +28,7 @@ public class AdminComplaintUpdateController extends HttpServlet {
 		
 		req.setAttribute("updateComplaint", updateComplaint); //조회결과 model값 전달
 		
-		req.getRequestDispatcher("/WEB-INF/views/complaint/complaintUpdate.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintUpdate.jsp").forward(req, resp);
 		
 	}
 	

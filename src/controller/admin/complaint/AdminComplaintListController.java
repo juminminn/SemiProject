@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.AdminComplaint;
 import service.admin.complaint.face.AdminComplaintService;
 import service.admin.complaint.impl.AdminComplaintServiceImpl;
-import util.ComplaintPaging;
+import util.AdminComplaintPaging;
 
 @WebServlet("/admin/complaint/list")
 public class AdminComplaintListController extends HttpServlet {
@@ -26,7 +26,7 @@ public class AdminComplaintListController extends HttpServlet {
 			//System.out.println("/admin/complaint/list [doGet]");
 			
 			//요청파라미터를 전달하여 Paging객체 생성하기
-			ComplaintPaging complaintPaging = complaintService.getComplaintPaging(req);
+			AdminComplaintPaging complaintPaging = complaintService.getComplaintPaging(req);
 			System.out.println("ComplaintListController - " + complaintPaging);
 			
 			//페이징 적용한 신고글 조회
@@ -39,7 +39,7 @@ public class AdminComplaintListController extends HttpServlet {
 			req.setAttribute("complaintList", complaintList);
 			
 			//View 지정 및 응답
-			req.getRequestDispatcher("/WEB-INF/views/complaint/complaintList.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintList.jsp").forward(req, resp);
 		
 		}
 	

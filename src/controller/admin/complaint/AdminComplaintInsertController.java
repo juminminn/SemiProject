@@ -30,7 +30,7 @@ public class AdminComplaintInsertController extends HttpServlet {
 		
 		
 		//View 지정
-		req.getRequestDispatcher("/WEB-INF/views/complaint/complaintInsert.jsp")
+		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintInsert.jsp")
 		.forward(req, resp);
 	
 	}

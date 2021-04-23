@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import dto.AdminComplaint;
-import util.ComplaintPaging;
+import util.AdminComplaintPaging;
 
 
 public interface AdminComplaintDao {
@@ -17,7 +17,7 @@ public interface AdminComplaintDao {
 	 * @param paging - 페이징 정보 객체
 	 * @return List<Complaint> - Complaint 전체 조회 결과 목록
 	 */
-	public List<AdminComplaint> selectAll(Connection conn, ComplaintPaging complaintPaging);
+	public List<AdminComplaint> selectAll(Connection conn, AdminComplaintPaging complaintPaging);
 	
 	
 	/**

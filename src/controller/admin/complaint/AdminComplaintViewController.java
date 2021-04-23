@@ -32,7 +32,7 @@ public class AdminComplaintViewController extends HttpServlet {
 
 		
 		//View 지정 및 응답
-		req.getRequestDispatcher("/WEB-INF/views/complaint/complaintView.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintView.jsp").forward(req, resp);
 	
 	}
 	

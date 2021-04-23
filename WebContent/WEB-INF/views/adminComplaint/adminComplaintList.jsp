@@ -103,6 +103,6 @@
 
 </div><!-- container --> 
 
-<%@ include file="/WEB-INF/views/layout/complaintPaging.jsp" %>
+<%@ include file="/WEB-INF/views/layout/adminComplaintPaging.jsp" %>
 
 <%@ include file="/WEB-INF/views/layout/footer.jsp" %>

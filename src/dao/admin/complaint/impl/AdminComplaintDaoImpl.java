@@ -10,7 +10,7 @@ import java.util.List;
 import common.JDBCTemplate;
 import dao.admin.complaint.face.AdminComplaintDao;
 import dto.AdminComplaint;
-import util.ComplaintPaging;
+import util.AdminComplaintPaging;
 
 
 public class AdminComplaintDaoImpl implements AdminComplaintDao {
@@ -21,7 +21,7 @@ public class AdminComplaintDaoImpl implements AdminComplaintDao {
 	
 	//-----------------신고 목록(페이징 적용)------------------
 	@Override
-	public List<AdminComplaint> selectAll(Connection conn, ComplaintPaging complaintPaging) {
+	public List<AdminComplaint> selectAll(Connection conn, AdminComplaintPaging complaintPaging) {
 		
 		//SQL 작성
 		String sql = "";

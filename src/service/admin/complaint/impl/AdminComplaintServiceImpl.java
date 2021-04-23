@@ -10,7 +10,7 @@ import dao.admin.complaint.face.AdminComplaintDao;
 import dao.admin.complaint.impl.AdminComplaintDaoImpl;
 import dto.AdminComplaint;
 import service.admin.complaint.face.AdminComplaintService;
-import util.ComplaintPaging;
+import util.AdminComplaintPaging;
 
 public class AdminComplaintServiceImpl implements AdminComplaintService {
 
@@ -20,7 +20,7 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
 	
 	//-------------신고 목록(페이징 적용)--------------
 	@Override
-	public List<AdminComplaint> getList(ComplaintPaging complaintPaging) {
+	public List<AdminComplaint> getList(AdminComplaintPaging complaintPaging) {
 		
 		//신고글 전체 조회결과 처리(페이징)
 		return complaintDao.selectAll(JDBCTemplate.getConnection(), complaintPaging);
@@ -29,7 +29,7 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
 	
 	//-----------------페이징 처리-----------------
 	@Override
-	public ComplaintPaging getComplaintPaging(HttpServletRequest req) {
+	public AdminComplaintPaging getComplaintPaging(HttpServletRequest req) {
 		
 		//전달파라미터 curPage 파싱
 		String param = req.getParameter("curPage");
@@ -42,7 +42,7 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
 		int totalCount = complaintDao.selectCountAll(JDBCTemplate.getConnection());
 		
 		//Paging객체 생성
-		ComplaintPaging complaintPaging = new ComplaintPaging(totalCount, curPage);
+		AdminComplaintPaging complaintPaging = new AdminComplaintPaging(totalCount, curPage);
 		
 		return complaintPaging;
 	}
