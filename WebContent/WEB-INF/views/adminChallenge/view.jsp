@@ -26,14 +26,14 @@ $( document ).ready( function() {
 	
 	//수정버튼 동작
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "/admin/challenge/update?chNo=<%=challenge.getChNo() %>");
+		$(location).attr("href", "/admin/challenge/update?chNo=<%=challenge.getChNo() %>&chState=<%=challenge.getChState()%>");
 	});
 
 	//삭제버튼 동작
 	$("#btnDelete").click(function() {
 		
 		if( confirm("챌린지를 삭제하시겠습니까?") ) {
-			$(location).attr("href", "/admin/challenge/delete?chNo=<%=challenge.getChNo() %>");
+			$(location).attr("href", "/admin/challenge/delete?chNo=<%=challenge.getChNo() %>&chState=<%=challenge.getChState()%>");
 		}
 		
 	});
@@ -66,12 +66,20 @@ talbe, th, td{
 		<tr><td>제목</td><td><%=challenge.getChTitle() %></td></tr>
 		<tr><td>카테고리</td><td><%=result.get("category") %></td></tr>
 		<tr><td>내용</td><td><%=challenge.getChContent() %></td></tr>
+		<%	if( result.get("u_id").equals( (String)session.getAttribute("u_id")) || "M".equals(session.getAttribute("u_grade"))){ %>
 		<tr><td rowspan="5"><a href="/founder/certification/list"><i class="far fa-id-card fa-10x"></i></a><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
+		<%}else{ %>
+		<tr><td rowspan="5"><i class="far fa-id-card fa-10x"></i><br>인증</td><td >참가비</td><td><%=challenge.getChMoney() %></td></tr>
+		<%} %>
 		<tr><td>개설자</td><td><%=result.get("name") %></td></tr>
 		<tr><td >개설날짜</td><td><%=challenge.getChCreateDate() %></td></tr>
 		<tr><td >시작날짜</td><td><%=challenge.getChStartDate() %></td></tr>
 		<tr><td >마감날짜</td><td><%=challenge.getChEndDate() %></td></tr>
+		<%	if( result.get("u_id").equals( (String)session.getAttribute("u_id")) || "M".equals(session.getAttribute("u_grade"))){ %>
 		<tr><td rowspan="5"><a href="/founder/reward/distribution"><i class="fas fa-money-bill-wave fa-10x"></i></a><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>
+		<%}else{ %>
+		<tr><td rowspan="5"><i class="fas fa-money-bill-wave fa-10x"></i><br>상금분배</td><td >인증빈도</td><td><%=result.get("title") %></td></tr>
+		<%} %>
 		<tr><td >인증 가능 시간</td><td><%=challenge.getChStartTime() %> - <%=challenge.getChEndTime() %></td></tr>
 		<tr><td >인증 방법</td><td><%=challenge.getChWay() %></td></tr>
 		<tr><td >좋아요</td><td><%=challenge.getChLikes() %></td></tr>
@@ -81,9 +89,16 @@ talbe, th, td{
 <div class="text-center">	
 <button id="btnList" class="btn btn-primary">목록</button>
 
-<%	if( result.get("u_id").equals( session.getAttribute("userid")) || "M".equals(session.getAttribute("u_grade"))){ %>
+<%	if( result.get("u_id").equals( (String)session.getAttribute("u_id")) || "M".equals(session.getAttribute("u_grade"))){ %>
+	<%--챌린지 시작전 --%>
+	<%if("W".equals(challenge.getChState())){ %>
 	<button id="btnUpdate" class="btn btn-info">수정</button>
 	<button id="btnDelete" class="btn btn-danger">삭제</button>
+	<%--챌린지 시작후 --%>
+	<%}else{ %>
+	<button id="btnUpdate" class="btn btn-info" disabled="disabled">수정</button>
+	<button id="btnDelete" class="btn btn-danger" disabled="disabled">삭제</button>
+	<%} %>
 <%	} %>
 </div>
 

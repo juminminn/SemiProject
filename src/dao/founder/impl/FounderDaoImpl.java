@@ -749,5 +749,32 @@ public class FounderDaoImpl implements FounderDao {
 		
 		return res;
 	}
+	@Override
+	public String selectChallengeCheck(Connection conn, int chNo) {
+		String sql= "";
+		sql += "select ch_state";
+		sql += " from challenge";
+		sql +=" where ch_no=?";
+		
+		String chState=null;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, chNo);
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			//조회 결과 처리
+			if(rs.next()) {
+				chState = rs.getString("ch_state");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return chState;
+	}
 	
 }

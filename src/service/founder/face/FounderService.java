@@ -194,5 +194,12 @@ public interface FounderService {
 
 	public Map<Integer, Participation> refundsPaFail(Map<Integer, Double> paRate);
 
+	/**
+	 * 챌린지 상태를 반환한다
+	 * @param req - 요청 객체
+	 * @return 챌린지 상태 반환
+	 */
+	public boolean checkStateChallenge(HttpServletRequest req);
+
 
 }

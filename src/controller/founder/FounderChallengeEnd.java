@@ -32,13 +32,13 @@ public class FounderChallengeEnd extends HttpServlet {
 			text = "모든 인증을 처리해주세요";	
 		}
 //		테스팅을 위해 잠시 제외
-//		if(!endDateCheck) {
-//			text="챌린지 날짜를 다시 확인해주세요.";
-//		}
+		if(!endDateCheck) {
+			text="챌린지 날짜를 다시 확인해주세요.";
+		}
 		
 		//둘 중 하나라도 false일 경우 /*테스팅을 위한 잠시 제외*/
 		
-		if ((!certificationCheck) /* || (!endDateCheck) */ ) { //에러 처리
+		if ((!certificationCheck)  || (!endDateCheck)  ) { //에러 처리
 			req.setAttribute("text", text);
 			if(req.getSession().getAttribute("u_grade")!=null) {
 				if("M".equals(String.valueOf(req.getSession().getAttribute("u_grade")))) {
