@@ -4,25 +4,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Error404</title>
+<title>Error500</title>
 
 <style type="text/css">
 
-#container404{/* 전체영역  */
+#container500{/* 전체영역  */
 	text-align: center;
 }
 
-#container404 > img{/*이미지영역 */
+#container500 > img{/*이미지영역 */
 	width: 380px;
 	height: 180px;
 }
 
-#container404 > div{ /* 텍스트 영역  */
+#container500 > div{ /* 텍스트 영역  */
 	display:inline-block;
 	width:700px;
 }
 
-#container404 > div > h1{ /* 404 텍스트 */
+#container500 > div > h1{ /* 404 텍스트 */
 	margin-top: 0px;
 	margin-bottom : 0px;
 	font-size: 100px;
@@ -51,7 +51,7 @@
 
 </head>
 <body>
-	<div id="container404">
+	<div id="container500">
 		
 		<img alt="" src="/resources/img/AchievementWhite.png">
 		<br>

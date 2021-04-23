@@ -48,8 +48,8 @@
 	</ul>
 	</div>
 	<div class="center" style="padding:30px 20px;">
-		<form action="/search" method="get" id ="form">
-			<input type="text" id="key" name="key"/>
+		<form action="/search" method="get" id ="form" class="form-inline">
+			<input type="text" id="key" name="key" class="form-control" style="width: 320px;"/>
 				<button class="startBtn" id="sumbit" type="button"><i class="fas fa-search"></i></button>
 		</form>
 	</div>
