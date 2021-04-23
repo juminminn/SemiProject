@@ -8,8 +8,8 @@
 <% UserPoint userpoint = (UserPoint)request.getAttribute("cntPayment"); %>
 <% String currChallenge = (String)request.getAttribute("currChallenge"); %>
 
-<%@ include file="/WEB-INF/views/layout/aHeader.jsp" %>
-<%@ include file="/WEB-INF/views/layout/aNavigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
+<%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -213,6 +213,10 @@ td{
 	padding : 8px 8px;
 	border-radius : 5px;
 	margin : 0 0 5px 15px;
+}
+.btn:hover{
+	color : white;
+	background-color : rgba(20, 54, 66, 0.9);
 }
 
 </style>
