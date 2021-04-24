@@ -8,13 +8,21 @@ import dto.AdminComplaint;
 import util.AdminComplaintPaging;
 
 public interface AdminComplaintService {
+
+
+	/**
+	 * 신고목록 전체 조회 (페이징 적용 안함)
+	 * 
+	 * @return List<AdminComplaint> - 신고목록 전체 조회 결과 리스트
+	 */
+	public List<AdminComplaint> getList();
 	
-	
+		
 	/**
 	 * 신고목록 전체 조회(페이징 적용)
 	 * 
 	 * @param complaintPaging - 페이징 정보 객체
-	 * @return List<Complaint> - 신고목록 전체 조회결과
+	 * @return List<AdminComplaint> - 신고목록 전체 조회결과
 	 */
 	public List<AdminComplaint> getList(AdminComplaintPaging complaintPaging);
 	
@@ -50,14 +58,23 @@ public interface AdminComplaintService {
 	
 	
 	/**
-	 * 챌린지번호(chNo)를 이용해 챌린지개설자 아이디(chUid)를 조회
+	 * 챌린지개설자 아이디(chUid)를 조회
 	 * 
 	 * @param viewComplaint - 조회할 신고글 정보
 	 * @return String ChUid - 챌린지개설자 아이디
 	 */
 	public String getChUid(AdminComplaint viewComplaint);
 	
+	
+	/**
+	 * 챌린지 개설자 경고 수 조회
+	 * 
+	 * @param chUid - 개설자 아이디
+	 * @return 개설자가 현재까지 받은 경고 수
+	 */
+	public int count(String chUid);
 
+	
 	/**
 	 * 신고 수정
 	 * 

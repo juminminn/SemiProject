@@ -9,7 +9,16 @@ import util.AdminComplaintPaging;
 
 public interface AdminComplaintDao {
 	
-
+	
+	/**
+	 * 신고 목록 조회
+	 * 
+	 * @param conn
+	 * @return
+	 */	
+	public List<AdminComplaint> selectAll(Connection conn);
+	
+		
 	/**
 	 * 신고 목록 조회 (페이징 적용)
 	 * 
@@ -40,27 +49,27 @@ public interface AdminComplaintDao {
 	
 	
 	/**
-	 * 챌린지번호(chNo)를 이용해 챌린지개설자 아이디(chUid)를 조회
+	 * 챌린지개설자 아이디(chUid)를 조회
 	 * 
 	 * @param conn
-	 * @param complaint - 조회할 chNo를 가진 객체
-	 * @return String chUid - 챌린지개설자 아이디
+	 * @param viewComplaint - 조회할 comNo를 가진 객체
+	 * @return chUid - 챌린지개설자 아이디
 	 */
-	public String selectChUidByChNo(Connection conn, AdminComplaint viewComplaint);
+	public String selectChUidByComNo(Connection conn, AdminComplaint viewComplaint);
 	
 	
 	/**
-	 * 신고 등록
+	 * 개설자 경고 수 조회
 	 * 
-	 * @param conn
-	 * @param complaint
-	 * @return
+	 * @param conn - DB접속
+	 * @param chUid - 개설자 아이디
+	 * @return 개설자가 받은 경고 수 
 	 */
-	public int insert(Connection conn, AdminComplaint complaint);
-	
+	public int getNumber(Connection conn, String chUid);
+
 	
 	/**
-	 * 신고글 수정
+	 * 신고 수정
 	 * 
 	 * @param conn
 	 * @param complaint - 수정할 내용을 담은 객체
@@ -70,7 +79,7 @@ public interface AdminComplaintDao {
 	
 	
 	/**
-	 * 신고글 삭제
+	 * 신고 삭제
 	 * 
 	 * @param conn 
 	 * @param complaint - 삭제할 신고글번호를 담은 객체
@@ -78,6 +87,15 @@ public interface AdminComplaintDao {
 	 */
 	public int delete(Connection conn, AdminComplaint complaint);
 	
-
+	
+	/**
+	  * 신고 등록
+	  * 
+	  * @param conn
+	  * @param complaint
+	  * @return
+	  */
+	public int insert(Connection conn, AdminComplaint complaint);
+	
 	
 }	

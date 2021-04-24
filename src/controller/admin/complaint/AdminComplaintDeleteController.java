@@ -21,14 +21,12 @@ public class AdminComplaintDeleteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//System.out.println("/admin/complaint/delete [doGet]");
 		
 		AdminComplaint complaint = complaintService.getComNo(req);  //comNo 가져오기
 			
 		complaintService.delete(complaint); //해당글 삭제
-			
-		//목록으로 리다이렉션
-		resp.sendRedirect("/admin/complaint/list");
+		
+	    resp.sendRedirect("/admin/complaint/list"); //목록으로 리디렉션
 
 	}
 }
