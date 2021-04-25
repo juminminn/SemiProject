@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.Challenge;
 import dto.ChallengeCategory;
+import dto.ChallengeList;
 import service.user.challenge.face.ChallengeService;
 import service.user.challenge.impl.ChallengeServiceImpl;
 
@@ -32,7 +33,7 @@ public class popularChallengeController extends HttpServlet {
     	
     	
     	//인기챌린지 카테고리별 리스트 가져오기
-    	List<Challenge> list = challengeService.getPopularChallenges(req, subject);
+    	List<ChallengeList> list = challengeService.getPopularChallenges(req, subject);
     	
     	//챌린지 참여 수 조회하기
     	List<Integer> popParticipant = challengeService.getCntParticipant(list);

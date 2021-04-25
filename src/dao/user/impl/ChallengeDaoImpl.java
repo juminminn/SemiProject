@@ -11,6 +11,7 @@ import common.JDBCTemplate;
 import dao.user.face.ChallengeDao;
 import dto.Challenge;
 import dto.ChallengeCategory;
+import dto.ChallengeList;
 import util.Paging;
 
 public class ChallengeDaoImpl implements ChallengeDao {
@@ -64,7 +65,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return challenges;
 	}
 	@Override//신규 챌린지
-	public List<Challenge> newChallengebyCategory(Connection conn, ChallengeCategory number, Paging paging) {
+	public List<ChallengeList> newChallengebyCategory(Connection conn, ChallengeCategory number, Paging paging) {
 		String sql = "";
 		sql = "SELECT * FROM( " + 
 				"SELECT ROWNUM rnum, C.* FROM( " + 
@@ -78,9 +79,9 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 		
 		//결과 저장할 dto객체 생성
-		Challenge challenge = null;
+		ChallengeList challenge = null;
 		//반환할 list객체 생성
-		List<Challenge> list = new ArrayList<>();
+		List<ChallengeList> list = new ArrayList<>();
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, number.getCategoryNo()); //카테고리 번호
@@ -89,7 +90,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				challenge = new Challenge();
+				challenge = new ChallengeList();
 				
 				challenge.setChNo(rs.getInt("ch_no"));
 				challenge.setChTitle(rs.getString("ch_title"));
@@ -110,7 +111,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return list;
 	}
 	@Override
-	public List<Integer> countParticipants(Connection conn, List<Challenge> list) {
+	public List<Integer> countParticipants(Connection conn, List<ChallengeList> list) {
 		String sql = "";
 		sql += "SELECT count(*) FROM participation WHERE ch_no = ?";
 		//결과를 저장할 개별 변수 
@@ -135,7 +136,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return chNo;
 	}
 	@Override
-	public List<Integer> countLikes(Connection conn, List<Challenge> list) {
+	public List<Integer> countLikes(Connection conn, List<ChallengeList> list) {
 		String sql = "";
 		sql += "SELECT count(pa_like) FROM participation "
 				+ "WHERE pa_like = 'Y' and ch_no= ?";
@@ -186,18 +187,20 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return popular;
 	}
 	@Override//인기 챌린지
-	public List<Challenge> popularChallenges(Connection conn, ChallengeCategory subject, Paging paging) {
+	public List<ChallengeList> popularChallenges(Connection conn, ChallengeCategory subject, Paging paging) {
 		String sql = "";
 		sql += "SELECT * FROM( " + 
 				"SELECT ROWNUM rnum, POPULAR.* FROM( " + 
-				"SELECT ch_no, ch_title, ch_start_date, ch_end_date, ch_likes, ch_origin_name, ch_stored_name " + 
-				"FROM challenge " + 
+				"SELECT ch_no, ch_title,CH.u_no, U.u_id, U.u_grade, ch_start_date, ch_end_date, ch_likes, ch_origin_name, ch_stored_name " + 
+				"FROM challenge CH " + 
+				"INNER JOIN users U " +
+				"ON CH.u_no = U.u_no " +
 				"WHERE ch_likes >= 100 AND ca_no = ? " + 
 				"ORDER BY ch_no DESC " + 
 				")POPULAR)R " + 
 				"WHERE rnum between ? and ?";
 		
-		List<Challenge> list = new ArrayList<>();
+		List<ChallengeList> list = new ArrayList<>();
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, subject.getCategoryNo());
@@ -206,10 +209,12 @@ public class ChallengeDaoImpl implements ChallengeDao {
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Challenge popular = new Challenge();
+				ChallengeList popular = new ChallengeList();
 				
 				popular.setChNo(rs.getInt("ch_no"));
 				popular.setChTitle(rs.getString("ch_title"));
+				popular.setuId(rs.getString("u_id"));
+				popular.setuGrade(rs.getString("u_grade"));
 				popular.setChStartDate(rs.getDate("ch_start_date"));
 				popular.setChEndDate(rs.getDate("ch_end_date"));
 				popular.setChLikes(rs.getInt("ch_likes"));

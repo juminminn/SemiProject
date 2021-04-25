@@ -48,5 +48,6 @@ public interface SearchDao {
 	 * @return
 	 */
 	List<ChallengeList> getDetailList(Connection conn, String word, String orderby, String[] category, Paging paging);
+	
 
 }

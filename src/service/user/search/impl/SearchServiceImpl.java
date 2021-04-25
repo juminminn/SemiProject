@@ -85,4 +85,33 @@ public class SearchServiceImpl implements SearchService {
 		
 		return detail;
 	}
+	@Override
+	public List<ChallengeList> searchChallenge(HttpServletRequest req) {
+		Connection conn =  JDBCTemplate.getConnection();//db연결 객체 생성
+		
+		String param1 = req.getParameter("word"); //검색어
+		String param2 = req.getParameter("curPage"); //현재 페이지
+		System.out.println(param1);
+		
+		String keyword = "";
+		if(param1!=null && !param1.equals("")) { keyword = param1;}
+		int curPage = 0;
+		if(param2!=null && !param2.equals("")) { curPage = Integer.parseInt(param2);}
+		
+		// 조회한 리스트 갯수 
+		int totalCount = searchDao.cntAll(conn, keyword);
+		
+		// 페이징 객체 생성
+		Paging paging = new Paging(totalCount, curPage);
+		
+		// 페이징 적용 - 검색어 리스트 조회
+		List<ChallengeList> list  = searchDao.getAllList(conn, keyword, paging);
+		
+		//페이징 정보 전달
+		req.setAttribute("SearchPaging", paging);
+		
+		//System.out.println(list);
+		return list;
+	}
+	
 }

@@ -23,5 +23,12 @@ public interface SearchService {
 	 * @return 조회된 챌린지 정보
 	 */
 	List<ChallengeList> searchDetail(HttpServletRequest req);
+	/**
+	 * 신고할 챌린지 정보 조회
+	 * 
+	 * @param req 검색어 요청객체
+	 * @return 조회된 챌린지 리스트
+	 */
+	public List<ChallengeList> searchChallenge(HttpServletRequest req);
 
 }
