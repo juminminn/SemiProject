@@ -61,9 +61,9 @@ $(document).ready(function(){
 			$.ajax({
 				url:"/board/delete",
 				type:"POST",
-				data:{pno:<%=post.getP_no()%>},
+				data:{pno:<%=post.getP_no()%>, bno:<%=boardData[0]%>},
 				success:function(){
-					location.replace("/board/3");	
+					location.replace("/board/" + <%=boardData[0]%>);	
 				}
 			});
 		}

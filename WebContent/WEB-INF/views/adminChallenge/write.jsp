@@ -142,9 +142,9 @@ $(document).ready(function() {
 		var end = endArr[0]*3600 + endArr[1]*60
 		
 		//끝나는 시간이 맞지 않을때
-		if(end - start < 0){
+		if(end - start < 10*60){
 			$("#messageEndTime").css({"color":"#d9534f"})
-			$("#messageEndTime").html("시간을 다시 확인해주세요")
+			$("#messageEndTime").html("시간을 다시 확인해주세요(최소 10분)")
 			flag6 = false;
 		}else{
 			$("#messageEndTime").css({"color":"#5cb85c"})
@@ -201,7 +201,7 @@ span{
 <div>
 <form action="/admin/challenge/write" method="post" enctype="multipart/form-data">
 <table class="table table-responsive text-center">
-		<tr><td colspan="2"><label for="file"><img id="preview" src="/resources/img/challenge.png" width="400" height="300"/></label><input type="file" accept="image/*" id="file" name="file" style="width:100%; display: none;"/></td></tr>
+		<tr><td colspan="2"><label for="file"><img id="preview" src="/resources/img/AchievementWhite.png" width="400" height="300"/></label><input type="file" accept="image/*" id="file" name="file" style="width:100%; display: none;"/></td></tr>
 		<tr><td>제목</td><td><input type="text" id="ch_title" name="ch_title" style="width:100%" class="form-control"/><span id="messageTitle"></span></td></tr>
 		<tr><td>카테고리</td><td>
 		<select style="width:100%" id="ch_category" name="ch_category" class="form-control" >

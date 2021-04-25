@@ -36,9 +36,9 @@
 			<!-- 비로그인 상태 -->
 			<ul>
 				<li><a href="/member/login">로그인</a></li>
-				<li><a href="#">회원가입</a></li>
+				<li><a href="/member/provision">회원가입</a></li>
 			</ul>
-			<%}else if((boolean)session.getAttribute("login") && "U".equals((String)session.getAttribute("u_grade"))) {%>
+			<%}else if((boolean)session.getAttribute("login")) {%>
 				<ul>
 					<li><a href="/member/logout">로그아웃</a></li>
 					<li><a href="/mypage/home">마이페이지</a></li>
@@ -48,8 +48,8 @@
 	</ul>
 	</div>
 	<div class="center" style="padding:30px 20px;">
-		<form action="/search" method="get" id ="form">
-			<input type="text" id="key" name="key"/>
+		<form action="/search" method="get" id ="form" class="form-inline">
+			<input type="text" id="key" name="key" class="form-control" style="width: 320px;"/>
 				<button class="startBtn" id="sumbit" type="button"><i class="fas fa-search"></i></button>
 		</form>
 	</div>

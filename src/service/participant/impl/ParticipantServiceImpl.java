@@ -13,7 +13,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +36,7 @@ import common.JDBCTemplate;
 import dao.participant.face.ParticipantDao;
 import dao.participant.impl.ParticipantDaoImpl;
 import dto.Certification;
+import dto.CertificationCycle;
 import dto.Challenge;
 import dto.Complaint;
 import dto.Member;
@@ -615,9 +620,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 			String rename = sdf.format(new Date());
 
 			File uploadFolder = new File(req.getServletContext().getRealPath("upload")); // 업로드될 폴더 경로
-			File defaultImg = new File(req.getServletContext().getRealPath("resources/img/challenge.png")); //이미지 파일 경로
+			File defaultImg = new File(req.getServletContext().getRealPath("resources/img/AchievementWhite.png")); //이미지 파일 경로
 
-			String origin = defaultImg.getName(); //파일의 본래 이름 challenge.png
+			String origin = defaultImg.getName(); //파일의 본래 이름AchievementWhite.png
 			int dotIdx = origin.lastIndexOf("."); //가장 마지막 "."의 인덱스
 			String ext = origin.substring(dotIdx + 1); //확장자
 			String stored = rename +"."+ext; //저장 파일
@@ -923,11 +928,113 @@ public class ParticipantServiceImpl implements ParticipantService {
 	
 	@Override
 	public void participationDelete(int paNo) {
+		//참가자 삭제
 		if( participantDao.participationDelete(JDBCTemplate.getConnection(), paNo) > 0 ) {
 			JDBCTemplate.commit(JDBCTemplate.getConnection());
 		} else {
 			JDBCTemplate.rollback(JDBCTemplate.getConnection());
 		}
+	}
+	@Override
+	public int getCecNo(int chNo) {
+		//참가 챌린지의 인증 주기 번호 가져오기
+		return participantDao.getCecNo(JDBCTemplate.getConnection(),chNo);
+	}
+	
+	@Override
+	public CertificationCycle getCertificationCycle(int chNo) {
+		//인증 주기 가져오기
+		return participantDao.selectCertificationCycle(JDBCTemplate.getConnection(), chNo);
+	}
+	@Override
+	public Map<String, Date> getChallengeDate(int chNo) {
+		
+		return participantDao.selectChallengeDate(JDBCTemplate.getConnection(), chNo);
+	}
+	@Override
+	public int getWeeks(Map<String, Date> challengeDate, int cycle) {
+		Long lday = (challengeDate.get("chEndDate").getTime() - challengeDate.get("chStartDate").getTime())/(24*60*60*1000);
+		double day = lday.doubleValue();
+		double total = day/cycle;
+		int section = (int)Math.ceil(total); 
+		
+		
+		//double total = count*(day/cycle); //총 인증을 해야할 횟수
+		
+		//System.out.println("total:"+total);
+		return section;
+	}
+	
+	@Override
+	public List<Map<String, Date>> getSectionAll(Map<String, Date> challengeDate, int cecCycle, int section) {
+		List<Map<String, Date>> result = new ArrayList<>();
+		Date startDate = challengeDate.get("chStartDate");
+		Date endDate = challengeDate.get("chEndDate");
+		Map<String, Date> element = null;
+		
+		for(int i=0; i<section; i++) {
+			Date curDate=addDate(startDate, cecCycle); // 합산한 날짜
+			if(endDate.getTime() - curDate.getTime()<=0) { //합산한 날짜가 최종 챌린지보다 이상일떄(종료)
+				element = new HashMap<String, Date>();
+				element.put("chStartDate", startDate); //시작 날짜
+				element.put("chEndDate", endDate); //끝나는 날짜
+				result.add(element); //저장
+			}else { //뒤에 날짜가 더 있다
+				element = new HashMap<String, Date>();
+				element.put("chStartDate", startDate); //시작 날짜
+				element.put("chEndDate", curDate); //합산한 날짜 끝나는 날짜
+				result.add(element); //저장
+			}
+			startDate = curDate; //시작날짜를 현재날짜로
+		}
+		
+		return result;
+	}
+	@Override
+	public Map<String, Date> getCurSection(Map<String, Date> challengeDate, int cecCycle, int section) {
+		Date startDate = challengeDate.get("chStartDate");
+		Date endDate = challengeDate.get("chEndDate");
+		Date nowDate = new Date();
+		Map<String, Date> element = null;
+		
+		for(int i=0; i<section; i++) {
+			Date curDate=addDate(startDate, cecCycle); // 합산한 날짜
+			if(endDate.getTime() - curDate.getTime()<=0) { //합산한 날짜가 최종 챌린지보다 이상일떄(종료)
+				//시작 날짜보다 크고 끝나는 날짜보다는 작아야 한다
+				if(nowDate.getTime() - startDate.getTime()>=0 && nowDate.getTime() - endDate.getTime()<=0){
+					element = new HashMap<String, Date>();
+					element.put("chStartDate", startDate); //시작 날짜
+					element.put("chEndDate", endDate); //끝나는 날짜
+				}
+			}else { //뒤에 날짜가 더 있다
+				if(nowDate.getTime() - startDate.getTime()>=0 && nowDate.getTime() - endDate.getTime()<=0){
+					element = new HashMap<String, Date>();
+					element.put("chStartDate", startDate); //시작 날짜
+					element.put("chEndDate", curDate); //끝나는 날짜
+				}
+			}
+			startDate = curDate; //시작날짜를 현재날짜로
+		}
+		
+		return element;
+	}
+	
+	@Override
+	public int getCerCount(Map<String, Date> curSection, int paNo) {
+		return participantDao.getCerCount(JDBCTemplate.getConnection(), curSection, paNo);
+	}
+	
+	//날짜 더하기
+	private Date addDate(Date start, int day) {
+		Calendar cal = Calendar.getInstance();
+
+         cal.setTime(start);
+         cal.add(Calendar.DATE, day); //날짜 더하기
+         
+         Date sum =new Date(cal.getTimeInMillis()); //합산한 날짜 반환
+         
+ 
+		 return sum;
 	}
 	
 }

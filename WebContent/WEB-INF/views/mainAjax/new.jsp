@@ -23,7 +23,7 @@
 	<div class="imgarr">
 <%	if (newList.get(i).getChStoredName()== null || newList.get(i).getChStoredName().contains("저장")){ %>
 		<a href="/user/challenge/view?chNo=<%= newList.get(i).getChNo() %>">
-		<img src="./resources/img/new.jpg" width="100%" height="150px;"/>
+		<img src="/resources/img/AchievementWhite.png" width="100%" height="150px;"/>
 		<p class="title"><%= newList.get(i).getChTitle() %></p></a>
 		<p class="status">
 		<span style="color:#143642">

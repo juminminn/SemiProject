@@ -145,9 +145,9 @@ $(document).ready(function() {
 		var end = endArr[0]*3600 + endArr[1]*60
 		
 		//끝나는 시간이 맞지 않을때
-		if(end - start < 0){
+		if(end - start < 10*60){
 			$("#messageEndTime").css({"color":"#d9534f"})
-			$("#messageEndTime").html("시간을 다시 확인해주세요")
+			$("#messageEndTime").html("시간을 다시 확인해주세요(최소 10분)")
 			flag6 = false;
 		}else{
 			$("#messageEndTime").css({"color":"#5cb85c"})

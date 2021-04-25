@@ -4,20 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import common.JDBCTemplate;
 import dao.participant.face.ParticipantDao;
 import dto.Certification;
+import dto.CertificationCycle;
 import dto.Challenge;
 import dto.Complaint;
 import dto.Member;
 import dto.Participation;
 import dto.Payback;
 import dto.Payment;
-import dto.Refunds;
 import util.Paging;
 
 public class ParticipantDaoImpl implements ParticipantDao {
@@ -386,7 +389,7 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		sql += " 	SELECT rownum rnum, C.* FROM (";
 		sql += " 		SELECT";
 		sql += " 			ce_no, pa_no, ce_origin_name, ce_stored_name";
-		sql += " 			,ce_create_date, ce_is_success";
+		sql += " 			,ce_create_date, ce_is_success, ce_update_date";
 		sql += " 		FROM certification";
 		sql += "		WHERE pa_no=?";
 		sql += " 		ORDER BY ce_no DESC";
@@ -416,6 +419,7 @@ public class ParticipantDaoImpl implements ParticipantDao {
 				ce.setCeStoredName(rs.getString("ce_stored_name"));
 				ce.setCeCreateDate(rs.getDate("ce_create_date"));
 				ce.setCeIsSuccess(rs.getString("ce_is_success"));
+				ce.setCeUpdateDate(rs.getDate("ce_update_date"));
 				//리스트에 결과값 저장
 				certificationList.add(ce);
 			}
@@ -963,4 +967,138 @@ public class ParticipantDaoImpl implements ParticipantDao {
 		
 		return res;
 	}
+	@Override
+	public int getCecNo(Connection conn, int chNo) {
+		//인증 주기 번호 가져오기
+		String sql ="";
+		sql += "select cec_no";
+		sql += " from challenge";
+		sql += " where ch_no =?";
+		
+		int cecNo = 0;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, chNo);
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				cecNo=rs.getInt("cec_no");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return cecNo;
+	}
+	@Override
+	public CertificationCycle selectCertificationCycle(Connection conn, int cecNo) {
+		//인증 주기 가져오기
+		String sql ="";
+		sql += "select*from certification_cycle";
+		sql += " where cec_no =?";
+		
+		CertificationCycle certificationCycle = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, cecNo);
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				certificationCycle = new CertificationCycle();
+				certificationCycle.setCecNo(rs.getInt("cec_no"));
+				certificationCycle.setCecTitle(rs.getString("cec_title"));
+				certificationCycle.setCecCreateDate(rs.getDate("cec_create_date"));
+				certificationCycle.setCecCycle(rs.getInt("cec_cycle"));
+				certificationCycle.setCecCount(rs.getInt("cec_count"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		return certificationCycle;
+	}
+	@Override
+	public Map<String, Date> selectChallengeDate(Connection conn, int chNo) {
+		//챌린지 시작 날짜와 끝날짜 구해오기
+		String sql ="";
+		sql += "select";
+		sql += " ch_start_date,";
+		sql += " ch_end_date";
+		sql += " from challenge";
+		sql += " where ch_no =?";
+		
+		Map<String, Date> result = new HashMap<>();
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, chNo);
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				result.put("chStartDate", rs.getDate("ch_start_date"));
+				result.put("chEndDate", rs.getDate("ch_end_date"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		return result;
+	}
+	
+	@Override
+	public int getCerCount(Connection conn, Map<String, Date> curSection, int paNo) {
+		String sql ="";
+		sql += "select count(*) as cnt from";
+		sql += " certification";
+		sql += " where ce_create_date";
+		sql += " between to_date(?, 'yyyy-mm-dd') and to_date(?, 'yyyy-mm-dd')";
+		sql += " and pa_no =?";
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
+		int count=0;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			
+			ps.setString(1, transFormat.format(curSection.get("chStartDate")));
+			ps.setString(2, transFormat.format(curSection.get("chEndDate")));
+			ps.setInt(3, paNo);
+			
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			//조회 결과 처리
+			if(rs.next()) {
+				count = rs.getInt("cnt");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		
+		return count;
+	}
+	
 }

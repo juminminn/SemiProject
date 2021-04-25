@@ -245,7 +245,7 @@ public class AdminChallengeDaoImpl implements AdminChallengeDao {
 				result.setChOriginName(rs.getString("ch_origin_name"));
 				result.setChStoredName(rs.getString("ch_stored_name"));
 				result.setChCreateDate(rs.getDate("ch_create_date"));
-				result.setChTitle(rs.getString("ch_state"));
+				result.setChState(rs.getString("ch_state"));
 			}
 
 		} catch (SQLException e) {

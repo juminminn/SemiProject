@@ -74,7 +74,8 @@
 					url:"/comment/update",
 					type:"POST",
 					data:{cno:<%=cList.get(i).getCno()%>, c_content:$("#cmtContent").val()},
-					success:function(){
+					success:function(result){
+						
 						location.reload();
 					}
 				});

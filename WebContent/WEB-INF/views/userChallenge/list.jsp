@@ -84,7 +84,7 @@
 		<div class="imgarr"><a href="/user/challenge/view?chNo=<%=list.get(i).getChNo()%>">
 		
 		<%if(list.get(i).getChStoredName().contains("저장")){ %>
-			<img src="/resources/img/challenge.png"  height="150"/>
+			<img src="/resources/img/AchievementWhite.png"  height="150"/>
 		<%}else{ %>
 			<img src="/upload/<%=list.get(i).getChStoredName()%>" height="150" />
 		<%} %>

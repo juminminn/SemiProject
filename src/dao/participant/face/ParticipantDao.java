@@ -1,10 +1,12 @@
 package dao.participant.face;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import dto.Certification;
+import dto.CertificationCycle;
 import dto.Challenge;
 import dto.Complaint;
 import dto.Member;
@@ -276,6 +278,39 @@ public interface ParticipantDao {
 	 * @return 1이상이면 성공 0 이하이면 실패
 	 */
 	public int participationDelete(Connection conn, int paNo);
+	
+	/**
+	 * 참가 챌린지의 인증 주기 가져오기
+	 * @param connection
+	 * @param chNo
+	 * @return 인증 주기 
+	 */
+	public CertificationCycle selectCertificationCycle(Connection conn, int cecNo);
+	
+	/**
+	 * 참가 챌린지의 인증 주기 번호 가져오기
+	 * @param conn - DB연결 객체
+	 * @param chNo - 챌린지 번호
+	 * @return 인증 주기 번호
+	 */
+	
+	public int getCecNo(Connection conn, int chNo);
+	
+	/**
+	 * 챌린지 시작 날짜 및 끝나는 날짜 가져오기
+	 * @param conn - DB연결 객체
+	 * @param chNo - 챌린지 번호
+	 * @return 챌린지 시작 날짜, 끝나는 날짜
+	 */
+	public Map<String, Date> selectChallengeDate(Connection connection, int chNo);
+	/**
+	 * 현재 구간 인증 횟수
+	 * @param conn - DB연결 객체
+	 * @param curSection - 현재 구간들
+	 * @param paNo - 참가자 챌린지 번호
+	 * @return 구간별 인증 횟수
+	 */
+	public int getCerCount(Connection conn, Map<String, Date> curSection, int paNo);
 
 	
 	

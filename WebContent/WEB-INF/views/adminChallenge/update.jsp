@@ -147,9 +147,9 @@ $(document).ready(function() {
 		var end = endArr[0]*3600 + endArr[1]*60
 		
 		//끝나는 시간이 맞지 않을때
-		if(end - start < 0){
+		if(end - start < 10*60){
 			$("#messageEndTime").css({"color":"#d9534f"})
-			$("#messageEndTime").html("시간을 다시 확인해주세요")
+			$("#messageEndTime").html("시간을 다시 확인해주세요(최소 10분)")
 			flag6 = false;
 		}else{
 			$("#messageEndTime").css({"color":"#5cb85c"})
@@ -210,7 +210,7 @@ span{
 		
 		<tr><td colspan="2"><label for="file"><%--더미 데이터와 구분하기 위하여 --%>
 		<%if(updateChallenge.getChStoredName().contains("저장")){ %> 
-			<img src="/resources/img/challenge.png" id="preview" width="400" height="250"/>
+			<img src="/resources/img/AchievementWhite.png" id="preview" width="400" height="250"/>
 		<%}else{ %>
 			<img src="/upload/<%=updateChallenge.getChStoredName() %>" id="preview" width="400" height="250"/>
 		<%} %>
