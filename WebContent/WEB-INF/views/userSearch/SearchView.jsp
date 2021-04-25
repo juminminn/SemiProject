@@ -13,8 +13,12 @@ $(document).ready(function(){
 <link rel="stylesheet" href="/resources/css/searchView.css">
 <script type="text/javascript">
 $(document).ready(function(){
-
-	$('#btndetail').click(function(){
+	$('.imgarea  img').click(function(){
+	 	 $(this).css("border","2px dotted #8C8C8C")
+	 })
+	 
+	 //상세검색 단추를 누르면 체크한 카테고리별, 정렬기준별 상세조회
+	$('#btndetail').click(function(){ 
 	//카테고리 배열로 저장
 	 var lists = [];
 	 $("input[name='ca_no']:checked").each(function(i){
@@ -24,8 +28,7 @@ $(document).ready(function(){
 		 lists.push($(this).val())
 		 }
 	 })
-		 //console.log(lists)
-		 //정렬기준
+	//정렬기준
 	 var select = $("select[name='alignby']").val() 
 	 console.log(select)
 	 $.ajax({
@@ -48,7 +51,8 @@ $(document).ready(function(){
 	 	 }
 		})
 	 })//btn click event end
- 
+	 
+	 
 	$("input:checkbox:not([id = 'all'])").click(function(){
 		$("input:checkbox[id='all']").attr('checked',false)
 	})// 전체 이외 카테고리 체크할 경우 전체 체크박스 체크 해제

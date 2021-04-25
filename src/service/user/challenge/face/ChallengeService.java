@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import dto.Challenge;
 import dto.ChallengeCategory;
+import dto.ChallengeList;
 
 public interface ChallengeService {
 	/**
@@ -30,7 +31,7 @@ public interface ChallengeService {
 	 * @param number 파라미터로 요청받아 dto에 저장된 카테고리 번호
 	 * @return 조회된 챌린지 리스트
 	 */
-	List<Challenge> getNewChallenges(HttpServletRequest req, ChallengeCategory number);
+	List<ChallengeList> getNewChallenges(HttpServletRequest req, ChallengeCategory number);
 	/**
 	 * 챌린지별 참여자 수 조회
 	 * 
@@ -38,7 +39,7 @@ public interface ChallengeService {
 	 * @param list - 카테고리별 챌린지 정보가 담긴 리스트
 	 * @return 챌린지 번호별 참여하는 회원 수
 	 */
-	List<Integer> getCntParticipant(List<Challenge> list);
+	List<Integer> getCntParticipant(List<ChallengeList> list);
 	/**
 	 * 챌린지별 좋아요 수 조회
 	 * 
@@ -46,7 +47,7 @@ public interface ChallengeService {
 	 * @param list - 카테고리별 챌린지 정보가 담긴 리스트
 	 * @return 카테고리별로 분류된 챌린지 좋아요 리스트
 	 */
-	List<Integer> getCntLikes(List<Challenge> list);
+	List<Integer> getCntLikes(List<ChallengeList> list);
 	/**
 	 * 카테고리별 인기 챌린지 리스트 조회
 	 * 
@@ -55,6 +56,6 @@ public interface ChallengeService {
 	 * @param subject - 카테고리 정보가 저장된 dto객체
 	 * @return 카테고리별 인기 챌린지 리스트
 	 */
-	List<Challenge> getPopularChallenges(HttpServletRequest req, ChallengeCategory subject);
+	List<ChallengeList> getPopularChallenges(HttpServletRequest req, ChallengeCategory subject);
 
 }

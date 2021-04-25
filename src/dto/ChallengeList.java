@@ -8,6 +8,7 @@ public class ChallengeList {
 	private int cecNo; //인증주기 번호
 	private int uNo; //유저 번호
 	private String uId; //유저아이디
+	private String uGrade; //유저등급
 	private String chTitle; //챌린지 제목
 	private String chContent; //챌린지내용
 	private Date chCreateDate;// 작성날짜
@@ -24,15 +25,33 @@ public class ChallengeList {
 	private String chState; //챌린지 운영 상태
 	
 
+	
 	@Override
 	public String toString() {
-		return "ChallengeList [chNo=" + chNo + ", caNo=" + caNo + ", cecNo=" + cecNo + ", uNo=" + uNo + ", uId="
-				+ uId + ", chTitle=" + chTitle + ", chContent=" + chContent + ", chCreateDate=" + chCreateDate
-				+ ", chStartDate=" + chStartDate + ", chEndDate=" + chEndDate + ", chMoney=" + chMoney
+		return "ChallengeList [chNo=" + chNo + ", caNo=" + caNo + ", cecNo=" + cecNo + ", uNo=" + uNo + ", uId=" + uId
+				+ ", uGrade=" + uGrade + ", chTitle=" + chTitle + ", chContent=" + chContent + ", chCreateDate="
+				+ chCreateDate + ", chStartDate=" + chStartDate + ", chEndDate=" + chEndDate + ", chMoney=" + chMoney
 				+ ", chStartTime=" + chStartTime + ", chEndTime=" + chEndTime + ", chWay=" + chWay + ", chCaution="
 				+ chCaution + ", chLikes=" + chLikes + ", chOriginName=" + chOriginName + ", chStoredName="
-				+ chStoredName + ", chState=" + chState + "]";
+				+ chStoredName + ", chState=" + chState + ", getChNo()=" + getChNo() + ", getCaNo()=" + getCaNo()
+				+ ", getCecNo()=" + getCecNo() + ", getuNo()=" + getuNo() + ", getuId()=" + getuId() + ", getChTitle()="
+				+ getChTitle() + ", getChContent()=" + getChContent() + ", getChCreateDate()=" + getChCreateDate()
+				+ ", getChStartDate()=" + getChStartDate() + ", getChEndDate()=" + getChEndDate() + ", getChMoney()="
+				+ getChMoney() + ", getChStartTime()=" + getChStartTime() + ", getChEndTime()=" + getChEndTime()
+				+ ", getChWay()=" + getChWay() + ", getChCaution()=" + getChCaution() + ", getChLikes()=" + getChLikes()
+				+ ", getChOriginName()=" + getChOriginName() + ", getChStoredName()=" + getChStoredName()
+				+ ", getChState()=" + getChState() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
+	
+	public String getuGrade() {
+		return uGrade;
+	}
+
+	public void setuGrade(String uGrade) {
+		this.uGrade = uGrade;
+	}
+
 	public int getChNo() {
 		return chNo;
 	}
