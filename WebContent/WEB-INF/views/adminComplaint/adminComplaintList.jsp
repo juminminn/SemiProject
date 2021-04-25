@@ -12,7 +12,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	
+	$('#complaint').css({"background":"#EC9A29"})
+	$('#complaint').nextAll().css({"background":"#FFFFFF"})
 	// + 버튼 누르면 신고등록 페이지로 이동
 	$("#btnInsert").click(function() {
 		location.href="/admin/complaint/insert";	
@@ -24,8 +25,6 @@ $(document).ready(function() {
 	});
 });
 </script>
-
-
 
 <style type="text/css">
 @media (min-width: 900px) {
@@ -68,6 +67,7 @@ $(document).ready(function() {
 					
 	<!-- 내용 -->
 	<tbody>		
+	
 	<%	for(int i=0; i<searchComplaint.size(); i++) { %>
 	<tr>
 		<td><%=searchComplaint.get(i).getComNo() %></td>

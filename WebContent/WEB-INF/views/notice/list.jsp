@@ -8,7 +8,14 @@
 
 <%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
+<script type="text/javascript">
+$(document).ready(function(){
 
+	$('#notice').css({"background":"#EC9A29"})
+	$('#notice').nextAll().css({"background":"#FFFFFF"})
+})
+
+</script>
 
 <style type="text/css">
 
