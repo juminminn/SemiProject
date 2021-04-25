@@ -18,17 +18,24 @@ import util.AdminComplaintPaging;
 public class AdminComplaintListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
 		//ComplaintService 객체 생성
 		public AdminComplaintService complaintService = new AdminComplaintServiceImpl();
 	
+		
 		@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			//System.out.println("/admin/complaint/list [doGet]");
 			
+			//로그인 되어있지 않으면 리다이렉트 
+			if( req.getSession().getAttribute("login") == null ) {
+				resp.sendRedirect("/member/login");
+					
+				return;
+			}
+
 			//요청파라미터를 전달하여 Paging객체 생성하기
 			AdminComplaintPaging complaintPaging = complaintService.getComplaintPaging(req);
-			System.out.println("ComplaintListController - " + complaintPaging);
-			
+						
 			//페이징 적용한 신고글 조회
 			List<AdminComplaint> complaintList = complaintService.getList(complaintPaging);
 			
@@ -37,6 +44,13 @@ public class AdminComplaintListController extends HttpServlet {
 			
 			//조회결과 model값 전달
 			req.setAttribute("complaintList", complaintList);
+			
+			//검색
+			List<AdminComplaint> searchComplaint = complaintService.searchList(req);
+			//System.out.println(searchComplaint);
+			//검색리스트 결과 model값 전달
+			req.setAttribute("searchComplaint", searchComplaint);
+		
 			
 			//View 지정 및 응답
 			req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintList.jsp").forward(req, resp);

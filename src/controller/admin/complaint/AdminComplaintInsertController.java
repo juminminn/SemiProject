@@ -21,17 +21,16 @@ public class AdminComplaintInsertController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
+		
 		//로그인 되어있지 않으면 리다이렉트 
 		if( req.getSession().getAttribute("login") == null ) {
-			resp.sendRedirect("/main");
+			resp.sendRedirect("/member/login");
 			
 			return;
 		}
 		
-		
 		//View 지정
-		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintInsert.jsp")
-		.forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintInsert.jsp").forward(req, resp);
 	
 	}
 	
@@ -42,7 +41,7 @@ public class AdminComplaintInsertController extends HttpServlet {
 		//작성글 등록
 		complaintService.insert(req);
 		
-		//목록으로 리다이렉션
+		//목록으로 리디렉션
 		resp.sendRedirect("/admin/complaint/list");
 
 	}
