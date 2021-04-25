@@ -19,6 +19,12 @@ $(document).ready(function() {
 	$("#btnCancle").click(function() {
 		location.href="/admin/complaint/list";
 	});
+	$('#ch_no').click(function(){
+		window.open('/popup/challenge'
+				, "challengeInfo", "width=600, height=500, resizable=no, scrollbars=yes")
+		
+	})
+	
 });
 </script>
 
@@ -56,7 +62,7 @@ $(document).ready(function() {
 		<tbody>
 		<tr style="line-height:32px;">	
 			<tr>
-			<td>챌린지 번호</td><td><input type="text" name="chNo" class="form-control"></td>                            
+			<td>챌린지 번호</td><td><input type="text" name="chNo" class="form-control" id="ch_no" placeholder="선택하세요" style="cursor:pointer;"readonly/></td>                            
      		</tr>                                                                                                        
             
             <tr>                
@@ -74,9 +80,9 @@ $(document).ready(function() {
  			<tr>
             <td>조치내역</td>
             <td><select name="comManage" class="form-control" >
-				<option>Y</option>
-				<option>W</option>
-				<option>N</option>
+				<option value="Y">조치완료</option>
+				<option value="W">조치중</option>
+				<option value="N">조치안함</option>
 				</select>
 			</td>              
  			</tr>                    

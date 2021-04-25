@@ -193,7 +193,7 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
 		complaint.setComContent(req.getParameter("comContent"));
 		complaint.setComAdminContent(req.getParameter("comAdminContent"));
 		complaint.setComManage(req.getParameter("comManage"));
-		System.out.println("complaint : "+complaint);
+		//System.out.println("complaint : "+complaint);
 		
 		Connection conn = JDBCTemplate.getConnection();
 			

@@ -28,10 +28,12 @@
 <%  } else if( i%2 == 1){%><!--참여자 수 가져오기  -->
 <% 		int cntParticipant = (Integer)list.get(i);%>
 		<p class="status">
-		<%if(users.get(listnum).getGrade().equals("U")){ %><!--개설자가 유저일 경우  -->
+		<!--개설자가 유저일 경우  -->
+		<%if(users.get(listnum).getGrade().equals("U")){ %>
 		<span class="publisher"><%=users.get(listnum).getUserNick() %></span>
 		<span><i class="fas fa-user"></i> <%= cntParticipant %> 참여중</span>
-		<%}else if(users.get(listnum).getGrade().equals("M")){ %><!--개설자가 관리자일 경우  -->
+		<!--개설자가 관리자일 경우  -->
+		<%}else if(users.get(listnum).getGrade().equals("M")){ %>
 		<span class="publisher"><i class="fas fa-cog"></i>공식</span>
 		<span><i class="fas fa-user"></i> <%= cntParticipant %> 참여중</span>
 		<%} listnum++; %>

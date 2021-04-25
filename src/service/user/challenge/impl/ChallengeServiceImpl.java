@@ -10,6 +10,7 @@ import dao.user.face.ChallengeDao;
 import dao.user.impl.ChallengeDaoImpl;
 import dto.Challenge;
 import dto.ChallengeCategory;
+import dto.ChallengeList;
 import service.user.challenge.face.ChallengeService;
 import util.Paging;
 
@@ -41,7 +42,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return info;
 	}
 	@Override
-	public List<Challenge> getNewChallenges(HttpServletRequest req,ChallengeCategory number) {
+	public List<ChallengeList> getNewChallenges(HttpServletRequest req,ChallengeCategory number) {
 		Connection conn =  JDBCTemplate.getConnection();
 		//조회된 챌린지 갯수
 		int cntList = challengeDao.getCntnewChallenges(conn, number); 
@@ -60,25 +61,25 @@ public class ChallengeServiceImpl implements ChallengeService {
 		req.setAttribute("newPage", newPage);
 		
 		// 신규챌린지 리스트 조회하기
-		List<Challenge>list = challengeDao.newChallengebyCategory(conn, number, newPage);
+		List<ChallengeList>list = challengeDao.newChallengebyCategory(conn, number, newPage);
 		return list;
 	}
 	@Override
-	public List<Integer> getCntParticipant(List<Challenge> list) {
+	public List<Integer> getCntParticipant(List<ChallengeList> list) {
 		Connection conn = JDBCTemplate.getConnection();
 		//챌린지별 참여자 수 조회하기
 		List<Integer>cntParticipant = challengeDao.countParticipants(conn,list);
 		return cntParticipant;
 	}
 	@Override
-	public List<Integer> getCntLikes(List<Challenge> list) {
+	public List<Integer> getCntLikes(List<ChallengeList> list) {
 		Connection conn = JDBCTemplate.getConnection();
 		//챌린지별 좋아요 수 조회하기
 		List<Integer>cntLikes = challengeDao.countLikes(conn,list);
 		return cntLikes;
 	}
 	@Override
-	public List<Challenge> getPopularChallenges(HttpServletRequest req, ChallengeCategory subject) {
+	public List<ChallengeList> getPopularChallenges(HttpServletRequest req, ChallengeCategory subject) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		//현재 페이지 정보 가져오기(페이징)
@@ -97,7 +98,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     	req.setAttribute("popularPaging", paging);
     	
     	//챌린지 리스트 조회하기
-    	List<Challenge> list = challengeDao.popularChallenges(conn, subject, paging);
+    	List<ChallengeList> list = challengeDao.popularChallenges(conn, subject, paging);
 		return list;
 	}
 }

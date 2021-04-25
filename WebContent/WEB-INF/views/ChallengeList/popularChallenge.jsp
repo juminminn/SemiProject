@@ -1,10 +1,10 @@
+<%@page import="dto.ChallengeList"%>
 <%@page import="dto.Challenge"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% List<Challenge> popularList = (List<Challenge>)request.getAttribute("popularList"); %>
-<% List<Challenge> popParticipant = (List<Challenge>)request.getAttribute("popParticipant"); %>
-<%-- <% List<Challenge> popLikes = (List<Challenge>)request.getAttribute("popLikes"); %> --%>
+<% List<ChallengeList> popularList = (List<ChallengeList>)request.getAttribute("popularList"); %>
+<% List<ChallengeList> popParticipant = (List<ChallengeList>)request.getAttribute("popParticipant"); %>
 
 <!DOCTYPE html>
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
@@ -14,7 +14,6 @@
 .container{
 	width : 900px;
 	height : 900px;
-	border : 1px solid #ccc;
 	text-align : center;
 	padding : 15px;
 }
@@ -47,6 +46,7 @@
 }
 .title{
 	font-weight : bold;
+	color : #8C8C8C;
 }
 .imgarea > .title::after{
 	content:"인기";
@@ -59,22 +59,33 @@
 	margin-left: 5px;
 	border-radius : 5px;
 }
+.publisher{
+ 	color: #8C8C8C;
+	margin-right: 20px;
+}
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+ $('.imgarea > img').click(function(){
+	 $(this).css("border","2px dotted #8C8C8C")
+ })
+})
+</script>
 <body>
 <%@ include file="./subjects.jsp" %>
-<div class="participant">
-<!-- <h4><span class="fas fa-user"></span> 참여자</h4> -->
-<!-- <h4><span class="far fa-thumbs-up"></span> 좋아요</h4> -->
-</div>
 
 	<div class="wrapper">
 		<%for(int i = 0; i< popularList.size(); i++){ %>
 		<%if(popularList.get(i).getChStoredName()== null || popularList.get(i).getChStoredName().contains("저장")){ %>
 		<div class = "imgarea" onclick="location.href='/user/challenge/view?chNo=<%=popularList.get(i).getChNo()%>'">
-			<img src="/resources/img/challenge.png" alt="챌린지 임시페이지"/>
+			<img src="/resources/img/AchievementWhite.png" alt="챌린지 임시페이지"/>
 			<p class="title"><%= popularList.get(i).getChTitle() %></p>
 			<p class="status">
-			<%-- <span class="people"><i class="fas fa-user"></i> <%= popParticipant.get(i) %> 명</span> --%>
+			<%if(popularList.get(i).getuGrade().equals("U")){ %>
+			<span class="publisher"><%=popularList.get(i).getuId() %></span>
+			<%}else{ %>
+			<span class="publisher"><i class="fas fa-cog"></i>공식</span>
+			<%} %>			
 	 		<span class="like"><i class="far fa-thumbs-up"></i> <%= popularList.get(i).getChLikes() %> </span>
 			</p>
 		</div>
@@ -83,7 +94,11 @@
 			<img src="/upload/<%=popularList.get(i).getChStoredName() %>" alt="챌린지 저장이미지" />
 			<p class = "title"><%= popularList.get(i).getChTitle() %></p>
 			<p class = "status">
-			<%-- <span class="people"><i class="fas fa-user"></i> <%= popParticipant.get(i) %> 명</span> --%>
+			<%if(popularList.get(i).getuGrade().equals("U")){ %>
+			<span class="publisher"><%=popularList.get(i).getuId() %></span>
+			<%}else{ %>
+			<span class="publisher"><i class="fas fa-cog"></i>공식</span>
+			<%} %>	
 	 		<span class="like"><i class="far fa-thumbs-up"></i> <%= popularList.get(i).getChLikes() %> </span>
 			</p>
 		</div>
@@ -93,5 +108,5 @@
 <%@ include file="../ChallengeList/pagings/popularPaging.jsp" %>
 </div>
 </body>
- --%>
+
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

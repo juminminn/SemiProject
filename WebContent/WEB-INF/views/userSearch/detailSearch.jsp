@@ -4,7 +4,13 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%List<ChallengeList> challenge = (List<ChallengeList>)request.getAttribute("DetailSearch"); %>
-
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.imgarea  img').click(function(){
+	 	 $(this).css("border","2px dotted #8C8C8C")
+	 })
+})
+</script>
 <div class="result">
 <% for(int i = 0; i< challenge.size(); i++){ %>	
 	<%if(challenge.get(i).getChTitle() != null){ %>

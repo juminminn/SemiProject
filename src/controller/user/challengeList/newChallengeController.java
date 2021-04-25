@@ -16,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 
 import dto.Challenge;
 import dto.ChallengeCategory;
+import dto.ChallengeList;
 import service.user.challenge.face.ChallengeService;
 import service.user.challenge.impl.ChallengeServiceImpl;
 
@@ -35,7 +36,7 @@ public class newChallengeController extends HttpServlet {
     	
     	
     	//신규챌린지 카테고리별 리스트 가져오기
-    	List<Challenge> list = challengeService.getNewChallenges(req,number);
+    	List<ChallengeList> list = challengeService.getNewChallenges(req,number);
     	
     	//챌린지 참여 수 조회하기
     	List<Integer> cntParticipant = challengeService.getCntParticipant(list);

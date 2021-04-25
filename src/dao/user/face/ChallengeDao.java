@@ -5,6 +5,7 @@ import java.util.List;
 
 import dto.Challenge;
 import dto.ChallengeCategory;
+import dto.ChallengeList;
 import util.Paging;
 
 public interface ChallengeDao {
@@ -33,7 +34,7 @@ public interface ChallengeDao {
 	 * @param paging - 보여질 페이지 객체
 	 * @return - 신규 챌린지 정보 리스트
 	 */
-	List<Challenge> newChallengebyCategory(Connection conn, ChallengeCategory number, Paging paging);
+	List<ChallengeList> newChallengebyCategory(Connection conn, ChallengeCategory number, Paging paging);
 	/**
 	 *챌린지별 참여하는 회원 수 조회
 	 * 
@@ -41,7 +42,7 @@ public interface ChallengeDao {
 	 * @param list - 챌린지 정보가 담긴 리스트
 	 * @return - 챌린지 번호별 참여 회원 수 리스트
 	 */
-	List<Integer> countParticipants(Connection conn, List<Challenge> list);
+	List<Integer> countParticipants(Connection conn, List<ChallengeList> list);
 	/**
 	 * 챌린지별 좋아요 수 조회
 	 * 
@@ -49,7 +50,7 @@ public interface ChallengeDao {
 	 * @param list - 챌린지 정보가 담긴 리스트
 	 * @return - 챌린지 번호별 좋아요 수 리스트
 	 */
-	List<Integer> countLikes(Connection conn, List<Challenge> list);
+	List<Integer> countLikes(Connection conn, List<ChallengeList> list);
 	/**
 	 * 인기 챌린지 갯수 조회
 	 * 조건 : 좋아요수 100개 이상을 받은 챌린지
@@ -68,6 +69,6 @@ public interface ChallengeDao {
 	 * @param paging 페이지 정보
 	 * @return 인기 챌린지 리스트 정보
 	 */
-	List<Challenge> popularChallenges(Connection conn, ChallengeCategory subject, Paging paging);
+	List<ChallengeList> popularChallenges(Connection conn, ChallengeCategory subject, Paging paging);
 
 }

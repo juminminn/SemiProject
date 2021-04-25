@@ -48,9 +48,11 @@ public class SearchDaoImpl implements SearchDao {
 		String sql = "";
 		sql += "SELECT * FROM(  " + 
 				"SELECT ROWNUM rnum, list.*  FROM(  " + 
-				"SELECT C.ch_no,ch_title,C.u_no,U.u_id,ch_stored_name,ch_start_date, ch_likes FROM CHALLENGE C  " + 
+				"SELECT C.ch_no,ch_title,C.ca_no, CA.ca_title ,C.u_no,U.u_id,ch_stored_name,ch_start_date, ch_likes FROM CHALLENGE C  " + 
 				"INNER JOIN users U  " + 
 				"on U.u_no = C.u_no  " + 
+				"INNER JOIN category CA " + 
+				"ON C.ca_no = CA.ca_no " + 
 				"WHERE CH_TITLE LIKE '%'|| ? || '%'  " + 
 				"OR CH_CONTENT LIKE '%'|| ? || '%' "+
 				"ORDER BY ch_no DESC)list)  " + 
@@ -71,6 +73,7 @@ public class SearchDaoImpl implements SearchDao {
 				challenge = new ChallengeList();
 				challenge.setChNo(rs.getInt("ch_no"));
 				challenge.setChTitle(rs.getString("ch_title"));
+				challenge.setCaTitle(rs.getString("ca_title"));
 				challenge.setuNo(rs.getInt("u_no"));
 				challenge.setuId(rs.getString("u_id"));
 				challenge.setChStoredName(rs.getString("ch_stored_name"));
@@ -186,4 +189,5 @@ public class SearchDaoImpl implements SearchDao {
 		 
 		return detailList;
 	}
+	
 }
