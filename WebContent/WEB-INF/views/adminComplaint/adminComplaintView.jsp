@@ -4,33 +4,38 @@
 
 <% AdminComplaint complaint = (AdminComplaint) request.getAttribute("viewComplaint"); %>
 <% int caution = (Integer)request.getAttribute("chUcaution"); %>
-
+<% int cntChCaution = (Integer)request.getAttribute("cntChCaution"); %>
 <%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 
 
 <script type="text/javascript">
+
+var upcount = 0;
+
 $(document).ready(function() {
 
-	//경고버튼 누르면 경고횟수 증가
+	//경고버튼 누르면 경고 수 증가
 	$("#btnCaution").click(function() {
-	
+		$(location).attr("href", "/admin/complaint/caution?comNo=<%=complaint.getComNo() %>&ch_no=<%=complaint.getChNo()%>");
+		
+		alert("경고 처리되었습니다.");
 	});
 	
 	
 	//삭제버튼 누르면 해당 신고 삭제
 	$("#btnDelete").click(function() {
-		$(location).attr("href", "/admin/complaint/delete?comNo=<%=complaint.getComNo() %>");
+		$(location).attr("href", "/admin/complaint/delete?comNo=<%=complaint.getComNo() %>&comManage=<%=complaint.getComManage()%>&ch_no=<%=complaint.getChNo()%>");
 	});
 	
 	//수정버튼 누르면 수정페이지로 이동
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "/admin/complaint/update?comNo=<%=complaint.getComNo() %>");
+		$(location).attr("href", "/admin/complaint/update?comNo=<%=complaint.getComNo()%>");
 	});
 	
 	//돌아가기버튼 누르면 이전 페이지로 이동
 	$("#btnBack").click(function() {
-		history.go(-1);	
+		$(location).attr("href", "/admin/complaint/list");
 	});
 	
 });
@@ -64,8 +69,8 @@ $(document).ready(function() {
 			<tr>
 			<td>챌린지 제목</td>
 			<td><input type="text" name="chTitle" class="form-control" value="<%=complaint.getChTitle() %>" readonly></td>                               
- 			<td>챌린지 경고횟수</td>
-			<td><input type="text" name="chCaution" class="form-control" value="<%=complaint.getChUcaution() %>" readonly></td>                              
+ 			<td>챌린지 경고 수</td>
+			<td><input type="text" name="chCaution" class="form-control" value="<%=cntChCaution %>" readonly></td>                              
      		</tr>                                                    
   
    			<tr>
@@ -78,7 +83,7 @@ $(document).ready(function() {
             <tr>
             <td>챌린지 내용</td>                       
  			<td><input type="text" name="chContent" class="form-control" value="<%=complaint.getChContent() %>" readonly></td>                      
-            <td>개설자 경고횟수</td>
+            <td>개설자 경고 수</td>
  			<td><input type="text" name="chUcaution" class="form-control" value="<%=caution %>" readonly></td>                                                                            
             </tr>                        
             
@@ -128,12 +133,22 @@ $(document).ready(function() {
             
             <tr>
             <td>인증방법</td>                                
-   			<td><input type="text" name="chWay" class="form-control" value="<%=complaint.getChWay() %>" readonly></td> 
+   			<td><input type="text" name="chWay" class="form-control" value="<%=complaint.getChWay() %>" disabled></td> 
     		<td>조치내역</td>                              
-    		<td><select name="comManage" class="form-control" value="<%=complaint.getComManage() %>" >
-				<option>Y</option>
-				<option>W</option>
-				<option>N</option>
+    		<td><select name="comManage" class="form-control" disabled>
+				<%if("Y".equals(complaint.getComManage())) {%>
+					<option selected>Y</option>
+					<option>W</option>
+					<option>N</option>
+				<%}else if("W".equals(complaint.getComManage())) {%>
+					<option>Y</option>
+					<option selected>W</option>
+					<option>N</option>
+				<%}else {%>
+					<option>Y</option>
+					<option>W</option>
+					<option selected>N</option>
+				<%} %>
 				</select>
 			</td>                                          
  			</tr>
@@ -146,10 +161,14 @@ $(document).ready(function() {
 
 	<!-- 경고, 삭제, 수정, 목록 버튼 -->
 	<div class="text-center">
-		<button id="btnCaution" class="btn btn-danger">경고</button>
-		<button id="btnDelete" class="btn btn-default">삭제</button>
-		<button id="btnUpdate" class="btn btn-default">수정</button>
-		<button id="btnBack" class="btn btn-default">돌아가기</button>
+		<%if("W".equals(complaint.getComManage())){ %>
+		<button type="button" id="btnCaution" class="btn btn-danger" >경고</button>
+		<%}else{ %>
+		<button type="button" id="btnCaution" class="btn btn-danger" disabled="disabled">경고</button>
+		<%} %>
+		<button type="button" id="btnDelete" class="btn btn-default">삭제</button>
+		<button type="button" id="btnUpdate" class="btn btn-default">수정</button>
+		<button type="button" id="btnBack" class="btn btn-default">돌아가기</button>
 	</div>
 </div><!--.container 끝-->
 

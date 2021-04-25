@@ -1,6 +1,8 @@
 package controller.admin.complaint;
 
 import java.io.IOException;
+import java.sql.Connection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,15 +39,26 @@ public class AdminComplaintUpdateController extends HttpServlet {
 		
 		String chUid = complaintService.getChUid(updateComplaint); //챌린지개설자 아이디 조회
 		
+		//public String getChUid(AdminComplaint viewComplaint);
+		//public String selectChUidByComNo(Connection conn, AdminComplaint viewComplaint);
+		
+		
 		int cntCompalint = complaintService.count(chUid); //개설자 경고수 조회
 		
+		//public int count(String chUid);
+		//public int getNumber(Connection conn, String chUid);
 		
+		int chNo = complaintService.getChNo(updateComplaint);
+		
+		int cntChCaution = complaintService.getChCaution(chNo);
 		
 		req.setAttribute("updateComplaint", updateComplaint); //조회결과 model값 전달
 		
 		req.setAttribute("chUid", chUid);  //챌린지개설자 아이디 전달
 		
 		req.setAttribute("chUcaution",cntCompalint); //개설자 경고횟수 전달
+		
+		req.setAttribute("cntChCaution", cntChCaution); //챌린지 누적 경고 조회 전달
 		
 		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintUpdate.jsp").forward(req, resp);
 		

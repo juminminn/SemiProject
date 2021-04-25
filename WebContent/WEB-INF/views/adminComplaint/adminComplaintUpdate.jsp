@@ -4,7 +4,7 @@
     
 <% AdminComplaint complaint = (AdminComplaint) request.getAttribute("updateComplaint"); %>
 <% int caution = (Integer)request.getAttribute("chUcaution"); %>
-
+<% int cntChCaution = (Integer)request.getAttribute("cntChCaution"); %>
 <%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 
@@ -19,7 +19,7 @@ $(document).ready(function() {
 	
 	//취소버튼 누르면 상세조회 페이지로 이동
 	$("#btnCancle").click(function() {
-		history.go(-1);
+		history.go(-1)
 	});
 	
 });
@@ -56,7 +56,7 @@ $(document).ready(function() {
 			<td>챌린지 제목</td>
 			<td><input type="text" name="chTitle" class="form-control" value="<%=complaint.getChTitle() %>" readonly></td>                               
  			<td>챌린지 경고횟수</td>
-			<td><input type="text" name="chCaution" class="form-control" value="<%=complaint.getChUcaution() %>" readonly></td>                              
+			<td><input type="text" name="chCaution" class="form-control" value="<%=cntChCaution %>" readonly></td>                              
      		</tr>                                                 
   
    			<tr>
@@ -121,7 +121,7 @@ $(document).ready(function() {
             <td>인증방법</td>                                
    			<td><input type="text" name="chWay" class="form-control" value="<%=complaint.getChWay() %>" readonly></td>
    			<td>조치내역</td>                              
-    		<td><select name="comManage" class="form-control" value="<%=complaint.getComManage() %>" >
+    		<td><select name="comManage" class="form-control" value="<%=complaint.getComManage() %>" disabled>
 				<option>Y</option>
 				<option>W</option>
 				<option>N</option>
@@ -132,7 +132,7 @@ $(document).ready(function() {
 	</table>                       
 	</div><!-- table-responsive 끝-->                   
 </div><!-- card-body 끝 -->
-
+</form>
 <p></p>
 
 	<!-- 완료, 취소 버튼 -->
@@ -140,7 +140,7 @@ $(document).ready(function() {
 		<button type="submit" id="btnComplete" class="btn btn-default">완료</button>
 		<button id="btnCancle" class="btn btn-default">취소</button>
 	</div>
-</form>
+
 </div><!--.container 끝-->
 
 <%@ include file="/WEB-INF/views/layout/footer.jsp" %>

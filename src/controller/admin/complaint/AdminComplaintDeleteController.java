@@ -23,7 +23,9 @@ public class AdminComplaintDeleteController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		AdminComplaint complaint = complaintService.getComNo(req);  //comNo 가져오기
-			
+		
+		complaintService.removeChCaution(req); // 신고 감소 및 유지
+		
 		complaintService.delete(complaint); //해당글 삭제
 		
 	    resp.sendRedirect("/admin/complaint/list"); //목록으로 리디렉션

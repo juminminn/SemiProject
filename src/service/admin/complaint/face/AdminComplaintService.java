@@ -1,10 +1,13 @@
 package service.admin.complaint.face;
 
+import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import dto.AdminComplaint;
+import dto.Challenge;
+import dto.Users;
 import util.AdminComplaintPaging;
 
 public interface AdminComplaintService {
@@ -37,6 +40,16 @@ public interface AdminComplaintService {
 	 * @return 페이징 계산이 완료된 Paging 객체
 	 */
 	public AdminComplaintPaging getComplaintPaging(HttpServletRequest req);
+	
+	
+
+	/**
+	 * 검색어를 통한 신고 리스트 조회
+	 * 
+	 * 
+	 * @return 검색어를 포함한 신고리스트 조회 결과
+	 */
+	public List<AdminComplaint> searchList(HttpServletRequest req);
 	
 	
 	/**
@@ -99,4 +112,39 @@ public interface AdminComplaintService {
 	public void insert(HttpServletRequest req);
 	
 
+	/**
+	 * 신고된 챌린지의 경고 수 + 1
+	 * 
+	 * @param req - 요청 객체  
+	 */
+	public void addChCaution(HttpServletRequest req);
+	
+
+	/**
+	 * 챌린지 번호 조회
+	 * @parm viewComplaint - 신고 번호가 들어있음
+	 * return  - 챌린지 번호
+	 */
+
+	public int getChNo(AdminComplaint viewComplaint);
+	
+	
+	/**
+	 * 챌린지 경고 횟수 반환
+	 * 
+	 * @param chNo - 챌린지 번호
+	 * @return 챌린지 경고 횟수
+	 */
+	public int getChCaution(int chNo);
+	
+	
+	/**
+	 * 신고된 챌린지의 경고 감소 및 유지
+	 * 
+	 * @param req -요청 객체
+	 */
+
+	public void removeChCaution(HttpServletRequest req);
+
+	
 }

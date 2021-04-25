@@ -4,7 +4,8 @@
     pageEncoding="UTF-8"%>
 
 <% List<AdminComplaint> list = (List) request.getAttribute("complaintList"); %>    
-    
+<% List<AdminComplaint> searchComplaint = (List) request.getAttribute("searchComplaint"); %> 
+      
 <%@ include file="/WEB-INF/views/layout/bootAdminHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootAdminNavigation.jsp" %>
 
@@ -67,18 +68,18 @@ $(document).ready(function() {
 					
 	<!-- 내용 -->
 	<tbody>		
-	<%	for(int i=0; i<list.size(); i++) { %>
+	<%	for(int i=0; i<searchComplaint.size(); i++) { %>
 	<tr>
-		<td><%=list.get(i).getComNo() %></td>
-		<td><%=list.get(i).getComDate() %></td>
-		<td><a href="/admin/complaint/view?comNo=<%=list.get(i).getComNo() %>"><%=list.get(i).getChTitle() %></a></td>
-		<td><%=list.get(i).getCaTitle() %></td>
-		<td><%=list.get(i).getComContent() %></td>
-		<td><%=list.get(i).getChCaution() %></td>
-		<td><%=list.get(i).getComManage() %></td>
+		<td><%=searchComplaint.get(i).getComNo() %></td>
+		<td><%=searchComplaint.get(i).getComDate() %></td>
+		<td><a href="/admin/complaint/view?comNo=<%=searchComplaint.get(i).getComNo() %>"><%=searchComplaint.get(i).getChTitle() %></a></td>
+		<td><%=searchComplaint.get(i).getCaTitle() %></td>
+		<td><%=searchComplaint.get(i).getComContent() %></td>
+		<td><%=searchComplaint.get(i).getChCaution() %></td>
+		<td><%=searchComplaint.get(i).getComManage() %></td>
 	</tr>
 	<% } %>
-	</tbody>		
+	</tbody>			
    </table>
   </div> <!-- row -->
 </div> <!-- card-body -->
@@ -88,11 +89,11 @@ $(document).ready(function() {
 <div class="row">
 	<div class="col-md-2 col-md-offset-3">
 	 	<select name="searchType" class="form-control">
-			<option ${(param.searchType == "comNo")?"selected":"" } value="comNo">번호</option>
-			<option ${(param.searchType == "caTitle")?"selected":"" } value="caTitle">카테고리</option>
-			<option ${(param.searchType == "chTitle")?"selected":"" } value="chTitle">챌린지제목</option>
-			<option ${(param.searchType == "ch_content")?"selected":"" } value="comContent">내용</option>
-			<option ${(param.searchType == "comManage")?"selected":"" } value="comManagae">조치내역</option>
+			<%-- <option ${(param.searchType == "comNo")?"selected":"" } value="comNo">번호</option>
+			<option ${(param.searchType == "caTitle")?"selected":"" } value="caTitle">카테고리</option> --%>
+			<option ${(param.searchType == "ch_title")?"selected":"" } value="ch_title">챌린지제목</option>
+			<option ${(param.searchType == "ch_content")?"selected":"" } value="ch_content">챌린지내용</option>
+			<option ${(param.searchType == "com_manage")?"selected":"" } value="com_manage">조치내역</option>
 		</select>
     </div>
 

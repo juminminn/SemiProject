@@ -40,6 +40,12 @@ public class AdminComplaintViewController extends HttpServlet {
 				
 		int cntCompalint = complaintService.count(chUid); //개설자 경고수 조회
 		
+		int chNo = complaintService.getChNo(viewComplaint);
+		
+		int cntChCaution = complaintService.getChCaution(chNo);
+		
+		viewComplaint.setChNo(chNo);
+		
 		
 		req.setAttribute("chUid", chUid);  //챌린지개설자 아이디 전달 
 		
@@ -47,10 +53,15 @@ public class AdminComplaintViewController extends HttpServlet {
 		
 		req.setAttribute("viewComplaint", viewComplaint); //조회결과 model값 전달
 		
+		req.setAttribute("cntChCaution", cntChCaution); //챌린지 누적 경고 조회 전달
+		
 		
 		//View 지정 및 응답
 		req.getRequestDispatcher("/WEB-INF/views/adminComplaint/adminComplaintView.jsp").forward(req, resp);
 	
 	}
+	
+	
+	
 	
 }

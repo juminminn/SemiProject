@@ -46,8 +46,10 @@ public class AdminComplaintListController extends HttpServlet {
 			req.setAttribute("complaintList", complaintList);
 			
 			//검색
-			String search_type = req.getParameter("searchType");
-			String search_keyword = req.getParameter("searchKeyword");
+			List<AdminComplaint> searchComplaint = complaintService.searchList(req);
+			//System.out.println(searchComplaint);
+			//검색리스트 결과 model값 전달
+			req.setAttribute("searchComplaint", searchComplaint);
 		
 			
 			//View 지정 및 응답
