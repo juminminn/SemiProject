@@ -240,14 +240,13 @@ public class MypageDaoImpl implements MypageDao {
 	}
 
 	@Override
-	public List<Challenge> selectAllUserChall(Connection conn, int uNo) {
-		String sql = "SELECT * FROM CHALLENGE WHERE U_NO = ? AND TO_CHAR(SYSDATE, 'yyyy/MM/dd') <= TO_CHAR(CH_END_DATE, 'yyyy/MM/dd')";
-		List<Challenge> list = new ArrayList<>(); //챌린지 전부를 담을 리스트
+	public Challenge selectAllUserChall(Connection conn, int chNo) {
+		String sql = "SELECT * FROM CHALLENGE WHERE CH_NO = ? AND TO_CHAR(SYSDATE, 'yyyy-MM-dd') <= TO_CHAR(CH_END_DATE, 'yyyy-MM-dd')";
 		Challenge chall = null; // 챌린지를 담을 객체
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, uNo);
+			ps.setInt(1, chNo);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				chall = new Challenge();
@@ -269,8 +268,6 @@ public class MypageDaoImpl implements MypageDao {
 				chall.setChOriginName(rs.getString("ch_origin_name"));				
 				chall.setChStoredName(rs.getString("ch_stored_name"));		
 				chall.setChState(rs.getString("ch_state"));
-
-				list.add(chall);
 			}		
 		} catch (SQLException e) {
 
@@ -279,7 +276,7 @@ public class MypageDaoImpl implements MypageDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);			
 		}	
-		return list;
+		return chall;
 	}
 
 
@@ -640,6 +637,37 @@ public class MypageDaoImpl implements MypageDao {
 			JDBCTemplate.close(ps);
 		}
 		return check;
+	}
+	
+	
+	@Override // 유저가 참여한 챌린지를 가져온다.
+	public List<Participation> selectPartiChall(Connection conn, int uno) {
+		String sql = "SELECT * FROM participation WHERE U_NO = ?";
+		List<Participation> list = new ArrayList<Participation>();
+		Participation par = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, uno);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				par = new Participation();
+				par.setPaNo(rs.getInt("pa_no"));
+				par.setChNo(rs.getInt("ch_no"));
+				par.setuNo(rs.getInt("u_no"));
+				par.setPaCreateDate(rs.getDate("pa_create_date"));
+				par.setPaIsSuccess(rs.getString("pa_is_success"));
+				par.setPaReview(rs.getString("pa_review"));
+				par.setPaLike(rs.getString("pa_like"));
+				
+				list.add(par);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+		}
+		return list;
 	}
 	
 	

@@ -33,11 +33,14 @@ public class AdminCommentListController extends HttpServlet {
 		
 		if(type == null) {
 			//공지사항 전체 조회
+			paging = adminCommentService.getPaging(req);
 			commentList = adminCommentService.getList(paging);
 		}else if("내용".equals(type)) {
+			paging = adminCommentService.cSearchPaging(req, paging, keyword);
 			commentList = adminCommentService.TSearch(paging, keyword);
 			
 		}else if("아이디 번호".equals(type)) {
+			paging = adminCommentService.nSearchPaging(req, paging, keyword);
 			commentList = adminCommentService.CSearch(paging, keyword);
 		}
 		

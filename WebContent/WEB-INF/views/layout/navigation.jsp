@@ -23,6 +23,7 @@
 		<li>
 			<a href="/board/1">게시판</a>
 			<ul>
+				<li><a href="/admin/notice">공지사항</a></li>
 				<li><a href="/board/1">챌린지</a></li>
 				<li><a href="/board/2">유저</a></li>
 				<li><a href="/board/3">자유</a></li>

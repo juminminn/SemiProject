@@ -139,7 +139,7 @@ public class MypageServiceImpl implements MypageService {
 
 				} else {
 
-					//기존 파일 삭제 코든
+					//기존 파일 삭제 코드
 					File file = new File(req.getServletContext().getRealPath("upload") + "\\" + mypageParam.getmStoredname());
 					System.out.println("현재 삭제할 파일 경로 -> " + file.getPath());
 
@@ -309,20 +309,23 @@ public class MypageServiceImpl implements MypageService {
 
 
 	@Override // 유저의 챌린지 정보를 가져오는 메소드
-	public List<Challenge> getUserChallInfo(int uNo) {
+	public List<Challenge> getUserChallInfo(List<Participation> listP) {
 		Connection conn = JDBCTemplate.getConnection(); 
 		List<Challenge> list = new ArrayList<>();
-		Challenge chall = new Challenge();	
+		Challenge chall = null;	
 		
-		list = mypageDao.selectAllUserChall(conn, uNo);
-		
-		if(list.size() == 0) { //현재 유저가 진행중인 챌린지가 없을 경우
+		for(int i =0; i < listP.size(); i++) {
+			int chNo = listP.get(i).getChNo();
+			chall = new Challenge();
+			chall = mypageDao.selectAllUserChall(conn, chNo);
+			if(chall == null) {continue;}
+			list.add(chall);
+		}
+
+		if(list.isEmpty()) { //현재 유저가 진행중인 챌린지가 없을 경우
+			chall = new Challenge();
 			list.add(chall); //기본값이 들어있는 객체를 넣어준다.
 		}
-		
-		System.out.println(list.size());
-		
-		
 		return list;
 	}
 
@@ -395,6 +398,7 @@ public class MypageServiceImpl implements MypageService {
 		int sum = 0;
 
 		for(int i =0; i < refundsList.size(); i++) {
+			System.out.println(refundsList.get(i).getReAmount());
 			sum += refundsList.get(i).getReAmount();
 		}
 		return sum;
@@ -611,5 +615,20 @@ public class MypageServiceImpl implements MypageService {
 			sum += reqPaybackPeriodList.get(i).getPaybAmount();
 		}
 		return sum;
+	}
+	
+	@Override // 유저가 참여한 챌린지를 가져온다.
+	public List<Participation> getUserPartiInfo(int uno) {
+		Connection conn = JDBCTemplate.getConnection(); 
+		List<Participation> listP = new ArrayList<>();
+		Participation p = new Participation();
+		
+		listP = mypageDao.selectPartiChall(conn, uno);
+		
+		if(listP.isEmpty()) { // 만약에 비었으면 빈값 넣어줌
+			listP.add(p);
+		}
+		
+		return listP;
 	}
 }

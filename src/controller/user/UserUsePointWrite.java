@@ -57,5 +57,7 @@ public class UserUsePointWrite extends HttpServlet {
 		userService.refundsUpdate(refunds); 
 		//mypage 업데이트
 		userService.mypageUpdate(refunds.getRePoint(),uNo);
+		
+		resp.sendRedirect("/user/use/point/list");
 	}
 }

@@ -68,6 +68,9 @@ public interface AdminCommentService {
 //	내용 검색 리스트 조회
 	public List<AdminComment> CSearch(Paging paging, String keyword);
 	
+	
+	public Paging cSearchPaging(HttpServletRequest req,Paging paging, String keyword);
+	public Paging nSearchPaging(HttpServletRequest req,Paging paging, String keyword);
 
 
 }

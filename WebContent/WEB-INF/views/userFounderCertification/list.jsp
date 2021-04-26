@@ -18,6 +18,32 @@ memberlist = (List)map.get("memberList");
 certificationList = (List)map.get("certificationList");
 
 %>
+<style type="text/css">
+.container{
+width:900px;
+}
+
+
+th{
+background-color: #A8201A;
+}
+
+#move:hover tbody tr:hover td{
+background:#143642;
+color:#FFFFFF;
+}
+
+#btnTitle{
+background-color: #143642;
+color: white;
+border-radius: 4px;
+}
+
+.right{
+
+margin:0px 3px 5px 3px;
+}
+</style>
 
 <script type="text/javascript">
 $(document).ready(function() {

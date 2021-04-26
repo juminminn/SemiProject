@@ -406,7 +406,7 @@ public class AdminComplaintDaoImpl implements AdminComplaintDao {
 		
 		//수정 쿼리
 		String sql = "";
-		sql += "UPDATE complaint SET com_admin_content = ?, com_manage = ? WHERE com_no = ?";
+		sql += "UPDATE complaint SET com_admin_content = ? WHERE com_no = ?";
 			
 		//DB객체
 		PreparedStatement ps = null;
@@ -415,8 +415,7 @@ public class AdminComplaintDaoImpl implements AdminComplaintDao {
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, complaint.getComAdminContent());
-			ps.setString(2, complaint.getComManage());
-			ps.setInt(3, complaint.getComNo());
+			ps.setInt(2, complaint.getComNo());
 				
 			res = ps.executeUpdate();
 						

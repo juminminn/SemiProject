@@ -104,7 +104,39 @@ public class AdminCommentServiceImpl implements AdminCommentService {
 		return adminCommentDao.CSearch(conn,paging,keyword);
 		
 
-	
 }
+	
+
+	
+
+	@Override
+	public Paging cSearchPaging(HttpServletRequest req, Paging paging, String keyword) {
+		String param = req.getParameter("curPage");
+		int curPage = 0;
+		if(param != null && !"".equals(param)) {
+			curPage = Integer.parseInt(param);
+		}
+		
+		int totalCount = adminCommentDao.CSearchAndCnt(paging, keyword);
+
+		Paging paging1 = new Paging(totalCount, curPage);
+		
+		return paging1;
+	}
+
+	@Override
+	public Paging nSearchPaging(HttpServletRequest req, Paging paging, String keyword) {
+		String param = req.getParameter("curPage");
+		int curPage = 0;
+		if(param != null && !"".equals(param)) {
+			curPage = Integer.parseInt(param);
+		}
+		
+		int totalCount = adminCommentDao.CSearchAndCnt(paging, keyword);
+
+		Paging paging1 = new Paging(totalCount, curPage);
+		
+		return paging1;
+	}
 }
 

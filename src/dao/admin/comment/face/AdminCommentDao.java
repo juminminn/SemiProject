@@ -54,5 +54,9 @@ public interface AdminCommentDao {
 	//내용 검색 조회
 	public List<AdminComment> CSearch(Connection conn, Paging paging, String keyword);
 
+    	
+	public int CSearchAndCnt(Paging paging, String keyword);
+	public int NSearchAndCnt(Paging paging, String keyword);
+
 }
 

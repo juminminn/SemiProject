@@ -141,7 +141,7 @@ color: white;
 border-radius: 4px;
 }
 </style>
-<%@ include file="/WEB-INF/views/layout/paging.jsp" %>
+<%@ include file="/WEB-INF/views/admin/userPaging.jsp" %>
 <br>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
 

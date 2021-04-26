@@ -336,12 +336,6 @@ $(document).ready(function(){
 </div>
 
 
-
-
-
-
-
-
 <%--
 // 		$.ajax({
 // 			url : '/mypage/overlap/email?email='+ email,

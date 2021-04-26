@@ -102,6 +102,37 @@ public class AdminPostServiceImpl implements AdminPostService {
 		return adminPostDao.CSearch(conn,paging,keyword);
 		
 	}
+	
+	@Override
+	public Paging tSearchPaging(HttpServletRequest req, Paging paging, String keyword) {
+		String param = req.getParameter("curPage");
+		int curPage = 0;
+		if(param != null && !"".equals(param)) {
+			curPage = Integer.parseInt(param);
+		}
+		
+		int totalCount = adminPostDao.TSearchAndCnt(paging, keyword);
+
+        Paging paging1 = new Paging(totalCount,curPage);
+		
+		return paging1;
+	}
+
+	@Override
+	public Paging cSearchPaging(HttpServletRequest req, Paging paging, String keyword) {
+		String param = req.getParameter("curPage");
+		int curPage = 0;
+		if(param != null && !"".equals(param)) {
+			curPage = Integer.parseInt(param);
+		}
+		
+		int totalCount = adminPostDao.CSearchAndCnt(paging, keyword);
+
+		Paging paging1 = new Paging(totalCount, curPage, 10);
+		
+		return paging1;
+	}
+
 
 		
 	}

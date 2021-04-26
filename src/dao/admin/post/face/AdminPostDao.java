@@ -56,7 +56,9 @@ public interface AdminPostDao {
 	//내용 검색 조회
 	public List<AdminPost> CSearch(Connection conn, Paging paging, String keyword);
 	
+    public int TSearchAndCnt(Paging paging, String keyword);
 	
+	public int CSearchAndCnt(Paging paging, String keyword);
 	
 
 }

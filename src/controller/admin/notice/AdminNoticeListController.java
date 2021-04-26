@@ -30,16 +30,20 @@ public class AdminNoticeListController extends HttpServlet {
 		
 		String type = req.getParameter("select");
 		String keyword = req.getParameter("search");
+		
 		List<Notice> noticeList = new ArrayList<Notice>();
 		
 		//검색여부 IF문
 		if(type == null) {
 			//공지사항 전체 조회
+			paging = adminNoticeService.getPaging(req);
 			noticeList = adminNoticeService.getList(paging);
 		}else if("제목".equals(type)) {
+			paging = adminNoticeService.tSearchPaging(req, paging, keyword);
 			noticeList = adminNoticeService.TSearch(paging, keyword);
 			
 		}else if("내용".equals(type)) {
+			paging = adminNoticeService.cSearchPaging(req, paging, keyword);
 			noticeList = adminNoticeService.CSearch(paging, keyword);
 		}
 		
@@ -50,7 +54,17 @@ public class AdminNoticeListController extends HttpServlet {
 		
 		req.setAttribute("noticeList", noticeList);
 		
-		req.getRequestDispatcher("/WEB-INF/views/notice/list.jsp").forward(req, resp);
+		if(req.getSession().getAttribute("u_grade")!=null){
+			if("M".equals(String.valueOf(req.getSession().getAttribute("u_grade")))){ //관리자일때
+				req.getRequestDispatcher("/WEB-INF/views/notice/list.jsp").forward(req, resp);
+			}else {
+				req.getRequestDispatcher("/WEB-INF/views/notice/userList.jsp").forward(req, resp);
+			}
+		}else { //사용자일때
+			req.getRequestDispatcher("/WEB-INF/views/notice/userList.jsp").forward(req, resp);
+		}
+		
+		
 	}
 	
 	

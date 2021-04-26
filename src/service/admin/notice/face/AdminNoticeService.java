@@ -77,6 +77,12 @@ public interface AdminNoticeService {
 //	내용 검색 리스트 조회
 	public List<Notice> CSearch(Paging paging, String keyword);
 	
+	public Paging tSearchPaging(HttpServletRequest req,Paging paging, String keyword);
+	public Paging cSearchPaging(HttpServletRequest req,Paging paging, String keyword);
+
+
+
+	
 
 }
 

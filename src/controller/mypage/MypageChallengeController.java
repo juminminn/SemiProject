@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import dto.Challenge;
 import dto.Member;
 import dto.Mypage;
+import dto.Participation;
 import service.member.face.MypageService;
 import service.member.impl.MypageServiceImpl;
 
@@ -40,17 +41,22 @@ public class MypageChallengeController extends HttpServlet {
 		Mypage mypage = mypageService.getMypageInfo(member.getUno());
 		req.setAttribute("mypageInfo", mypage);
 		
+		//유저가 참여한 챌린지를 담을 리스트
+		List<Participation> listP = new ArrayList<>();
+		
+		//유저가 참여한 챌린지를 가져오는 메소드
+		listP = mypageService.getUserPartiInfo(member.getUno());
+		
 		// 현재 사용자의 첼린지 정보를 받을 챈린지 리스트 객체
-		List<Challenge> list = new ArrayList<>(); 
+		List<Challenge> listC = new ArrayList<>();
 		
 		//유저가 진행중인 챌린지 정보를 가져오는 메소드
-		list = mypageService.getUserChallInfo(member.getUno());
+		listC = mypageService.getUserChallInfo(listP);;
 		
 		// 현재유저의 챌린지 정보 세션저장
-		req.setAttribute("challList", list); 
 		
 		// 현재유저의 챌린지 정보 세션저장
-		req.setAttribute("challList", list); 
+		req.setAttribute("challList", listC); 
 		
 		req.getRequestDispatcher("/WEB-INF/views/mypage/myChallenge.jsp")
 		   .forward(req, resp);

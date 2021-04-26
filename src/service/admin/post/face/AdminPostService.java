@@ -58,7 +58,8 @@ public interface AdminPostService {
 	public List<AdminPost> CSearch(Paging paging, String keyword);
 
 
-
+	public Paging tSearchPaging(HttpServletRequest req,Paging paging, String keyword);
+	public Paging cSearchPaging(HttpServletRequest req,Paging paging, String keyword);
 
 }
 

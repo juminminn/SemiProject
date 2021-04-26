@@ -6,7 +6,32 @@
 
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
+<style type="text/css">
+.container{
+width:900px;
+}
 
+
+th{
+background-color: #A8201A;
+}
+
+#move:hover tbody tr:hover td{
+background:#143642;
+color:#FFFFFF;
+}
+
+#btnTitle{
+background-color: #143642;
+color: white;
+border-radius: 4px;
+}
+
+.right{
+
+margin:0px 3px 5px 3px;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	//리스트
@@ -19,9 +44,9 @@ $(document).ready(function() {
 
 <div class="container">
 <div>
-	<div class="left" style="font-size:30px; font-weight:bold;">참가자 목록 </div>
-	<div><span>&nbsp</span></div>	
 	<div><span>&nbsp</span></div>
+	<div><span>&nbsp</span></div>
+	<div class="left" style="font-size:30px; font-weight:bold;">참가자 목록 </div>
 	<div><hr></div>
 </div>
 

@@ -18,6 +18,7 @@ import util.Paging;
 
 public class AdminCommentDaoImpl implements AdminCommentDao {
 	
+	Connection conn = JDBCTemplate.getConnection();
 	private PreparedStatement ps = null; 
 	private ResultSet rs = null; 
 
@@ -215,10 +216,13 @@ public class AdminCommentDaoImpl implements AdminCommentDao {
 		sql += keyword;
 		sql += "%'";
 		sql += " ORDER BY c_no DESC) C) COMMENTS";
-		sql += " WHERE rnum BETWEEN 1 AND 50";
+		sql += " WHERE rnum BETWEEN ? AND ?";
 		System.out.println(sql);
 		try {
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
+			
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				
@@ -249,10 +253,12 @@ public class AdminCommentDaoImpl implements AdminCommentDao {
 		sql += keyword;
 		sql += "%'";
 		sql += " ORDER BY c_no DESC) C) COMMENTS";
-		sql += " WHERE rnum BETWEEN 1 AND 50";
+		sql += " WHERE rnum BETWEEN ? AND ?";
 		System.out.println(sql);
 		try {
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				AdminComment viewComment = new AdminComment();
@@ -269,6 +275,63 @@ public class AdminCommentDaoImpl implements AdminCommentDao {
 			e.printStackTrace();
 		}
 		return searchList;
+	}
+
+	@Override
+	public int CSearchAndCnt(Paging paging, String keyword) {
+		String sql = "";
+		sql += "SELECT count(*) cnt FROM COMMENTS";
+		sql += " where c_content like '%";
+		sql += keyword;
+		sql += "%'";
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+			JDBCTemplate.close(rs);
+		}
+		return cnt;
+	}
+
+	@Override
+	public int NSearchAndCnt(Paging paging, String keyword) {
+		String sql = "";
+		sql += "SELECT count(*) cnt FROM COMMENTS";
+		sql += " where u_no like '%";
+		sql += keyword;
+		sql += "%'";
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+			JDBCTemplate.close(rs);
+		}
+		return cnt;
+		
 	}
 		
 	}

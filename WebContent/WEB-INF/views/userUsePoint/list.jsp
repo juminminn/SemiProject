@@ -5,6 +5,34 @@
 <%@ include file="/WEB-INF/views/layout/bootHeader.jsp" %>
 <%@ include file="/WEB-INF/views/layout/bootNavigation.jsp" %>
 <%List<RefundPoint> list = (List<RefundPoint>)request.getAttribute("list"); %>
+<style type="text/css">
+.container{
+width:900px;
+}
+
+
+th{
+background-color: #A8201A;
+}
+
+#move:hover tbody tr:hover td{
+background:#143642;
+color:#FFFFFF;
+}
+
+#btnTitle{
+background-color: #143642;
+color: white;
+border-radius: 4px;
+}
+
+.right{
+
+margin:0px 3px 5px 3px;
+}
+
+</style>
+
 <div class="container">
 <div id="tableHeader">
 	<div><span>&nbsp</span></div>
@@ -13,11 +41,11 @@
 </div>
 
 
-<table class="table table-striped table-hover table-condensed text-center">
+<table class="table table-striped table-hover table-condensed" id="move">
 <tr>
-	<th style="width: 10%; text-align:center;">실패 챌린지번호</th>
+	<th style="width: 10%; text-align:center;">챌린지번호</th>
 	<th style="width: 40%; text-align:center;">실패 챌린지 제목</th>
-	<th style="width: 10%; text-align:center;">환불 가능 금액</th>
+	<th style="width: 10%; text-align:center;">환불 금액</th>
 	<th style="width: 10%; text-align:center;">예금주</th>
 	<th style="width: 10%; text-align:center;">은행</th>
 	<th style="width: 20%; text-align:center;">계좌번호</th>

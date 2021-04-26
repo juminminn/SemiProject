@@ -90,7 +90,13 @@
 	text-align: left;
 	padding-left: 15px;
 	border-left: 10px solid #143642;
+	line-height:40px;
+	font-size: 20px;
+	height: 40px;
+	transition: all 0.5s ease-out;
 }
+
+
 
 #headerLoginDiv ul{
 	list-style-type:none;
@@ -98,7 +104,6 @@
 
 #headerLoginDiv ul ul li {
 	list-style-type:none;
-	
 }
 
 #headerLoginDiv ul> li > ul > li > a{
@@ -141,10 +146,9 @@
 		</form>
 	</div>	
 	
-	<div id="headerLoginDiv">
-	
-	<ul>
-		<li>
+	<div>	
+	<ul class="hdropdown">
+		<li style="margin:25px 60px">
 			<a href="#" class="fa fa-user fa-3x"></a>
 			<%if(session.getAttribute("login")==null || !(boolean)session.getAttribute("login")){ %>
 			<!-- 비로그인 상태 -->

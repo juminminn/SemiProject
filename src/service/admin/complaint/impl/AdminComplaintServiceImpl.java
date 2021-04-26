@@ -204,6 +204,23 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
 			} else {
 				JDBCTemplate.rollback(conn);
 			}
+			//챌린지 조치가 완료되었을때
+			if("Y".equals(complaint.getComManage())) {
+			//챌린지 신고 증가
+				if(complaintDao.upChallengeCaution(conn, complaint.getChNo())>0) {
+					JDBCTemplate.commit(conn);
+
+				} else {
+					JDBCTemplate.rollback(conn);
+				}
+				//사용자 신고 증가
+				if(complaintDao.updateUsersCaution(conn, complaint.getChNo())>0) {
+					JDBCTemplate.commit(conn);
+
+				} else {
+					JDBCTemplate.rollback(conn);
+				}
+			}
 	}
 	
 	

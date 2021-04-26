@@ -34,11 +34,14 @@ public class AdminPostListController extends HttpServlet {
 		//검색여부 IF문
 				if(type == null) {
 					//공지사항 전체 조회
+					paging = adminPostSerivce.getPaging(req);
 					postList = adminPostSerivce.getList(paging);
 				}else if("제목".equals(type)) {
+					paging = adminPostSerivce.tSearchPaging(req, paging, keyword);
 					postList = adminPostSerivce.TSearch(paging, keyword);
 					
 				}else if("내용".equals(type)) {
+					paging = adminPostSerivce.cSearchPaging(req, paging, keyword);
 					postList = adminPostSerivce.CSearch(paging, keyword);
 				}
 		

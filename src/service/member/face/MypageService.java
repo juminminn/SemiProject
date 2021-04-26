@@ -94,10 +94,10 @@ public interface MypageService {
 	/**
 	 * 유저의 챌린지 정보를 가져오는 메소드
 	 * 
-	 * @param uNo - 챌린지의 외래키 유저번호
+	 * @param listP - 챌린지의 외래키 유저번호
 	 * @return
 	 */
-	public List<Challenge> getUserChallInfo(int uNo);
+	public List<Challenge> getUserChallInfo(List<Participation> listP);
 
 	/**
 	 * 유저의 결제 정보를 가져오는 메소드
@@ -268,6 +268,14 @@ public interface MypageService {
 	 * @return
 	 */
 	public int sumReqPayback(List<Payback> reqPaybackPeriodList);
+
+	/**
+	 * 유저가 참여한 챌린지를 가져온다.
+	 * 
+	 * @param uno
+	 * @return
+	 */
+	public List<Participation> getUserPartiInfo(int uno);
 
 
 	

@@ -74,8 +74,9 @@
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
+	var flag1  = false;
 	//페이지 첫 접속 시 입력창으로 포커스 이동
-	$("input").eq(0).focus();
+	$("input").eq(1).focus();
 	
 	  $("#uid").focus()  
 	
@@ -96,31 +97,58 @@ $(document).ready(function(){
 		  }
 	  })  //end #uid
 	  
+	
 	  
-
-	$("#btn1").click(function() {
-		$.ajax({
-			url : "/member/idcheck",
-			type : "get",
-			data : {
-				uid : $("#uid").val()
-			},
-			dataType : "json",
-			success : function(res) {
-				console.log("ID중복체크 성공")
-				console.log(res.result )
-				
-				if(res.result) {
-		    		 $("#idMsg").removeClass("color-correct").html("이미 사용중인 아이디입니다")
-
-				} else {
-		    		 $("#idMsg").addClass("color-correct").html("사용 가능한 아이디입니다")
-				}
- 			},
-			error : function() {
-				console.log("ID중복체크 에러")
+	$("#nick").blur(function(){
+		var nick = $("#nick").val();
+		var nickReg = /^[A-Za-z]{5,12}$/
+			if(nick == ""){
+				$("#nickMsg").removeClass("color-correct")
+				$("#nickMsg").text("닉네임을 입력해주세요").addClass("red")
+				$("#nickMsg").val("")
+				flag1= false;
+			} else if(!nickReg.test(nick))  {
+				$("#nickMsg").removeClass("color-correct")
+				$("#nickMsg").text("잘못된 닉네임 형식입니다.").addClass("red")
+				$("#nickMsg").val("")
+				flag1= false;
+			}else{
+				$("#nickMsg").removeClass("red")
+				$("#nickMsg").text("닉네임을 체크해주세요!").addClass("color-correct")
+				$("#nickMsg").val("")
+				flag1= true;
 			}
-		})
+		
+	})
+	$("#btn1").click(function() {
+		if(flag1){
+			$.ajax({
+				url : "/member/idcheck",
+				type : "get",
+				data : {
+					uid : $("#uid").val()
+				},
+				dataType : "json",
+				success : function(res) {
+					console.log("ID중복체크 성공")
+					console.log(res.result )
+					
+					if(res.result) {
+			    		 $("#idMsg").removeClass("color-correct").html("이미 사용중인 아이디입니다")
+	
+					} else {
+			    		 $("#idMsg").addClass("color-correct").html("사용 가능한 아이디입니다")
+					}
+	 			},
+				error : function() {
+					console.log("ID중복체크 에러")
+				}
+			})
+		}else{
+			$("#nickMsg").removeClass("color-correct")
+			$("#nickMsg").text("잘 못된 닉네임 형식입니다.").addClass("red")
+			$("#nickMsg").val("")
+		}
 
 		// 	    	 if($("uid").val()){
 		// 	    		 $("#idMsg").html("이미 사용중인 아이디입니다")
@@ -129,6 +157,8 @@ $(document).ready(function(){
 		// 	    	 }
 
 	})
+	
+	
 	
 	$("#btn2").click(function(){
 		$.ajax({
@@ -342,8 +372,7 @@ $(document).ready(function(){
 <h1> 회원가입 - 회원정보 입력</h1>
 
 </div>
-<h3 id="fn">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp기본정보</h3>
+<h3 id="fn">&nbsp;</h3>
 
 <form id="myform" action="/member/input" method="post" class="form-horizontal">
 <div class="container">
@@ -402,7 +431,7 @@ $(document).ready(function(){
     </div>
     
   <div class="form-group">
-     <input type="hidden" class="btn btn-primary id="u" value="u"/>
+     <input type="hidden" class="btn btn-primary" id="u" value="u"/>
   </div>
   
   <div class="form-group">

@@ -120,6 +120,9 @@ function startDate() {
 </script>
 <div class="container">
 <div id="tableHeader">
+<div><span>&nbsp</span></div>
+<div><span>&nbsp</span></div>
+<div><span>&nbsp</span></div>
 	<div class="left" style="font-size:30px; font-weight:bold;">인증글 목록 
 	<%--현재 구간이 총 구간 보다 클때  --%>
 	<%if(cecCount - cerCount<=0){ %>
@@ -128,7 +131,6 @@ function startDate() {
 		<a href="/participant/certification/write"><i class="fas fa-plus"></i></a>
 	<%} %>
 	</div>
-	<div><span>&nbsp</span></div>
 	<div><span>&nbsp</span></div>
 	<div><hr></div>
 </div>

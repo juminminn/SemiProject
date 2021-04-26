@@ -304,10 +304,12 @@ public class AdminNoticeDaoImpl implements AdminNoticeDao {
 		sql += keyword;
 		sql += "%'";
 		sql += " ORDER BY n_no DESC) N) NOTICE";
-		sql += " WHERE rnum BETWEEN 1 AND 50";
+		sql += " WHERE rnum BETWEEN ? AND ?";
 		System.out.println(sql);
 		try {
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Notice viewNotice = new Notice();
@@ -338,10 +340,12 @@ public class AdminNoticeDaoImpl implements AdminNoticeDao {
 		sql += keyword;
 		sql += "%'";
 		sql += " ORDER BY n_no DESC) N) NOTICE";
-		sql += " WHERE rnum BETWEEN 1 AND 50";
+		sql += " WHERE rnum BETWEEN ? AND ?";
 		System.out.println(sql);
 		try {
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Notice viewNotice = new Notice();
@@ -360,9 +364,70 @@ public class AdminNoticeDaoImpl implements AdminNoticeDao {
 		}
 		return searchList;
 	}
+	@Override
+	public int TSearchAndCnt(Paging paging, String keyword) {
+		
+		String sql = "";
+		sql += "SELECT count(*) cnt FROM notice";
+		sql += " where n_title like '%";
+		sql += keyword;
+		sql += "%'";
+		
+		int cnt = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+			JDBCTemplate.close(rs);
+		}
+		return cnt;
+	}
+		
+		
+		
+	
+	@Override
+	public int CSearchAndCnt(Paging paging, String keyword) {
+		
+		String sql = "";
+		sql += "SELECT count(*) cnt FROM notice";
+		sql += " where n_content like '%";
+		sql += keyword;
+		sql += "%'";
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
+			JDBCTemplate.close(rs);
+		}
+		return cnt;
+	}
+		
+	}
 	
 
-	
-}
+
+
 
 	

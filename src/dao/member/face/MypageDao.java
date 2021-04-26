@@ -108,7 +108,7 @@ public interface MypageDao {
 	 * @param uNo
 	 * @return
 	 */
-	public List<Challenge> selectAllUserChall(Connection conn, int uNo);
+	public Challenge selectAllUserChall(Connection conn, int chNo);
 
 	/**
 	 * 유저의 payment 정보를 가져오는 쿼리 메소드
@@ -230,6 +230,16 @@ public interface MypageDao {
 	 * @return
 	 */
 	public int selectEmail(Connection conn, String email, int getuNo);
+
+	/**
+	 * 유저가 참여한 챌린지를 가져온다.
+	 * 
+	 * 
+	 * @param conn
+	 * @param uno
+	 * @return
+	 */
+	public List<Participation> selectPartiChall(Connection conn, int uno);
 
 	
 //	/**
