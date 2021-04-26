@@ -4,12 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Achievement</title>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <link rel="stylesheet" href="/resources/css/mainPageTest.css">
 <script type="text/javascript" src="/resources/js/mainPage.js"></script>
-
+<link rel="shortcut icon" href="/resources/img/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/resources/img/favicon.ico" type="image/x-icon">
 <style type="text/css">
 #headerCon{
 	position: relative;

@@ -95,8 +95,6 @@ public class FounderRewardDistribution extends HttpServlet {
 			return;
 		}
 		resp.sendRedirect("/");
-		
-		
 	}
 	
 	@Override
