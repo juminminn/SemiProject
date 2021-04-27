@@ -49,6 +49,7 @@ $( document ).ready( function() {
 			}
 			,dataType:"html"
 			,success: function(res){
+				console.log(res)
 				$("#resultAjax").html(res)
 			}
 			,error: function(res){
@@ -119,9 +120,7 @@ $( document ).ready( function() {
 	})
 		
 	
-	var fch=$( '#mainChallenge' ).click( function() {
-		console.log('best')
-		
+	var fch=$( '#mainChallenge' ).click( function() {		
 		$('#mainChallenge').css({"background":"#EC9A29"})
 		$('#mainChallenge').prevAll().css({"background":"#5D5D5D"})
 		$.ajax({

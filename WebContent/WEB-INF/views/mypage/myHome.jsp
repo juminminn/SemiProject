@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jsp" %>
-<%@ include file="/WEB-INF/views/layout/navigation.jsp" %>
+<%@ include file="/WEB-INF/views/layout/navigation2.jsp" %>
 <%@ include file="/WEB-INF/views/layout/session/sessionCheck.jsp" %>
 
 <%
