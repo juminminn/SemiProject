@@ -144,12 +144,7 @@ $(document).ready(function(){
 					console.log("ID중복체크 에러")
 				}
 			})
-		}else{
-			$("#nickMsg").removeClass("color-correct")
-			$("#nickMsg").text("잘 못된 닉네임 형식입니다.").addClass("red")
-			$("#nickMsg").val("")
 		}
-
 		// 	    	 if($("uid").val()){
 		// 	    		 $("#idMsg").html("이미 사용중인 아이디입니다")
 		// 	    	 }else{
